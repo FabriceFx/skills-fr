@@ -1,73 +1,73 @@
 ---
 name: brand-guidelines
-description: Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply.
-license: Complete terms in LICENSE.txt
+description: Applique les couleurs et la typographie officielles de la marque Anthropic à tout artefact qui gagnerait à en adopter l'identité visuelle. À utiliser dès que s'appliquent des couleurs de marque, une charte graphique, une mise en forme visuelle ou des normes de design d'entreprise.
+license: Conditions complètes dans LICENSE.txt
 ---
 
-# Anthropic Brand Styling
+# Charte graphique Anthropic
 
-## Overview
+## Présentation
 
-To access Anthropic's official brand identity and style resources, use this skill.
+Cette skill donne accès aux ressources officielles d'identité visuelle et de style d'Anthropic.
 
-**Keywords**: branding, corporate identity, visual identity, post-processing, styling, brand colors, typography, Anthropic brand, visual formatting, visual design
+**Mots-clés** : marque, identité d'entreprise, identité visuelle, post-traitement, mise en style, couleurs de marque, typographie, marque Anthropic, mise en forme visuelle, design visuel
 
-## Brand Guidelines
+## Charte graphique
 
-### Colors
+### Couleurs
 
-**Main Colors:**
+**Couleurs principales :**
 
-- Dark: `#141413` - Primary text and dark backgrounds
-- Light: `#faf9f5` - Light backgrounds and text on dark
-- Mid Gray: `#b0aea5` - Secondary elements
-- Light Gray: `#e8e6dc` - Subtle backgrounds
+- Foncé : `#141413` — texte principal et fonds sombres
+- Clair : `#faf9f5` — fonds clairs et texte sur fond sombre
+- Gris moyen : `#b0aea5` — éléments secondaires
+- Gris clair : `#e8e6dc` — fonds discrets
 
-**Accent Colors:**
+**Couleurs d'accent :**
 
-- Orange: `#d97757` - Primary accent
-- Blue: `#6a9bcc` - Secondary accent
-- Green: `#788c5d` - Tertiary accent
+- Orange : `#d97757` — accent principal
+- Bleu : `#6a9bcc` — accent secondaire
+- Vert : `#788c5d` — accent tertiaire
 
-### Typography
+### Typographie
 
-- **Headings**: Poppins (with Arial fallback)
-- **Body Text**: Lora (with Georgia fallback)
-- **Note**: Fonts should be pre-installed in your environment for best results
+- **Titres** : Poppins (repli sur Arial)
+- **Texte courant** : Lora (repli sur Georgia)
+- **Remarque** : pour un meilleur résultat, les polices doivent être préinstallées dans l'environnement
 
-## Features
+## Fonctionnalités
 
-### Smart Font Application
+### Application intelligente des polices
 
-- Applies Poppins font to headings (24pt and larger)
-- Applies Lora font to body text
-- Automatically falls back to Arial/Georgia if custom fonts unavailable
-- Preserves readability across all systems
+- Applique Poppins aux titres (24 pt et plus)
+- Applique Lora au texte courant
+- Se replie automatiquement sur Arial / Georgia si les polices personnalisées sont absentes
+- Préserve la lisibilité sur tous les systèmes
 
-### Text Styling
+### Mise en style du texte
 
-- Headings (24pt+): Poppins font
-- Body text: Lora font
-- Smart color selection based on background
-- Preserves text hierarchy and formatting
+- Titres (24 pt et plus) : Poppins
+- Texte courant : Lora
+- Choix de couleur adapté au fond
+- Préserve la hiérarchie et la mise en forme du texte
 
-### Shape and Accent Colors
+### Formes et couleurs d'accent
 
-- Non-text shapes use accent colors
-- Cycles through orange, blue, and green accents
-- Maintains visual interest while staying on-brand
+- Les formes non textuelles utilisent les couleurs d'accent
+- Alterne entre l'orange, le bleu et le vert
+- Garde de l'intérêt visuel sans sortir de la charte
 
-## Technical Details
+## Détails techniques
 
-### Font Management
+### Gestion des polices
 
-- Uses system-installed Poppins and Lora fonts when available
-- Provides automatic fallback to Arial (headings) and Georgia (body)
-- No font installation required - works with existing system fonts
-- For best results, pre-install Poppins and Lora fonts in your environment
+- Utilise Poppins et Lora installées sur le système lorsqu'elles sont disponibles
+- Repli automatique sur Arial (titres) et Georgia (texte courant)
+- Aucune installation de police requise : fonctionne avec les polices système existantes
+- Pour un meilleur résultat, préinstaller Poppins et Lora dans l'environnement
 
-### Color Application
+### Application des couleurs
 
-- Uses RGB color values for precise brand matching
-- Applied via python-pptx's RGBColor class
-- Maintains color fidelity across different systems
+- Utilise des valeurs RVB pour une correspondance exacte avec la marque
+- Appliquées via la classe `RGBColor` de python-pptx
+- Conserve la fidélité des couleurs d'un système à l'autre

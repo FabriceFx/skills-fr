@@ -1,74 +1,74 @@
 ---
 name: web-artifacts-builder
-description: Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts using modern frontend web technologies (React, Tailwind CSS, shadcn/ui). Use for complex artifacts requiring state management, routing, or shadcn/ui components - not for simple single-file HTML/JSX artifacts.
-license: Complete terms in LICENSE.txt
+description: Ensemble d'outils pour créer des artefacts HTML claude.ai élaborés, à plusieurs composants, avec des technologies front-end modernes (React, Tailwind CSS, shadcn/ui). À utiliser pour les artefacts complexes qui demandent une gestion d'état, du routage ou des composants shadcn/ui — pas pour les artefacts HTML/JSX simples en un seul fichier.
+license: Conditions complètes dans LICENSE.txt
 ---
 
-# Web Artifacts Builder
+# Constructeur d'artefacts web
 
-To build powerful frontend claude.ai artifacts, follow these steps:
-1. Initialize the frontend repo using `scripts/init-artifact.sh`
-2. Develop your artifact by editing the generated code
-3. Bundle all code into a single HTML file using `scripts/bundle-artifact.sh`
-4. Display artifact to user
-5. (Optional) Test the artifact
+Pour construire des artefacts front-end claude.ai ambitieux, suivre ces étapes :
+1. Initialiser le dépôt front-end avec `scripts/init-artifact.sh`
+2. Développer l'artefact en modifiant le code généré
+3. Regrouper tout le code dans un seul fichier HTML avec `scripts/bundle-artifact.sh`
+4. Afficher l'artefact à l'utilisateur
+5. (Facultatif) Tester l'artefact
 
-**Stack**: React 18 + TypeScript + Vite + Parcel (bundling) + Tailwind CSS + shadcn/ui
+**Pile technique** : React 18 + TypeScript + Vite + Parcel (regroupement) + Tailwind CSS + shadcn/ui
 
-## Design & Style Guidelines
+## Consignes de design et de style
 
-VERY IMPORTANT: To avoid what is often referred to as "AI slop", avoid using excessive centered layouts, purple gradients, uniform rounded corners, and Inter font.
+TRÈS IMPORTANT : pour éviter ce qu'on appelle souvent l'« AI slop » (le rendu standardisé et sans âme typique des contenus générés par IA), éviter l'abus de mises en page centrées, les dégradés violets, les coins arrondis uniformes et la police Inter.
 
-## Quick Start
+## Démarrage rapide
 
-### Step 1: Initialize Project
+### Étape 1 : initialiser le projet
 
-Run the initialization script to create a new React project:
+Lancer le script d'initialisation pour créer un nouveau projet React :
 ```bash
-bash scripts/init-artifact.sh <project-name>
-cd <project-name>
+bash scripts/init-artifact.sh <nom-du-projet>
+cd <nom-du-projet>
 ```
 
-This creates a fully configured project with:
+On obtient un projet entièrement configuré avec :
 - ✅ React + TypeScript (via Vite)
-- ✅ Tailwind CSS 3.4.1 with shadcn/ui theming system
-- ✅ Path aliases (`@/`) configured
-- ✅ 40+ shadcn/ui components pre-installed
-- ✅ All Radix UI dependencies included
-- ✅ Parcel configured for bundling (via .parcelrc)
-- ✅ Node 18+ compatibility (auto-detects and pins Vite version)
+- ✅ Tailwind CSS 3.4.1 avec le système de thèmes de shadcn/ui
+- ✅ Alias de chemins (`@/`) configurés
+- ✅ Plus de 40 composants shadcn/ui préinstallés
+- ✅ Toutes les dépendances Radix UI incluses
+- ✅ Parcel configuré pour le regroupement (via `.parcelrc`)
+- ✅ Compatibilité Node 18+ (détection automatique et version de Vite figée en conséquence)
 
-### Step 2: Develop Your Artifact
+### Étape 2 : développer l'artefact
 
-To build the artifact, edit the generated files. See **Common Development Tasks** below for guidance.
+Pour construire l'artefact, modifier les fichiers générés. Voir les **tâches de développement courantes** ci-dessous.
 
-### Step 3: Bundle to Single HTML File
+### Étape 3 : regrouper en un seul fichier HTML
 
-To bundle the React app into a single HTML artifact:
+Pour regrouper l'application React en un seul artefact HTML :
 ```bash
 bash scripts/bundle-artifact.sh
 ```
 
-This creates `bundle.html` - a self-contained artifact with all JavaScript, CSS, and dependencies inlined. This file can be directly shared in Claude conversations as an artifact.
+On obtient `bundle.html`, un artefact autonome où JavaScript, CSS et dépendances sont tous intégrés. Ce fichier peut être partagé directement comme artefact dans une conversation Claude.
 
-**Requirements**: Your project must have an `index.html` in the root directory.
+**Prérequis** : le projet doit avoir un `index.html` à la racine.
 
-**What the script does**:
-- Installs bundling dependencies (parcel, @parcel/config-default, parcel-resolver-tspaths, html-inline)
-- Creates `.parcelrc` config with path alias support
-- Builds with Parcel (no source maps)
-- Inlines all assets into single HTML using html-inline
+**Ce que fait le script** :
+- Installe les dépendances de regroupement (parcel, @parcel/config-default, parcel-resolver-tspaths, html-inline)
+- Crée la configuration `.parcelrc` avec prise en charge des alias de chemins
+- Construit avec Parcel (sans source maps)
+- Intègre toutes les ressources dans un seul HTML avec html-inline
 
-### Step 4: Share Artifact with User
+### Étape 4 : partager l'artefact avec l'utilisateur
 
-Finally, share the bundled HTML file in conversation with the user so they can view it as an artifact.
+Enfin, partager le fichier HTML regroupé dans la conversation, pour que l'utilisateur puisse l'afficher comme artefact.
 
-### Step 5: Testing/Visualizing the Artifact (Optional)
+### Étape 5 : tester ou visualiser l'artefact (facultatif)
 
-Note: This is a completely optional step. Only perform if necessary or requested.
+Remarque : cette étape est entièrement facultative. Ne la faire que si c'est nécessaire ou demandé.
 
-To test/visualize the artifact, use available tools (including other Skills or built-in tools like Playwright or Puppeteer). In general, avoid testing the artifact upfront as it adds latency between the request and when the finished artifact can be seen. Test later, after presenting the artifact, if requested or if issues arise.
+Pour tester ou visualiser l'artefact, utiliser les outils disponibles (y compris d'autres skills ou des outils intégrés comme Playwright ou Puppeteer). De manière générale, éviter de tester l'artefact d'emblée : cela allonge le délai entre la demande et le moment où l'artefact terminé est visible. Tester plus tard, après l'avoir présenté, si c'est demandé ou si des problèmes apparaissent.
 
-## Reference
+## Référence
 
-- **shadcn/ui components**: https://ui.shadcn.com/docs/components
+- **Composants shadcn/ui** : https://ui.shadcn.com/docs/components

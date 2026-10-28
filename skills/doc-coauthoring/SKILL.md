@@ -1,375 +1,375 @@
 ---
 name: doc-coauthoring
-description: Guide users through a structured workflow for co-authoring documentation. Use when user wants to write documentation, proposals, technical specs, decision docs, or similar structured content. This workflow helps users efficiently transfer context, refine content through iteration, and verify the doc works for readers. Trigger when user mentions writing docs, creating proposals, drafting specs, or similar documentation tasks.
+description: Guide l'utilisateur dans une démarche structurée de corédaction de documents. À utiliser quand l'utilisateur veut rédiger de la documentation, des propositions, des spécifications techniques, des notes de décision ou tout contenu structuré semblable. Cette démarche aide l'utilisateur à transmettre efficacement son contexte, à affiner le contenu par itérations et à vérifier que le document fonctionne pour ses lecteurs. Se déclenche quand l'utilisateur parle de rédiger une documentation, de créer une proposition, d'ébaucher une spécification ou de tâches de documentation semblables.
 ---
 
-# Doc Co-Authoring Workflow
+# Démarche de corédaction de documents
 
-This skill provides a structured workflow for guiding users through collaborative document creation. Act as an active guide, walking users through three stages: Context Gathering, Refinement & Structure, and Reader Testing.
+Cette skill fournit une démarche structurée pour guider l'utilisateur dans la création collaborative d'un document. Se comporter en guide actif et accompagner l'utilisateur à travers trois étapes : collecte du contexte, affinage et structure, test par un lecteur.
 
-## When to Offer This Workflow
+## Quand proposer cette démarche
 
-**Trigger conditions:**
-- User mentions writing documentation: "write a doc", "draft a proposal", "create a spec", "write up"
-- User mentions specific doc types: "PRD", "design doc", "decision doc", "RFC"
-- User seems to be starting a substantial writing task
+**Conditions de déclenchement :**
+- L'utilisateur parle de rédiger un document : « rédige un document », « ébauche une proposition », « crée une spécification », « mets par écrit »
+- L'utilisateur cite un type de document précis : « PRD » (cahier des exigences produit), « document de conception », « note de décision », « RFC »
+- L'utilisateur semble entamer une tâche de rédaction conséquente
 
-**Initial offer:**
-Offer the user a structured workflow for co-authoring the document. Explain the three stages:
+**Proposition initiale :**
+Proposer à l'utilisateur une démarche structurée de corédaction. Expliquer les trois étapes :
 
-1. **Context Gathering**: User provides all relevant context while Claude asks clarifying questions
-2. **Refinement & Structure**: Iteratively build each section through brainstorming and editing
-3. **Reader Testing**: Test the doc with a fresh Claude (no context) to catch blind spots before others read it
+1. **Collecte du contexte** : l'utilisateur fournit tout le contexte utile, pendant que Claude pose des questions de clarification
+2. **Affinage et structure** : construire chaque section par itérations, par remue-méninges et retouches
+3. **Test par un lecteur** : tester le document avec un Claude neuf (sans contexte) pour repérer les angles morts avant que d'autres ne le lisent
 
-Explain that this approach helps ensure the doc works well when others read it (including when they paste it into Claude). Ask if they want to try this workflow or prefer to work freeform.
+Expliquer que cette approche aide à garantir que le document fonctionne bien quand d'autres le lisent (y compris quand ils le collent dans Claude). Demander si l'utilisateur veut essayer cette démarche ou préfère travailler librement.
 
-If user declines, work freeform. If user accepts, proceed to Stage 1.
+S'il refuse, travailler librement. S'il accepte, passer à l'étape 1.
 
-## Stage 1: Context Gathering
+## Étape 1 : collecte du contexte
 
-**Goal:** Close the gap between what the user knows and what Claude knows, enabling smart guidance later.
+**Objectif :** combler l'écart entre ce que sait l'utilisateur et ce que sait Claude, pour pouvoir le guider intelligemment ensuite.
 
-### Initial Questions
+### Questions initiales
 
-Start by asking the user for meta-context about the document:
+Commencer par demander à l'utilisateur le méta-contexte du document :
 
-1. What type of document is this? (e.g., technical spec, decision doc, proposal)
-2. Who's the primary audience?
-3. What's the desired impact when someone reads this?
-4. Is there a template or specific format to follow?
-5. Any other constraints or context to know?
+1. De quel type de document s'agit-il ? (par exemple spécification technique, note de décision, proposition)
+2. Quel est le public principal ?
+3. Quel effet doit-il produire sur celui qui le lit ?
+4. Y a-t-il un gabarit ou un format précis à suivre ?
+5. D'autres contraintes ou éléments de contexte à connaître ?
 
-Inform them they can answer in shorthand or dump information however works best for them.
+Lui indiquer qu'il peut répondre en style télégraphique ou déverser l'information comme cela lui convient le mieux.
 
-**If user provides a template or mentions a doc type:**
-- Ask if they have a template document to share
-- If they provide a link to a shared document, use the appropriate integration to fetch it
-- If they provide a file, read it
+**Si l'utilisateur fournit un gabarit ou cite un type de document :**
+- Demander s'il a un document gabarit à partager
+- S'il donne le lien d'un document partagé, utiliser l'intégration appropriée pour le récupérer
+- S'il fournit un fichier, le lire
 
-**If user mentions editing an existing shared document:**
-- Use the appropriate integration to read the current state
-- Check for images without alt-text
-- If images exist without alt-text, explain that when others use Claude to understand the doc, Claude won't be able to see them. Ask if they want alt-text generated. If so, request they paste each image into chat for descriptive alt-text generation.
+**Si l'utilisateur parle de modifier un document partagé existant :**
+- Utiliser l'intégration appropriée pour en lire l'état actuel
+- Rechercher les images sans texte alternatif
+- S'il y en a, expliquer que lorsque d'autres utiliseront Claude pour comprendre le document, Claude ne pourra pas les voir. Demander s'il veut qu'un texte alternatif soit généré. Si oui, lui demander de coller chaque image dans la conversation pour en générer une description.
 
-### Info Dumping
+### Déversement d'informations
 
-Once initial questions are answered, encourage the user to dump all the context they have. Request information such as:
-- Background on the project/problem
-- Related team discussions or shared documents
-- Why alternative solutions aren't being used
-- Organizational context (team dynamics, past incidents, politics)
-- Timeline pressures or constraints
-- Technical architecture or dependencies
-- Stakeholder concerns
+Une fois les questions initiales traitées, encourager l'utilisateur à déverser tout le contexte dont il dispose. Demander par exemple :
+- l'historique du projet ou du problème
+- les discussions d'équipe ou documents partagés liés
+- pourquoi les solutions alternatives ne sont pas retenues
+- le contexte organisationnel (dynamique d'équipe, incidents passés, enjeux politiques)
+- les contraintes ou pressions de calendrier
+- l'architecture technique ou les dépendances
+- les préoccupations des parties prenantes
 
-Advise them not to worry about organizing it - just get it all out. Offer multiple ways to provide context:
-- Info dump stream-of-consciousness
-- Point to team channels or threads to read
-- Link to shared documents
+Lui conseiller de ne pas se soucier de l'organisation — juste tout sortir. Proposer plusieurs façons de fournir le contexte :
+- un déversement au fil de la pensée
+- indiquer des canaux ou des fils d'équipe à lire
+- donner des liens vers des documents partagés
 
-**If integrations are available** (e.g., Slack, Teams, Google Drive, SharePoint, or other MCP servers), mention that these can be used to pull in context directly.
+**Si des intégrations sont disponibles** (par exemple Slack, Teams, Google Drive, SharePoint ou d'autres serveurs MCP), signaler qu'elles peuvent servir à récupérer directement du contexte.
 
-**If no integrations are detected and in Claude.ai or Claude app:** Suggest they can enable connectors in their Claude settings to allow pulling context from messaging apps and document storage directly.
+**Si aucune intégration n'est détectée et qu'on est dans Claude.ai ou l'application Claude :** suggérer d'activer des connecteurs dans les réglages de Claude pour pouvoir récupérer directement du contexte depuis les messageries et les espaces de stockage de documents.
 
-Inform them clarifying questions will be asked once they've done their initial dump.
+L'informer que des questions de clarification lui seront posées une fois son premier déversement terminé.
 
-**During context gathering:**
+**Pendant la collecte du contexte :**
 
-- If user mentions team channels or shared documents:
-  - If integrations available: Inform them the content will be read now, then use the appropriate integration
-  - If integrations not available: Explain lack of access. Suggest they enable connectors in Claude settings, or paste the relevant content directly.
+- Si l'utilisateur mentionne des canaux d'équipe ou des documents partagés :
+  - si des intégrations sont disponibles : l'informer que le contenu va être lu tout de suite, puis utiliser l'intégration appropriée
+  - sinon : expliquer qu'on n'y a pas accès. Suggérer d'activer des connecteurs dans les réglages de Claude, ou de coller directement le contenu utile.
 
-- If user mentions entities/projects that are unknown:
-  - Ask if connected tools should be searched to learn more
-  - Wait for user confirmation before searching
+- Si l'utilisateur mentionne des entités ou des projets inconnus :
+  - demander s'il faut chercher dans les outils connectés pour en savoir plus
+  - attendre sa confirmation avant de chercher
 
-- As user provides context, track what's being learned and what's still unclear
+- À mesure que l'utilisateur fournit du contexte, suivre ce qu'on apprend et ce qui reste flou
 
-**Asking clarifying questions:**
+**Poser des questions de clarification :**
 
-When user signals they've done their initial dump (or after substantial context provided), ask clarifying questions to ensure understanding:
+Quand l'utilisateur signale avoir terminé son premier déversement (ou après un apport de contexte substantiel), poser des questions de clarification pour s'assurer d'avoir compris :
 
-Generate 5-10 numbered questions based on gaps in the context.
+Générer 5 à 10 questions numérotées à partir des lacunes du contexte.
 
-Inform them they can use shorthand to answer (e.g., "1: yes, 2: see #channel, 3: no because backwards compat"), link to more docs, point to channels to read, or just keep info-dumping. Whatever's most efficient for them.
+L'informer qu'il peut répondre en style télégraphique (par exemple « 1 : oui, 2 : voir #canal, 3 : non, à cause de la rétrocompatibilité »), donner des liens vers d'autres documents, indiquer des canaux à lire, ou simplement continuer à déverser. Ce qui est le plus efficace pour lui.
 
-**Exit condition:**
-Sufficient context has been gathered when questions show understanding - when edge cases and trade-offs can be asked about without needing basics explained.
+**Condition de sortie :**
+Le contexte est suffisant quand les questions montrent qu'on a compris — quand on peut interroger sur les cas limites et les compromis sans avoir besoin qu'on explique les bases.
 
-**Transition:**
-Ask if there's any more context they want to provide at this stage, or if it's time to move on to drafting the document.
+**Transition :**
+Demander s'il veut apporter encore du contexte à ce stade, ou s'il est temps de passer à la rédaction.
 
-If user wants to add more, let them. When ready, proceed to Stage 2.
+S'il veut en ajouter, le laisser faire. Quand il est prêt, passer à l'étape 2.
 
-## Stage 2: Refinement & Structure
+## Étape 2 : affinage et structure
 
-**Goal:** Build the document section by section through brainstorming, curation, and iterative refinement.
+**Objectif :** construire le document section par section, par remue-méninges, sélection et affinage itératif.
 
-**Instructions to user:**
-Explain that the document will be built section by section. For each section:
-1. Clarifying questions will be asked about what to include
-2. 5-20 options will be brainstormed
-3. User will indicate what to keep/remove/combine
-4. The section will be drafted
-5. It will be refined through surgical edits
+**Consignes à l'utilisateur :**
+Expliquer que le document sera construit section par section. Pour chaque section :
+1. des questions de clarification seront posées sur ce qu'il faut inclure
+2. 5 à 20 options seront proposées en remue-méninges
+3. l'utilisateur indiquera quoi garder, retirer ou combiner
+4. la section sera rédigée
+5. elle sera affinée par des retouches ciblées
 
-Start with whichever section has the most unknowns (usually the core decision/proposal), then work through the rest.
+Commencer par la section qui comporte le plus d'inconnues (en général la décision ou la proposition centrale), puis traiter les autres.
 
-**Section ordering:**
+**Ordre des sections :**
 
-If the document structure is clear:
-Ask which section they'd like to start with.
+Si la structure du document est claire :
+Demander par quelle section il souhaite commencer.
 
-Suggest starting with whichever section has the most unknowns. For decision docs, that's usually the core proposal. For specs, it's typically the technical approach. Summary sections are best left for last.
+Suggérer de commencer par celle qui comporte le plus d'inconnues. Pour une note de décision, c'est en général la proposition centrale. Pour une spécification, c'est d'ordinaire l'approche technique. Mieux vaut garder les sections de synthèse pour la fin.
 
-If user doesn't know what sections they need:
-Based on the type of document and template, suggest 3-5 sections appropriate for the doc type.
+Si l'utilisateur ne sait pas de quelles sections il a besoin :
+À partir du type de document et du gabarit, suggérer 3 à 5 sections adaptées.
 
-Ask if this structure works, or if they want to adjust it.
+Demander si cette structure lui convient ou s'il veut l'ajuster.
 
-**Once structure is agreed:**
+**Une fois la structure validée :**
 
-Create the initial document structure with placeholder text for all sections.
+Créer la structure initiale du document avec un texte provisoire pour chaque section.
 
-**If access to artifacts is available:**
-Use `create_file` to create an artifact. This gives both Claude and the user a scaffold to work from.
+**Si les artefacts sont disponibles :**
+Utiliser `create_file` pour créer un artefact. Cela donne à Claude comme à l'utilisateur une ossature de travail.
 
-Inform them that the initial structure with placeholders for all sections will be created.
+L'informer que la structure initiale, avec un texte provisoire pour chaque section, va être créée.
 
-Create artifact with all section headers and brief placeholder text like "[To be written]" or "[Content here]".
+Créer l'artefact avec tous les titres de section et un bref texte provisoire comme « [À rédiger] » ou « [Contenu ici] ».
 
-Provide the scaffold link and indicate it's time to fill in each section.
+Donner le lien de l'ossature et indiquer qu'il est temps de remplir chaque section.
 
-**If no access to artifacts:**
-Create a markdown file in the working directory. Name it appropriately (e.g., `decision-doc.md`, `technical-spec.md`).
+**Si les artefacts ne sont pas disponibles :**
+Créer un fichier Markdown dans le répertoire de travail. Lui donner un nom adapté (par exemple `note-de-decision.md`, `specification-technique.md`).
 
-Inform them that the initial structure with placeholders for all sections will be created.
+L'informer que la structure initiale, avec un texte provisoire pour chaque section, va être créée.
 
-Create file with all section headers and placeholder text.
+Créer le fichier avec tous les titres de section et un texte provisoire.
 
-Confirm the filename has been created and indicate it's time to fill in each section.
+Confirmer le nom du fichier créé et indiquer qu'il est temps de remplir chaque section.
 
-**For each section:**
+**Pour chaque section :**
 
-### Step 1: Clarifying Questions
+### Étape 1 : questions de clarification
 
-Announce work will begin on the [SECTION NAME] section. Ask 5-10 clarifying questions about what should be included:
+Annoncer qu'on commence la section [NOM DE LA SECTION]. Poser 5 à 10 questions de clarification sur ce qu'elle doit contenir :
 
-Generate 5-10 specific questions based on context and section purpose.
+Générer 5 à 10 questions précises à partir du contexte et de l'objet de la section.
 
-Inform them they can answer in shorthand or just indicate what's important to cover.
+L'informer qu'il peut répondre en style télégraphique ou simplement indiquer ce qu'il est important de couvrir.
 
-### Step 2: Brainstorming
+### Étape 2 : remue-méninges
 
-For the [SECTION NAME] section, brainstorm [5-20] things that might be included, depending on the section's complexity. Look for:
-- Context shared that might have been forgotten
-- Angles or considerations not yet mentioned
+Pour la section [NOM DE LA SECTION], proposer [5 à 20] éléments susceptibles d'y figurer, selon sa complexité. Chercher :
+- du contexte partagé qui aurait pu être oublié
+- des angles ou des considérations pas encore évoqués
 
-Generate 5-20 numbered options based on section complexity. At the end, offer to brainstorm more if they want additional options.
+Générer 5 à 20 options numérotées selon la complexité de la section. À la fin, proposer d'en générer davantage s'il le souhaite.
 
-### Step 3: Curation
+### Étape 3 : sélection
 
-Ask which points should be kept, removed, or combined. Request brief justifications to help learn priorities for the next sections.
+Demander quels points garder, retirer ou combiner. Demander de brèves justifications, pour apprendre ses priorités en vue des sections suivantes.
 
-Provide examples:
-- "Keep 1,4,7,9"
-- "Remove 3 (duplicates 1)"
-- "Remove 6 (audience already knows this)"
-- "Combine 11 and 12"
+Donner des exemples :
+- « Garder 1, 4, 7, 9 »
+- « Retirer 3 (doublon de 1) »
+- « Retirer 6 (le public le sait déjà) »
+- « Combiner 11 et 12 »
 
-**If user gives freeform feedback** (e.g., "looks good" or "I like most of it but...") instead of numbered selections, extract their preferences and proceed. Parse what they want kept/removed/changed and apply it.
+**Si l'utilisateur donne un retour libre** (par exemple « ça me va » ou « j'aime l'essentiel, mais… ») au lieu de numéros, en extraire ses préférences et continuer. Déterminer ce qu'il veut garder, retirer ou changer, et l'appliquer.
 
-### Step 4: Gap Check
+### Étape 4 : recherche des manques
 
-Based on what they've selected, ask if there's anything important missing for the [SECTION NAME] section.
+D'après sa sélection, demander s'il manque quelque chose d'important pour la section [NOM DE LA SECTION].
 
-### Step 5: Drafting
+### Étape 5 : rédaction
 
-Use `str_replace` to replace the placeholder text for this section with the actual drafted content.
+Utiliser `str_replace` pour remplacer le texte provisoire de cette section par le contenu rédigé.
 
-Announce the [SECTION NAME] section will be drafted now based on what they've selected.
+Annoncer que la section [NOM DE LA SECTION] va être rédigée à partir de sa sélection.
 
-**If using artifacts:**
-After drafting, provide a link to the artifact.
+**Avec un artefact :**
+Après la rédaction, donner le lien de l'artefact.
 
-Ask them to read through it and indicate what to change. Note that being specific helps learning for the next sections.
+Lui demander de la relire et d'indiquer ce qu'il faut changer. Préciser qu'être précis aide à apprendre pour les sections suivantes.
 
-**If using a file (no artifacts):**
-After drafting, confirm completion.
+**Avec un fichier (sans artefact) :**
+Après la rédaction, confirmer qu'elle est terminée.
 
-Inform them the [SECTION NAME] section has been drafted in [filename]. Ask them to read through it and indicate what to change. Note that being specific helps learning for the next sections.
+L'informer que la section [NOM DE LA SECTION] a été rédigée dans [nom du fichier]. Lui demander de la relire et d'indiquer ce qu'il faut changer. Préciser qu'être précis aide à apprendre pour les sections suivantes.
 
-**Key instruction for user (include when drafting the first section):**
-Provide a note: Instead of editing the doc directly, ask them to indicate what to change. This helps learning of their style for future sections. For example: "Remove the X bullet - already covered by Y" or "Make the third paragraph more concise".
+**Consigne clé pour l'utilisateur (à inclure lors de la rédaction de la première section) :**
+Ajouter une remarque : plutôt que de modifier lui-même le document, lui demander d'indiquer ce qu'il faut changer. Cela permet d'apprendre son style pour les sections suivantes. Par exemple : « Retire la puce X, déjà couverte par Y » ou « Rends le troisième paragraphe plus concis ».
 
-### Step 6: Iterative Refinement
+### Étape 6 : affinage itératif
 
-As user provides feedback:
-- Use `str_replace` to make edits (never reprint the whole doc)
-- **If using artifacts:** Provide link to artifact after each edit
-- **If using files:** Just confirm edits are complete
-- If user edits doc directly and asks to read it: mentally note the changes they made and keep them in mind for future sections (this shows their preferences)
+À mesure que l'utilisateur fait des retours :
+- utiliser `str_replace` pour les retouches (ne jamais réimprimer tout le document)
+- **avec un artefact :** donner le lien de l'artefact après chaque retouche
+- **avec un fichier :** simplement confirmer que les retouches sont faites
+- si l'utilisateur modifie lui-même le document et demande de le relire : noter mentalement ses changements et les garder à l'esprit pour les sections suivantes (ils révèlent ses préférences)
 
-**Continue iterating** until user is satisfied with the section.
+**Continuer à itérer** jusqu'à ce que l'utilisateur soit satisfait de la section.
 
-### Quality Checking
+### Contrôle de qualité
 
-After 3 consecutive iterations with no substantial changes, ask if anything can be removed without losing important information.
+Après 3 itérations consécutives sans changement substantiel, demander si quelque chose peut être retiré sans perdre d'information importante.
 
-When section is done, confirm [SECTION NAME] is complete. Ask if ready to move to the next section.
+Quand la section est terminée, confirmer que [NOM DE LA SECTION] est achevée. Demander s'il est prêt à passer à la section suivante.
 
-**Repeat for all sections.**
+**Répéter pour toutes les sections.**
 
-### Near Completion
+### À l'approche de la fin
 
-As approaching completion (80%+ of sections done), announce intention to re-read the entire document and check for:
-- Flow and consistency across sections
-- Redundancy or contradictions
-- Anything that feels like "slop" or generic filler
-- Whether every sentence carries weight
+À l'approche de la fin (80 % des sections ou plus), annoncer qu'on va relire tout le document pour vérifier :
+- la fluidité et la cohérence entre les sections
+- les redites ou les contradictions
+- tout ce qui ressemble à du remplissage générique, à de l'« AI slop »
+- que chaque phrase a du poids
 
-Read entire document and provide feedback.
+Lire tout le document et faire un retour.
 
-**When all sections are drafted and refined:**
-Announce all sections are drafted. Indicate intention to review the complete document one more time.
+**Quand toutes les sections sont rédigées et affinées :**
+Annoncer que toutes les sections sont rédigées. Indiquer qu'on va relire une dernière fois le document complet.
 
-Review for overall coherence, flow, completeness.
+Vérifier la cohérence d'ensemble, la fluidité, la complétude.
 
-Provide any final suggestions.
+Faire les dernières suggestions éventuelles.
 
-Ask if ready to move to Reader Testing, or if they want to refine anything else.
+Demander s'il est prêt à passer au test par un lecteur, ou s'il veut affiner autre chose.
 
-## Stage 3: Reader Testing
+## Étape 3 : test par un lecteur
 
-**Goal:** Test the document with a fresh Claude (no context bleed) to verify it works for readers.
+**Objectif :** tester le document avec un Claude neuf (sans fuite de contexte) pour vérifier qu'il fonctionne pour ses lecteurs.
 
-**Instructions to user:**
-Explain that testing will now occur to see if the document actually works for readers. This catches blind spots - things that make sense to the authors but might confuse others.
+**Consignes à l'utilisateur :**
+Expliquer qu'on va maintenant tester si le document fonctionne réellement pour ses lecteurs. Cela révèle les angles morts — ce qui paraît clair aux auteurs mais pourrait dérouter les autres.
 
-### Testing Approach
+### Méthode de test
 
-**If access to sub-agents is available (e.g., in Claude Code):**
+**Si des sous-agents sont disponibles (par exemple dans Claude Code) :**
 
-Perform the testing directly without user involvement.
+Faire le test directement, sans faire intervenir l'utilisateur.
 
-### Step 1: Predict Reader Questions
+### Étape 1 : prévoir les questions des lecteurs
 
-Announce intention to predict what questions readers might ask when trying to discover this document.
+Annoncer qu'on va prévoir les questions que des lecteurs pourraient poser en cherchant ce document.
 
-Generate 5-10 questions that readers would realistically ask.
+Générer 5 à 10 questions que des lecteurs poseraient réellement.
 
-### Step 2: Test with Sub-Agent
+### Étape 2 : tester avec un sous-agent
 
-Announce that these questions will be tested with a fresh Claude instance (no context from this conversation).
+Annoncer que ces questions vont être testées avec une instance neuve de Claude (sans aucun contexte de cette conversation).
 
-For each question, invoke a sub-agent with just the document content and the question.
+Pour chaque question, invoquer un sous-agent avec uniquement le contenu du document et la question.
 
-Summarize what Reader Claude got right/wrong for each question.
+Résumer, pour chaque question, ce que le Claude lecteur a compris juste ou de travers.
 
-### Step 3: Run Additional Checks
+### Étape 3 : vérifications supplémentaires
 
-Announce additional checks will be performed.
+Annoncer que des vérifications supplémentaires vont être faites.
 
-Invoke sub-agent to check for ambiguity, false assumptions, contradictions.
+Invoquer un sous-agent pour rechercher les ambiguïtés, les hypothèses erronées, les contradictions.
 
-Summarize any issues found.
+Résumer les problèmes trouvés.
 
-### Step 4: Report and Fix
+### Étape 4 : rendre compte et corriger
 
-If issues found:
-Report that Reader Claude struggled with specific issues.
+Si des problèmes sont trouvés :
+Signaler que le Claude lecteur a buté sur des points précis.
 
-List the specific issues.
+Lister ces points.
 
-Indicate intention to fix these gaps.
+Indiquer qu'on va combler ces lacunes.
 
-Loop back to refinement for problematic sections.
-
----
-
-**If no access to sub-agents (e.g., claude.ai web interface):**
-
-The user will need to do the testing manually.
-
-### Step 1: Predict Reader Questions
-
-Ask what questions people might ask when trying to discover this document. What would they type into Claude.ai?
-
-Generate 5-10 questions that readers would realistically ask.
-
-### Step 2: Setup Testing
-
-Provide testing instructions:
-1. Open a fresh Claude conversation: https://claude.ai
-2. Paste or share the document content (if using a shared doc platform with connectors enabled, provide the link)
-3. Ask Reader Claude the generated questions
-
-For each question, instruct Reader Claude to provide:
-- The answer
-- Whether anything was ambiguous or unclear
-- What knowledge/context the doc assumes is already known
-
-Check if Reader Claude gives correct answers or misinterprets anything.
-
-### Step 3: Additional Checks
-
-Also ask Reader Claude:
-- "What in this doc might be ambiguous or unclear to readers?"
-- "What knowledge or context does this doc assume readers already have?"
-- "Are there any internal contradictions or inconsistencies?"
-
-### Step 4: Iterate Based on Results
-
-Ask what Reader Claude got wrong or struggled with. Indicate intention to fix those gaps.
-
-Loop back to refinement for any problematic sections.
+Revenir à l'affinage pour les sections problématiques.
 
 ---
 
-### Exit Condition (Both Approaches)
+**Sans accès aux sous-agents (par exemple dans l'interface web de claude.ai) :**
 
-When Reader Claude consistently answers questions correctly and doesn't surface new gaps or ambiguities, the doc is ready.
+L'utilisateur devra faire le test manuellement.
 
-## Final Review
+### Étape 1 : prévoir les questions des lecteurs
 
-When Reader Testing passes:
-Announce the doc has passed Reader Claude testing. Before completion:
+Demander quelles questions on pourrait poser en cherchant ce document. Que taperait-on dans Claude.ai ?
 
-1. Recommend they do a final read-through themselves - they own this document and are responsible for its quality
-2. Suggest double-checking any facts, links, or technical details
-3. Ask them to verify it achieves the impact they wanted
+Générer 5 à 10 questions que des lecteurs poseraient réellement.
 
-Ask if they want one more review, or if the work is done.
+### Étape 2 : préparer le test
 
-**If user wants final review, provide it. Otherwise:**
-Announce document completion. Provide a few final tips:
-- Consider linking this conversation in an appendix so readers can see how the doc was developed
-- Use appendices to provide depth without bloating the main doc
-- Update the doc as feedback is received from real readers
+Donner les instructions de test :
+1. Ouvrir une nouvelle conversation Claude : https://claude.ai
+2. Coller ou partager le contenu du document (si l'on utilise une plateforme de documents partagés avec des connecteurs activés, donner le lien)
+3. Poser au Claude lecteur les questions générées
 
-## Tips for Effective Guidance
+Pour chaque question, demander au Claude lecteur de fournir :
+- la réponse
+- ce qui lui a paru ambigu ou flou
+- les connaissances ou le contexte que le document suppose acquis
 
-**Tone:**
-- Be direct and procedural
-- Explain rationale briefly when it affects user behavior
-- Don't try to "sell" the approach - just execute it
+Vérifier si le Claude lecteur répond juste ou interprète mal quelque chose.
 
-**Handling Deviations:**
-- If user wants to skip a stage: Ask if they want to skip this and write freeform
-- If user seems frustrated: Acknowledge this is taking longer than expected. Suggest ways to move faster
-- Always give user agency to adjust the process
+### Étape 3 : vérifications supplémentaires
 
-**Context Management:**
-- Throughout, if context is missing on something mentioned, proactively ask
-- Don't let gaps accumulate - address them as they come up
+Demander aussi au Claude lecteur :
+- « Qu'est-ce qui, dans ce document, pourrait paraître ambigu ou flou aux lecteurs ? »
+- « Quelles connaissances ou quel contexte ce document suppose-t-il chez ses lecteurs ? »
+- « Y a-t-il des contradictions ou des incohérences internes ? »
 
-**Artifact Management:**
-- Use `create_file` for drafting full sections
-- Use `str_replace` for all edits
-- Provide artifact link after every change
-- Never use artifacts for brainstorming lists - that's just conversation
+### Étape 4 : itérer selon les résultats
 
-**Quality over Speed:**
-- Don't rush through stages
-- Each iteration should make meaningful improvements
-- The goal is a document that actually works for readers
+Demander sur quoi le Claude lecteur s'est trompé ou a buté. Indiquer qu'on va combler ces lacunes.
+
+Revenir à l'affinage pour les sections problématiques.
+
+---
+
+### Condition de sortie (dans les deux cas)
+
+Quand le Claude lecteur répond juste de façon constante et ne fait plus apparaître de nouvelles lacunes ou ambiguïtés, le document est prêt.
+
+## Relecture finale
+
+Quand le test par un lecteur est concluant :
+Annoncer que le document a passé le test du Claude lecteur. Avant de conclure :
+
+1. Recommander à l'utilisateur une dernière relecture personnelle — le document lui appartient et il est responsable de sa qualité
+2. Suggérer de revérifier les faits, les liens et les détails techniques
+3. Lui demander de vérifier que le document produit l'effet voulu
+
+Demander s'il veut une relecture de plus, ou si le travail est terminé.
+
+**S'il veut une relecture finale, la faire. Sinon :**
+Annoncer que le document est terminé. Donner quelques derniers conseils :
+- envisager de mettre en annexe un lien vers cette conversation, pour que les lecteurs voient comment le document a été élaboré
+- utiliser des annexes pour approfondir sans alourdir le corps du document
+- mettre le document à jour à mesure que de vrais lecteurs font des retours
+
+## Conseils pour bien guider
+
+**Ton :**
+- être direct et méthodique
+- expliquer brièvement les raisons quand elles influent sur ce que fait l'utilisateur
+- ne pas chercher à « vendre » la démarche — simplement l'appliquer
+
+**Gérer les écarts :**
+- si l'utilisateur veut sauter une étape : lui demander s'il veut la passer et rédiger librement
+- s'il semble agacé : reconnaître que cela prend plus de temps que prévu, et suggérer des moyens d'aller plus vite
+- toujours lui laisser la main pour ajuster le processus
+
+**Gestion du contexte :**
+- tout au long du travail, si le contexte manque sur un point évoqué, demander de soi-même
+- ne pas laisser les lacunes s'accumuler — les traiter au fur et à mesure
+
+**Gestion de l'artefact :**
+- utiliser `create_file` pour rédiger des sections entières
+- utiliser `str_replace` pour toutes les retouches
+- donner le lien de l'artefact après chaque changement
+- ne jamais utiliser d'artefact pour les listes de remue-méninges — cela reste dans la conversation
+
+**La qualité avant la vitesse :**
+- ne pas se précipiter d'une étape à l'autre
+- chaque itération doit apporter une amélioration réelle
+- le but est un document qui fonctionne vraiment pour ses lecteurs

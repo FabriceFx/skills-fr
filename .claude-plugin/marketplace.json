@@ -1,17 +1,16 @@
 {
-  "name": "anthropic-agent-skills",
+  "name": "anthropic-agent-skills-fr",
   "owner": {
-    "name": "Keith Lazuka",
-    "email": "klazuka@anthropic.com"
+    "name": "Fabrice Faucheux"
   },
   "metadata": {
-    "description": "Anthropic example skills",
+    "description": "Skills d'exemple d'Anthropic, traduites en français (fork de anthropics/skills)",
     "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "document-skills",
-      "description": "Collection of document processing suite including Excel, Word, PowerPoint, and PDF capabilities",
+      "description": "Traitement de documents Excel, Word, PowerPoint et PDF (skills propriétaires d'Anthropic, laissées en anglais)",
       "source": "./",
       "strict": false,
       "skills": [
@@ -23,7 +22,7 @@
     },
     {
       "name": "example-skills",
-      "description": "Collection of example skills demonstrating various capabilities including skill creation, MCP building, visual design, algorithmic art, internal communications, web testing, artifact building, Slack GIFs, and theme styling",
+      "description": "Skills d'exemple traduites : création de skills, serveurs MCP, design visuel, art algorithmique, communication interne, tests d'applications web, artefacts, GIF Slack et thèmes",
       "source": "./",
       "strict": false,
       "skills": [
@@ -40,11 +39,10 @@
         "./skills/web-artifacts-builder",
         "./skills/webapp-testing"
       ]
-    }
-    ,
+    },
     {
       "name": "claude-api",
-      "description": "Claude API and SDK documentation skill for building LLM-powered applications",
+      "description": "Référence de l'API Claude et des SDK pour construire des applications à base de LLM (SKILL.md traduit, références en anglais)",
       "source": "./",
       "strict": false,
       "skills": [
@@ -53,7 +51,7 @@
     },
     {
       "name": "academy-guide",
-      "description": "Recommends relevant Claude Academy courses, tutorials, and use cases when users ask how to use Claude",
+      "description": "Recommande des cours, tutoriels et cas d'usage de la Claude Academy quand on demande comment utiliser Claude",
       "source": "./",
       "strict": false,
       "skills": [
@@ -62,7 +60,7 @@
     },
     {
       "name": "discernment-nudge",
-      "description": "Appends two or three short follow-up questions after a substantive answer to help users check key facts, probe the reasoning, and notice missing context",
+      "description": "Ajoute deux ou trois courtes questions après une réponse de fond, pour vérifier les faits clés, éprouver le raisonnement et repérer le contexte manquant",
       "source": "./",
       "strict": false,
       "skills": [

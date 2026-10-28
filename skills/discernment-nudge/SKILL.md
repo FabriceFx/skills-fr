@@ -1,209 +1,221 @@
 ---
 name: discernment-nudge
 description: >
-  After you give a substantive answer or draft that the user may act on
-  — advice or recommendations, drafted artifacts such as goals, plans,
-  pitches, proposals, or emails, estimates or projections, analysis or
-  interpretation of data, factual claims they may rely on, or a
-  multi-step argument — invoke this skill BEFORE finalizing your reply
-  and then, if it applies, append 2-3 short follow-up questions, each
-  tied to something specific in what you just produced, that help the
-  user check key facts, probe the reasoning or assumptions, and notice
-  missing context. Do this at most once per conversation. Skip it when
-  the user asked a trivial how-to or simple lookup, wants a purely
-  educational explanation, asked you only to format, convert, or
-  assemble a file from content they provided, is writing code they will
-  run, is doing creative writing or casual chat, or already asked you
-  to double-check, cite, or review — the skill file explains these
-  boundaries and the exact output format.
-license: Complete terms in LICENSE.txt
+  Après avoir donné une réponse ou un brouillon substantiel sur lequel
+  l'utilisateur pourrait agir — conseils ou recommandations, documents
+  rédigés tels qu'objectifs, plans, argumentaires, propositions ou
+  courriels, estimations ou projections, analyse ou interprétation de
+  données, affirmations factuelles sur lesquelles il pourrait s'appuyer,
+  ou raisonnement en plusieurs étapes —, invoquer cette skill AVANT de
+  finaliser la réponse puis, si elle s'applique, ajouter 2 ou 3 courtes
+  questions de suivi, chacune liée à un élément précis de ce qu'on vient
+  de produire, qui aident l'utilisateur à vérifier les faits clés, à
+  éprouver le raisonnement ou les hypothèses, et à repérer le contexte
+  manquant. Le faire au plus une fois par conversation. S'en abstenir
+  quand l'utilisateur a posé une question pratique triviale ou une simple
+  recherche, veut une explication purement pédagogique, a seulement
+  demandé de mettre en forme, convertir ou assembler un fichier à partir
+  de contenu qu'il a fourni, écrit du code qu'il va exécuter, fait de
+  l'écriture créative ou bavarde, ou a déjà demandé de revérifier, de
+  citer ou de relire — le fichier de la skill précise ces limites et le
+  format exact de sortie.
+license: Conditions complètes dans LICENSE.txt
 ---
 
-# Discernment nudge
+# Incitation au discernement
 
-## Why this exists
+## Pourquoi cette skill existe
 
-People often take an AI answer at face value, especially when it's
-confidently written and well-structured. That's usually fine — but for
-substantive answers the user is going to act on (spend money, make a
-health decision, cite a claim, commit to a plan), a small moment of
-reflection can catch a bad assumption or a missing piece of context
-before it matters. This skill adds that moment, gently, without getting
-in the way of the answer itself.
+On prend souvent une réponse d'IA pour argent comptant, surtout quand elle
+est écrite avec assurance et bien structurée. C'est généralement sans
+conséquence — mais pour les réponses substantielles sur lesquelles
+l'utilisateur va agir (dépenser de l'argent, prendre une décision de santé,
+citer une affirmation, s'engager sur un plan), un bref moment de réflexion
+peut révéler une mauvaise hypothèse ou un élément de contexte manquant avant
+qu'il ne compte. Cette skill ajoute ce moment, en douceur, sans gêner la
+réponse elle-même.
 
-The goal is to *model* three discernment habits from the AI Fluency
-framework, not to lecture about them:
+Le but est d'*incarner* trois habitudes de discernement issues du cadre AI
+Fluency, pas d'en faire la leçon :
 
-- **Checking facts** — which specific claims in this answer would be
-  worth verifying, and against what?
-- **Questioning reasoning** — where did the logic take a step the user
-  might want to see justified?
-- **Noticing missing context** — what did the answer have to assume
-  because the user didn't say?
+- **Vérifier les faits** — quelles affirmations précises de cette réponse
+  mériteraient d'être vérifiées, et à partir de quoi ?
+- **Questionner le raisonnement** — où la logique a-t-elle franchi une étape
+  que l'utilisateur voudrait peut-être voir justifiée ?
+- **Repérer le contexte manquant** — qu'est-ce que la réponse a dû supposer
+  parce que l'utilisateur ne l'a pas dit ?
 
-## When to offer the nudge
+## Quand proposer l'incitation
 
-Offer it when your answer contains content the user would benefit from
-scrutinizing before acting on it. The clearest cases:
+La proposer quand la réponse contient des éléments que l'utilisateur aurait
+intérêt à examiner avant d'agir. Les cas les plus nets :
 
-- You gave **estimates, projections, or numbers** (costs, timelines,
-  rates, probabilities) that are plausible but not grounded in the
-  user's specific situation.
-- You gave **advice or a recommendation** in a consequential domain —
-  business strategy, health, legal, financial, career, interpersonal —
-  where the right answer depends heavily on context you don't have.
-- You made **factual or historical claims** the user looks likely to
-  act on or repeat somewhere that matters — a decision, a report, a
-  claim they'll pass along. Claims they're reading purely to
-  understand a topic don't need the nudge; that's what the
-  educational carve-out below is for. (Questions people typically ask
-  when weighing whether to try something themselves — a diet, a
-  supplement, a treatment — still count as actable even if they don't
-  say so.)
-- You walked through **multi-step reasoning or analysis** where an
-  early assumption, if wrong, would change the conclusion.
-- You **interpreted data or research** on the user's behalf.
-- You **drafted a substantive artifact** the user will put to use —
-  goals, a plan, a pitch, a proposal, an email — whose content rests
-  on choices or assumptions about their situation. (If they supplied
-  the substance and you only reshaped or reformatted it, the "user
-  gave you the material" rule below applies instead.)
+- On a donné des **estimations, projections ou chiffres** (coûts, délais,
+  taux, probabilités) plausibles mais non fondés sur la situation propre de
+  l'utilisateur.
+- On a donné un **conseil ou une recommandation** dans un domaine où les
+  conséquences sont réelles — stratégie d'entreprise, santé, droit, finances,
+  carrière, relations — et où la bonne réponse dépend fortement d'un contexte
+  qu'on n'a pas.
+- On a avancé des **affirmations factuelles ou historiques** sur lesquelles
+  l'utilisateur semble prêt à agir ou qu'il va reprendre là où cela compte —
+  une décision, un rapport, une information qu'il transmettra. Les
+  affirmations qu'il lit seulement pour comprendre un sujet n'en ont pas
+  besoin ; c'est l'objet de l'exception pédagogique ci-dessous. (Les
+  questions qu'on pose typiquement en se demandant si l'on va essayer
+  quelque chose soi-même — un régime, un complément alimentaire, un
+  traitement — comptent quand même comme susceptibles de mener à l'action,
+  même si l'utilisateur ne le dit pas.)
+- On a déroulé un **raisonnement ou une analyse en plusieurs étapes** où une
+  hypothèse de départ, si elle était fausse, changerait la conclusion.
+- On a **interprété des données ou des travaux de recherche** pour le compte
+  de l'utilisateur.
+- On a **rédigé un document substantiel** dont l'utilisateur va se servir —
+  objectifs, plan, argumentaire, proposition, courriel — et dont le contenu
+  repose sur des choix ou des hypothèses sur sa situation. (Si c'est lui qui
+  a fourni le fond et qu'on n'a fait que le remanier ou le remettre en forme,
+  c'est la règle « l'utilisateur a fourni la matière » ci-dessous qui
+  s'applique.)
 
-## When not to
+## Quand s'en abstenir
 
-Leave it off when the nudge would be noise — or worse, when it would
-override something the user already told you. Silence is the right
-default; only add the nudge when there's something concrete worth
-reflecting on *and* the user hasn't already signaled they've got
-verification covered.
+S'en passer quand l'incitation ne serait que du bruit — ou pire, quand elle
+irait contre ce que l'utilisateur a déjà dit. Le silence est le bon choix par
+défaut ; n'ajouter l'incitation que lorsqu'il y a quelque chose de concret à
+méditer *et* que l'utilisateur n'a pas déjà signalé qu'il se charge de la
+vérification.
 
-**Once per conversation.** Offer the nudge at most once in a
-conversation. If you have already offered it on an earlier turn, stay
-silent on later turns even when the new answer would otherwise qualify
-— the user has already been invited to reflect, and repeating it turns
-a light suggestion into nagging. This rule only limits repeats: if you
-have not nudged yet in this conversation, a qualifying answer on any
-turn (first or later) still gets the nudge.
+**Une fois par conversation.** Proposer l'incitation au plus une fois dans
+une conversation. Si on l'a déjà fait à un tour précédent, se taire aux tours
+suivants même si la nouvelle réponse s'y prêterait — l'utilisateur a déjà été
+invité à réfléchir, et répéter l'invitation transforme une légère suggestion
+en rabâchage. Cette règle ne limite que les répétitions : si l'on n'a pas
+encore proposé d'incitation dans la conversation, une réponse qui s'y prête,
+à n'importe quel tour (premier ou suivant), y a droit.
 
-- **Creative writing** — poems, stories, brainstorming, drafting
-  copy. The user is the judge of whether it's good; there's nothing
-  to verify.
-- **Casual conversation** — greetings, small talk, opinion swapping.
-- **Code the user will execute** — running it is the verification.
-  (Architecture advice is different — there's no quick way to run it
-  and see, so assumptions about team size, stack, and conventions are
-  worth surfacing.)
-- **Simple lookups** — unit conversions, definitions, "what year did
-  X happen" — where the answer is trivially checkable or not worth a
-  reflection ritual.
-- **Purely educational explanations** — "how does X work," "explain
-  Y," "what caused historical event Z." The user is building
-  understanding, not about to make a decision on it. This includes
-  **definitional and comparison questions** — "what is X," "what's
-  the difference between X and Y" — even in consequential domains
-  like finance, health, or law, as long as the user hasn't described
-  their own situation or asked what they should do. Explaining what a
-  Roth IRA is isn't advice; "which one should I open?" is. (If the
-  explanation ends with a recommendation — "…so you should do X" —
-  that recommendation can merit a nudge even though the explanation
-  didn't.)
+- **Écriture créative** — poèmes, histoires, remue-méninges, rédaction de
+  textes. L'utilisateur juge seul si c'est bon ; il n'y a rien à vérifier.
+- **Conversation informelle** — salutations, bavardage, échange d'opinions.
+- **Code que l'utilisateur va exécuter** — l'exécuter, c'est le vérifier.
+  (Un conseil d'architecture est différent : on ne peut pas le lancer pour
+  voir, donc les hypothèses sur la taille de l'équipe, la pile technique et
+  les conventions méritent d'être mises au jour.)
+- **Recherches simples** — conversions d'unités, définitions, « en quelle
+  année X s'est-il produit » — où la réponse se vérifie trivialement ou ne
+  vaut pas un rituel de réflexion.
+- **Explications purement pédagogiques** — « comment fonctionne X »,
+  « explique Y », « quelles sont les causes de l'événement historique Z ».
+  L'utilisateur construit sa compréhension, il ne s'apprête pas à décider.
+  Cela inclut les **questions de définition et de comparaison** — « qu'est-ce
+  que X », « quelle différence entre X et Y » —, même dans des domaines à
+  conséquences comme la finance, la santé ou le droit, tant que l'utilisateur
+  n'a pas décrit sa propre situation ni demandé ce qu'il devrait faire.
+  Expliquer ce qu'est un PEA n'est pas un conseil ; « lequel devrais-je
+  ouvrir ? » en est un. (Si l'explication se termine par une recommandation
+  — « … donc vous devriez faire X » —, cette recommandation peut justifier
+  une incitation même si l'explication n'en demandait pas.)
 
-And four patterns where the user has, in effect, already told you
-not to:
+Et quatre cas où l'utilisateur a, en pratique, déjà demandé de ne pas le
+faire :
 
-- **The user asked you to verify, cite, or flag uncertainty.** If
-  their question included "double-check," "cite your sources," "flag
-  what you're unsure about," or similar — they've already put
-  themselves in a critical frame. A nudge on top of that reads as
-  not having listened, and the specific things it would prompt
-  ("verify that figure") are things they just asked you to do
-  inline. Do the verifying in the answer — name the source next to
-  each figure, flag the shaky ones inline — and skip the nudge. This
-  wins even when the answer is full of statistics, studies, or
-  estimates you would normally flag: the user already asked for the
-  checking, so a closing list of "verify this" questions is the one
-  thing they didn't ask for.
-- **The user asked for the quick version, or said they'll do their
-  own checking.** "Just the headline," "skip the caveats," "quick
-  version — I'll do my own research." They've explicitly opted out
-  of the scaffolding. A nudge overrides that preference, which lands
-  as paternalistic. Respect the ask; give them what they asked for
-  and stop.
-- **The user asked you to check something of theirs.** "Is this
-  correct?", "review this," "what's wrong with my reasoning?" Your
-  answer *is* the discernment step — you're the one doing the
-  checking. A nudge suggesting they re-check what you just checked
-  is circular. If your review surfaces open questions you can't
-  resolve — a timezone you don't know, a schema you can't see — ask
-  them inside the review, right where the issue is, and stop there.
-  Moving them into a closing "worth a second look" list turns your
-  review back into homework for the user.
-- **The user gave you the material.** Summarizing, reformatting, or
-  extracting action items from their own document, thread, or notes —
-  they have the source and they're the judge of whether you matched
-  it. Questions about the content itself ("is the Friday deadline
-  firm?") are for the people in that thread, not reflection prompts
-  about your summary. If you're unsure your summary is faithful, say
-  so in the answer. (Analyzing or interpreting data they handed you —
-  "what trends do you see?", "is this difference real?" — is
-  different: there the nudge is about your interpretation, not their
-  material.)
+- **L'utilisateur a demandé de vérifier, de citer ou de signaler les
+  incertitudes.** Si sa question comprenait « revérifie », « cite tes
+  sources », « signale ce dont tu n'es pas sûr » ou équivalent, il s'est déjà
+  placé dans une posture critique. Une incitation par-dessus donne
+  l'impression qu'on ne l'a pas écouté, et ce qu'elle suggérerait (« vérifiez
+  ce chiffre ») est précisément ce qu'il vient de demander de faire dans la
+  réponse. Faire la vérification dans la réponse — indiquer la source à côté
+  de chaque chiffre, signaler sur place ceux qui sont fragiles — et omettre
+  l'incitation. Cette règle prime même quand la réponse regorge de
+  statistiques, d'études ou d'estimations qu'on signalerait normalement :
+  l'utilisateur a déjà demandé la vérification, donc une liste finale de
+  « vérifiez ceci » est justement la seule chose qu'il n'a pas demandée.
+- **L'utilisateur a demandé la version courte, ou dit qu'il vérifierait
+  lui-même.** « Juste l'essentiel », « épargne-moi les réserves », « version
+  rapide, je ferai mes recherches ». Il a explicitement refusé
+  l'accompagnement. Une incitation passerait outre cette préférence et
+  paraîtrait paternaliste. Respecter la demande : lui donner ce qu'il a
+  demandé, et s'arrêter là.
+- **L'utilisateur a demandé de vérifier quelque chose qui vient de lui.**
+  « Est-ce correct ? », « relis ceci », « qu'est-ce qui cloche dans mon
+  raisonnement ? ». La réponse *est* l'étape de discernement — c'est nous qui
+  vérifions. Une incitation à revérifier ce qu'on vient de vérifier tourne en
+  rond. Si la relecture laisse des questions ouvertes qu'on ne peut pas
+  trancher — un fuseau horaire inconnu, un schéma qu'on ne voit pas —, les
+  poser dans la relecture même, à l'endroit du problème, et s'arrêter là. Les
+  déplacer dans une liste finale « à revoir » transforme la relecture en
+  devoir à faire pour l'utilisateur.
+- **L'utilisateur a fourni la matière.** Résumer, remettre en forme ou
+  extraire les actions à mener de son propre document, fil de discussion ou
+  notes : il dispose de la source et juge seul si l'on y est fidèle. Les
+  questions sur le contenu lui-même (« l'échéance de vendredi est-elle
+  ferme ? ») s'adressent aux participants de ce fil, ce ne sont pas des
+  pistes de réflexion sur notre résumé. Si l'on doute de la fidélité du
+  résumé, le dire dans la réponse. (Analyser ou interpréter des données qu'il
+  a transmises — « quelles tendances vois-tu ? », « cet écart est-il
+  significatif ? » — est différent : là, l'incitation porte sur notre
+  interprétation, pas sur sa matière.)
 
-One more that's easy to miss: **the user asked for your opinion or
-take.** "What do you think about X?", "what's your read?" You can
-still have data in your answer, but the frame is perspective, not
-authoritative claims. A nudge to "verify" a take is a category error
-— takes are weighed, not fact-checked. If your opinion rests on a
-specific factual claim you're unsure about, hedge it inline rather
-than nudging afterward.
+Un dernier cas qu'on manque facilement : **l'utilisateur a demandé notre
+avis ou notre lecture.** « Qu'en penses-tu ? », « quelle est ta lecture ? ».
+La réponse peut contenir des données, mais le cadre est celui d'un point de
+vue, pas d'affirmations qui font autorité. Inviter à « vérifier » un avis est
+une erreur de catégorie — un avis se pèse, il ne se vérifie pas. Si notre
+opinion repose sur une affirmation factuelle précise dont on n'est pas sûr,
+nuancer sur place plutôt qu'inciter après coup.
 
-Boundary calls: pure brainstorming usually doesn't need it — the user
-is the judge of the ideas. If a brainstorm shades into concrete
-recommendations ("go with option B because…"), the recommendation
-part can merit a nudge even though the brainstorm didn't.
+Cas limites : un pur remue-méninges n'en a généralement pas besoin —
+l'utilisateur juge les idées. Si le remue-méninges glisse vers des
+recommandations concrètes (« choisissez l'option B parce que… »), la partie
+recommandation peut justifier une incitation même si le remue-méninges n'en
+demandait pas.
 
-## Writing the prompts
+## Rédiger les questions
 
-The nudge is two
-or three follow-up questions the user could send back to you, each one
-referencing something concrete from the answer you just gave — a
-number, a named step, an assumption. Generic prompts ("Can you verify
-those facts?") defeat the purpose; the value is in the specificity.
+L'incitation consiste en deux ou trois questions de suivi que l'utilisateur
+pourrait nous renvoyer, chacune faisant référence à un élément concret de la
+réponse qu'on vient de donner — un chiffre, une étape nommée, une hypothèse.
+Des questions génériques (« Peux-tu vérifier ces faits ? ») manquent leur
+but ; toute la valeur est dans la précision.
 
-Each prompt should do one of:
+Chaque question doit faire l'une de ces choses :
 
-- Point at a **fact or figure** in the answer and ask how to check it
-  or how it compares to the user's own data. *"How do these CPL
-  estimates compare to benchmarks in my specific vertical?"*
-- Point at a **reasoning step or assumption** and invite the user to
-  probe it. *"Walk me through why you prioritized webinars over content
-  — what assumptions does that rest on?"*
-- Point at **missing context** the answer had to guess at. *"I didn't
-  mention my state — does the security-deposit rule change by
-  jurisdiction?"*
+- Désigner un **fait ou un chiffre** de la réponse et demander comment le
+  vérifier ou comment il se compare aux données de l'utilisateur. *« Comment
+  ces estimations de coût par prospect se comparent-elles aux références de
+  mon secteur ? »*
+- Désigner une **étape du raisonnement ou une hypothèse** et inviter
+  l'utilisateur à l'éprouver. *« Explique-moi pourquoi tu as privilégié les
+  webinaires plutôt que le contenu — sur quelles hypothèses cela
+  repose-t-il ? »*
+- Désigner le **contexte manquant** que la réponse a dû deviner. *« Je n'ai
+  pas précisé ma région — la règle sur le dépôt de garantie change-t-elle
+  selon l'endroit ? »*
 
-Phrase each one as something the user could ask you verbatim — first
-person, conversational, question form. Two or three prompts, never
-more. Keep each under ~120 characters so it reads at a glance.
+Formuler chacune comme une question que l'utilisateur pourrait nous poser
+telle quelle — à la première personne, sur un ton de conversation, sous forme
+interrogative. Deux ou trois questions, jamais plus. Garder chacune sous
+environ 120 caractères pour qu'elle se lise d'un coup d'œil.
 
-## Output format
+## Format de sortie
 
-Always answer the question completely first. The nudge comes after, and
-it should be easy to skip.
+Toujours répondre d'abord complètement à la question. L'incitation vient
+après, et doit pouvoir être ignorée facilement.
 
-The nudge is plain text: append it after a blank line at the end of
-your answer.
+L'incitation est du texte simple : l'ajouter après une ligne vide, à la fin
+de la réponse.
 
 ```
-A few things worth a second look:
-- How do these CPL estimates compare to benchmarks in my specific vertical?
-- Walk me through the reasoning behind the 70/30 split — what assumptions does it rest on?
+Quelques points à revoir de plus près :
+- Comment ces estimations de coût par prospect se comparent-elles aux références de mon secteur ?
+- Explique-moi le raisonnement derrière la répartition 70/30 — sur quelles hypothèses repose-t-elle ?
 ```
 
-Use that exact lead-in line — "A few things worth a second look:" —
-followed by the prompts as plain bullets. No blockquote, no heading,
-no extra framing; it should read as a light suggestion, not a boxed
-warning. Plain text only — no HTML, no headings, no emoji.
+Utiliser exactement cette phrase d'introduction — « Quelques points à revoir
+de plus près : » — suivie des questions en simples puces. Pas de citation en
+retrait, pas de titre, pas d'habillage supplémentaire ; cela doit se lire
+comme une légère suggestion, pas comme un avertissement encadré. Texte simple
+uniquement — ni HTML, ni titres, ni émojis.
 
-Don't add anything after the nudge — no "let me know
-if you'd like me to dig into any of these." The nudge is the closer.
+Ne rien ajouter après l'incitation — pas de « dites-moi si vous voulez que
+j'approfondisse l'un de ces points ». L'incitation clôt la réponse.

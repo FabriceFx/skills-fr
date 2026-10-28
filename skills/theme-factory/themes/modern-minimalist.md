@@ -1,19 +1,19 @@
 # Modern Minimalist
 
-A clean and contemporary theme with a sophisticated grayscale palette for maximum versatility.
+Un thème épuré et contemporain, à la palette de gris raffinée, pour une polyvalence maximale.
 
-## Color Palette
+## Palette de couleurs
 
-- **Charcoal**: `#36454f` - Primary dark color
-- **Slate Gray**: `#708090` - Medium gray for accents
-- **Light Gray**: `#d3d3d3` - Backgrounds and dividers
-- **White**: `#ffffff` - Text and clean backgrounds
+- **Anthracite** : `#36454f` — couleur foncée principale
+- **Gris ardoise** : `#708090` — gris moyen pour les accents
+- **Gris clair** : `#d3d3d3` — fonds et séparateurs
+- **Blanc** : `#ffffff` — texte et fonds épurés
 
-## Typography
+## Typographie
 
-- **Headers**: DejaVu Sans Bold
-- **Body Text**: DejaVu Sans
+- **Titres** : DejaVu Sans Bold
+- **Texte courant** : DejaVu Sans
 
-## Best Used For
+## Usages recommandés
 
-Tech presentations, architecture portfolios, design showcases, modern business proposals, data visualization.
+Présentations techniques, portfolios d'architecture, vitrines de design, propositions commerciales modernes, visualisation de données.

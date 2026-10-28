@@ -1,19 +1,19 @@
 # Midnight Galaxy
 
-A dramatic and cosmic theme with deep purples and mystical tones for impactful presentations.
+Un thème spectaculaire et cosmique, aux violets profonds et tons mystérieux, pour des présentations marquantes.
 
-## Color Palette
+## Palette de couleurs
 
-- **Deep Purple**: `#2b1e3e` - Rich dark base
-- **Cosmic Blue**: `#4a4e8f` - Mystical mid-tone
-- **Lavender**: `#a490c2` - Soft accent color
-- **Silver**: `#e6e6fa` - Light highlights and text
+- **Violet profond** : `#2b1e3e` — base sombre et riche
+- **Bleu cosmique** : `#4a4e8f` — ton intermédiaire mystérieux
+- **Lavande** : `#a490c2` — couleur d'accent douce
+- **Argent** : `#e6e6fa` — mises en valeur claires et texte
 
-## Typography
+## Typographie
 
-- **Headers**: FreeSans Bold
-- **Body Text**: FreeSans
+- **Titres** : FreeSans Bold
+- **Texte courant** : FreeSans
 
-## Best Used For
+## Usages recommandés
 
-Entertainment industry, gaming presentations, nightlife venues, luxury brands, creative agencies.
+Industrie du divertissement, jeux vidéo, lieux de vie nocturne, marques de luxe, agences créatives.

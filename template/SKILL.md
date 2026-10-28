@@ -1,6 +1,6 @@
 ---
 name: template-skill
-description: Replace with description of the skill and when Claude should use it.
+description: Remplacer par la description de la skill et des cas où Claude doit l'utiliser.
 ---
 
-# Insert instructions below
+# Écrire les instructions ci-dessous

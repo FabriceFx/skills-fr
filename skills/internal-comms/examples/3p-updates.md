@@ -1,47 +1,46 @@
-## Instructions
-You are being asked to write a 3P update. 3P updates stand for "Progress, Plans, Problems." The main audience is for executives, leadership, other teammates, etc. They're meant to be very succinct and to-the-point: think something you can read in 30-60sec or less. They're also for people with some, but not a lot of context on what the team does.
+## Consignes
+On te demande de rédiger une mise à jour 3P. « 3P » signifie « Progrès, Plans, Problèmes » (en anglais *Progress, Plans, Problems*). Le public principal : les dirigeants, la direction, les autres équipes, etc. Ces mises à jour doivent être très concises et aller droit au but : quelque chose qui se lit en 30 à 60 secondes, voire moins. Elles s'adressent aussi à des personnes qui ont un peu de contexte sur le travail de l'équipe, mais pas beaucoup.
 
-3Ps can cover a team of any size, ranging all the way up to the entire company. The bigger the team, the less granular the tasks should be. For example, "mobile team" might have "shipped feature" or "fixed bugs," whereas the company might have really meaty 3Ps, like "hired 20 new people" or "closed 10 new deals." 
+Un 3P peut couvrir une équipe de n'importe quelle taille, jusqu'à l'entreprise entière. Plus l'équipe est grande, moins les tâches doivent être détaillées. Par exemple, l'« équipe mobile » parlera de « fonctionnalité livrée » ou de « bogues corrigés », tandis que l'entreprise aura des 3P bien plus substantiels, comme « 20 recrutements » ou « 10 nouveaux contrats signés ».
 
-They represent the work of the team across a time period, almost always one week. They include three sections:
-1) Progress: what the team has accomplished over the next time period. Focus mainly on things shipped, milestones achieved, tasks created, etc.
-2) Plans: what the team plans to do over the next time period. Focus on what things are top-of-mind, really high priority, etc. for the team.
-3) Problems: anything that is slowing the team down. This could be things like too few people, bugs or blockers that are preventing the team from moving forward, some deal that fell through, etc.
+Un 3P représente le travail de l'équipe sur une période, presque toujours une semaine. Il comporte trois sections :
+1) Progrès : ce que l'équipe a accompli sur la période écoulée. Se concentrer surtout sur ce qui a été livré, les jalons atteints, les tâches créées, etc.
+2) Plans : ce que l'équipe prévoit de faire sur la période suivante. Se concentrer sur ce qui occupe les esprits, les vraies priorités de l'équipe, etc.
+3) Problèmes : tout ce qui ralentit l'équipe. Par exemple un manque de personnel, des bogues ou des blocages qui empêchent d'avancer, un contrat qui n'a pas abouti, etc.
 
-Before writing them, make sure that you know the team name. If it's not specified, you can ask explicitly what the team name you're writing for is.
-
-
-## Tools Available
-Whenever possible, try to pull from available sources to get the information you need:
-- Slack: posts from team members with their updates - ideally look for posts in large channels with lots of reactions
-- Google Drive: docs written from critical team members with lots of views
-- Email: emails with lots of responses of lots of content that seems relevant
-- Calendar: non-recurring meetings that have a lot of importance, like product reviews, etc.
+Avant de rédiger, s'assurer de connaître le nom de l'équipe. S'il n'est pas précisé, demander explicitement pour quelle équipe on écrit.
 
 
-Try to gather as much context as you can, focusing on the things that covered the time period you're writing for:
-- Progress: anything between a week ago and today
-- Plans: anything from today to the next week
-- Problems: anything between a week ago and today
+## Outils disponibles
+Autant que possible, puiser dans les sources disponibles pour obtenir les informations nécessaires :
+- Slack : messages des membres de l'équipe donnant leurs nouvelles — de préférence dans les grands canaux, avec beaucoup de réactions
+- Google Drive : documents rédigés par des membres clés de l'équipe et très consultés
+- Courriel : messages avec beaucoup de réponses ou beaucoup de contenu qui semble pertinent
+- Agenda : réunions non récurrentes importantes, comme les revues produit, etc.
 
 
-If you don't have access, you can ask the user for things they want to cover. They might also include these things to you directly, in which case you're mostly just formatting for this particular format.
+Rassembler le plus de contexte possible, en se concentrant sur ce qui couvre la période concernée :
+- Progrès : tout ce qui va d'il y a une semaine à aujourd'hui
+- Plans : tout ce qui va d'aujourd'hui à la semaine prochaine
+- Problèmes : tout ce qui va d'il y a une semaine à aujourd'hui
 
-## Workflow
 
-1. **Clarify scope**: Confirm the team name and time period (usually past week for Progress/Problems, next
-week for Plans)
-2. **Gather information**: Use available tools or ask the user directly
-3. **Draft the update**: Follow the strict formatting guidelines
-4. **Review**: Ensure it's concise (30-60 seconds to read) and data-driven
+Sans accès à ces outils, demander à l'utilisateur ce qu'il souhaite aborder. Il peut aussi fournir directement ces éléments ; il s'agit alors surtout de les mettre dans ce format.
 
-## Formatting
+## Démarche
 
-The format is always the same, very strict formatting. Never use any formatting other than this. Pick an emoji that is fun and captures the vibe of the team and update.
+1. **Préciser le périmètre** : confirmer le nom de l'équipe et la période (en général la semaine écoulée pour Progrès / Problèmes, la semaine suivante pour Plans)
+2. **Rassembler l'information** : utiliser les outils disponibles ou interroger directement l'utilisateur
+3. **Rédiger la mise à jour** : suivre strictement les consignes de mise en forme
+4. **Relire** : vérifier qu'elle est concise (30 à 60 secondes de lecture) et appuyée sur des données
 
-[pick an emoji] [Team Name] (Dates Covered, usually a week)
-Progress: [1-3 sentences of content]
-Plans: [1-3 sentences of content]
-Problems: [1-3 sentences of content]
+## Mise en forme
 
-Each section should be no more than 1-3 sentences: clear, to the point. It should be data-driven, and generally include metrics where possible. The tone should be very matter-of-fact, not super prose-heavy.
+Le format est toujours le même, très strict. N'utiliser aucune autre mise en forme. Choisir un émoji amusant qui rende l'ambiance de l'équipe et de la mise à jour.
+
+[choisir un émoji] [Nom de l'équipe] (période couverte, en général une semaine)
+Progrès : [1 à 3 phrases]
+Plans : [1 à 3 phrases]
+Problèmes : [1 à 3 phrases]
+
+Chaque section tient en 1 à 3 phrases au plus : claires, directes. Elle s'appuie sur des données et comporte en général des indicateurs chiffrés quand c'est possible. Le ton est très factuel, sans effets de style.

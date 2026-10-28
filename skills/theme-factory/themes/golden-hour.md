@@ -1,19 +1,19 @@
 # Golden Hour
 
-A rich and warm autumnal palette that creates an inviting and sophisticated atmosphere.
+Une palette automnale riche et chaude, qui crée une atmosphère accueillante et raffinée.
 
-## Color Palette
+## Palette de couleurs
 
-- **Mustard Yellow**: `#f4a900` - Bold primary accent
-- **Terracotta**: `#c1666b` - Warm secondary color
-- **Warm Beige**: `#d4b896` - Neutral backgrounds
-- **Chocolate Brown**: `#4a403a` - Dark text and anchors
+- **Jaune moutarde** : `#f4a900` — accent principal affirmé
+- **Terre cuite** : `#c1666b` — couleur secondaire chaude
+- **Beige chaud** : `#d4b896` — fonds neutres
+- **Brun chocolat** : `#4a403a` — texte sombre et points d'ancrage
 
-## Typography
+## Typographie
 
-- **Headers**: FreeSans Bold
-- **Body Text**: FreeSans
+- **Titres** : FreeSans Bold
+- **Texte courant** : FreeSans
 
-## Best Used For
+## Usages recommandés
 
-Restaurant presentations, hospitality brands, fall campaigns, cozy lifestyle content, artisan products.
+Présentations de restaurants, marques d'hôtellerie, campagnes d'automne, contenus art de vivre chaleureux, produits artisanaux.

@@ -1,19 +1,19 @@
 # Tech Innovation
 
-A bold and modern theme with high-contrast colors perfect for cutting-edge technology presentations.
+Un thème audacieux et moderne aux couleurs très contrastées, parfait pour des présentations technologiques de pointe.
 
-## Color Palette
+## Palette de couleurs
 
-- **Electric Blue**: `#0066ff` - Vibrant primary accent
-- **Neon Cyan**: `#00ffff` - Bright highlight color
-- **Dark Gray**: `#1e1e1e` - Deep backgrounds
-- **White**: `#ffffff` - Clean text and contrast
+- **Bleu électrique** : `#0066ff` — accent principal vibrant
+- **Cyan néon** : `#00ffff` — couleur de mise en valeur lumineuse
+- **Gris foncé** : `#1e1e1e` — fonds profonds
+- **Blanc** : `#ffffff` — texte net et contraste
 
-## Typography
+## Typographie
 
-- **Headers**: DejaVu Sans Bold
-- **Body Text**: DejaVu Sans
+- **Titres** : DejaVu Sans Bold
+- **Texte courant** : DejaVu Sans
 
-## Best Used For
+## Usages recommandés
 
-Tech startups, software launches, innovation showcases, AI/ML presentations, digital transformation content.
+Jeunes pousses technologiques, lancements de logiciels, vitrines d'innovation, présentations IA / apprentissage automatique, transformation numérique.

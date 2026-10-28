@@ -1,19 +1,19 @@
 # Forest Canopy
 
-A natural and grounded theme featuring earth tones inspired by dense forest environments.
+Un thème naturel et ancré, aux tons de terre inspirés des forêts denses.
 
-## Color Palette
+## Palette de couleurs
 
-- **Forest Green**: `#2d4a2b` - Primary dark green
-- **Sage**: `#7d8471` - Muted green accent
-- **Olive**: `#a4ac86` - Light accent color
-- **Ivory**: `#faf9f6` - Backgrounds and text
+- **Vert forêt** : `#2d4a2b` — vert foncé principal
+- **Sauge** : `#7d8471` — accent vert sourd
+- **Olive** : `#a4ac86` — couleur d'accent claire
+- **Ivoire** : `#faf9f6` — fonds et texte
 
-## Typography
+## Typographie
 
-- **Headers**: FreeSerif Bold
-- **Body Text**: FreeSans
+- **Titres** : FreeSerif Bold
+- **Texte courant** : FreeSans
 
-## Best Used For
+## Usages recommandés
 
-Environmental presentations, sustainability reports, outdoor brands, wellness content, organic products.
+Présentations sur l'environnement, rapports de développement durable, marques de plein air, contenus bien-être, produits bio.

@@ -1,19 +1,19 @@
 # Botanical Garden
 
-A fresh and organic theme featuring vibrant garden-inspired colors for lively presentations.
+Un thème frais et organique aux couleurs vives inspirées du jardin, pour des présentations pleines de vie.
 
-## Color Palette
+## Palette de couleurs
 
-- **Fern Green**: `#4a7c59` - Rich natural green
-- **Marigold**: `#f9a620` - Bright floral accent
-- **Terracotta**: `#b7472a` - Earthy warm tone
-- **Cream**: `#f5f3ed` - Soft neutral backgrounds
+- **Vert fougère** : `#4a7c59` — vert naturel profond
+- **Souci** : `#f9a620` — accent floral lumineux
+- **Terre cuite** : `#b7472a` — ton chaud et terreux
+- **Crème** : `#f5f3ed` — fonds neutres et doux
 
-## Typography
+## Typographie
 
-- **Headers**: DejaVu Serif Bold
-- **Body Text**: DejaVu Sans
+- **Titres** : DejaVu Serif Bold
+- **Texte courant** : DejaVu Sans
 
-## Best Used For
+## Usages recommandés
 
-Garden centers, food presentations, farm-to-table content, botanical brands, natural products.
+Jardineries, présentations culinaires, circuits courts, marques botaniques, produits naturels.

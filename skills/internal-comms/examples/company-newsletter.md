@@ -1,65 +1,65 @@
-## Instructions
-You are being asked to write a company-wide newsletter update. You are meant to summarize the past week/month of a company in the form of a newsletter that the entire company will read. It should be maybe ~20-25 bullet points long. It will be sent via Slack and email, so make it consumable for that.
+## Consignes
+On te demande de rédiger la lettre d'information de toute l'entreprise. Il s'agit de résumer la semaine ou le mois écoulé, sous forme d'une lettre que toute l'entreprise lira. Elle compte environ 20 à 25 puces. Elle sera diffusée par Slack et par courriel : la rendre facile à lire sur ces supports.
 
-Ideally it includes the following attributes:
-- Lots of links: pulling documents from Google Drive that are very relevant, linking to prominent Slack messages in announce channels and from executives, perhgaps referencing emails that went company-wide, highlighting significant things that have happened in the company.
-- Short and to-the-point: each bullet should probably be no longer than ~1-2 sentences
-- Use the "we" tense, as you are part of the company. Many of the bullets should say "we did this" or "we did that"
+Idéalement, elle présente les caractéristiques suivantes :
+- Beaucoup de liens : vers des documents très pertinents de Google Drive, vers les messages Slack marquants des canaux d'annonce et des dirigeants, éventuellement vers des courriels envoyés à toute l'entreprise, pour mettre en avant ce qui s'est passé d'important.
+- Court et direct : chaque puce ne dépasse sans doute pas 1 à 2 phrases.
+- Écrire à la première personne du pluriel, puisque tu fais partie de l'entreprise. Beaucoup de puces diront « nous avons fait ceci » ou « nous avons fait cela ».
 
-## Tools to use
-If you have access to the following tools, please try to use them. If not, you can also let the user know directly that their responses would be better if they gave them access.
+## Outils à utiliser
+Si tu as accès aux outils suivants, essaie de t'en servir. Sinon, tu peux aussi dire directement à l'utilisateur que les résultats seraient meilleurs s'il t'en donnait l'accès.
 
-- Slack: look for messages in channels with lots of people, with lots of reactions or lots of responses within the thread
-- Email: look for things from executives that discuss company-wide announcements
-- Calendar: if there were meetings with large attendee lists, particularly things like All-Hands meetings, big company announcements, etc. If there were documents attached to those meetings, those are great links to include.
-- Documents: if there were new docs published in the last week or two that got a lot of attention, you can link them. These should be things like company-wide vision docs, plans for the upcoming quarter or half, things authored by critical executives, etc.
-- External press: if you see references to articles or press we've received over the past week, that could be really cool too.
+- Slack : chercher les messages des canaux très fréquentés, avec beaucoup de réactions ou de réponses dans le fil
+- Courriel : chercher les messages des dirigeants qui portent sur des annonces à toute l'entreprise
+- Agenda : les réunions avec une longue liste de participants, en particulier les assemblées générales, les grandes annonces, etc. Les documents joints à ces réunions font d'excellents liens.
+- Documents : si de nouveaux documents publiés ces une ou deux dernières semaines ont beaucoup retenu l'attention, on peut les citer. Par exemple des documents de vision pour toute l'entreprise, des plans pour le trimestre ou le semestre à venir, des textes signés par des dirigeants clés, etc.
+- Presse : si des articles ou des retombées presse de la semaine écoulée sont mentionnés, c'est aussi très intéressant.
 
-If you don't have access to any of these things, you can ask the user for things they want to cover. In this case, you'll mostly just be polishing up and fitting to this format more directly.
+Sans accès à aucun de ces outils, demander à l'utilisateur ce qu'il souhaite aborder. Il s'agira alors surtout de peaufiner son contenu et de l'adapter à ce format.
 
 ## Sections
-The company is pretty big: 1000+ people. There are a variety of different teams and initiatives going on across the company. To make sure the update works well, try breaking it into sections of similar things. You might break into clusters like {product development, go to market, finance} or {recruiting, execution, vision}, or {external news, internal news} etc. Try to make sure the different areas of the company are highlighted well.
+L'entreprise est assez grande : plus de 1 000 personnes. De nombreuses équipes et initiatives coexistent. Pour que la lettre fonctionne bien, la découper en sections regroupant des sujets semblables. Par exemple {développement produit, commercialisation, finances}, ou {recrutement, exécution, vision}, ou {actualité externe, actualité interne}, etc. Veiller à bien mettre en valeur les différents pans de l'entreprise.
 
-## Prioritization
-Focus on:
-- Company-wide impact (not team-specific details)
-- Announcements from leadership
-- Major milestones and achievements
-- Information that affects most employees
-- External recognition or press
+## Priorités
+Se concentrer sur :
+- l'impact à l'échelle de l'entreprise (pas les détails propres à une équipe)
+- les annonces de la direction
+- les jalons et réussites majeurs
+- les informations qui concernent la plupart des salariés
+- la reconnaissance externe et la presse
 
-Avoid:
-- Overly granular team updates (save those for 3Ps)
-- Information only relevant to small groups
-- Duplicate information already communicated
+Éviter :
+- les nouvelles d'équipe trop détaillées (les garder pour les 3P)
+- les informations qui ne concernent que de petits groupes
+- les doublons d'informations déjà communiquées
 
-## Example Formats
+## Exemples de format
 
-:megaphone: Company Announcements
-- Announcement 1
-- Announcement 2
-- Announcement 3
+:megaphone: Annonces de l'entreprise
+- Annonce 1
+- Annonce 2
+- Annonce 3
 
-:dart: Progress on Priorities
-- Area 1
-    - Sub-area 1
-    - Sub-area 2
-    - Sub-area 3
-- Area 2
-    - Sub-area 1
-    - Sub-area 2
-    - Sub-area 3
-- Area 3
-    - Sub-area 1
-    - Sub-area 2
-    - Sub-area 3
+:dart: Avancement des priorités
+- Domaine 1
+    - Sous-domaine 1
+    - Sous-domaine 2
+    - Sous-domaine 3
+- Domaine 2
+    - Sous-domaine 1
+    - Sous-domaine 2
+    - Sous-domaine 3
+- Domaine 3
+    - Sous-domaine 1
+    - Sous-domaine 2
+    - Sous-domaine 3
 
-:pillar: Leadership Updates
-- Post 1
-- Post 2
-- Post 3
+:pillar: Nouvelles de la direction
+- Message 1
+- Message 2
+- Message 3
 
-:thread: Social Updates
-- Update 1
-- Update 2
-- Update 3
+:thread: Vie de l'entreprise
+- Nouvelle 1
+- Nouvelle 2
+- Nouvelle 3

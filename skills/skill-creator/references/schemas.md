@@ -1,12 +1,12 @@
-# JSON Schemas
+# Schémas JSON
 
-This document defines the JSON schemas used by skill-creator.
+Ce document définit les schémas JSON utilisés par skill-creator. Les noms de champs et les valeurs énumérées restent en anglais : les scripts et la visionneuse en dépendent ; seules les valeurs d'exemple sont traduites.
 
 ---
 
 ## evals.json
 
-Defines the evals for a skill. Located at `evals/evals.json` within the skill directory.
+Définit les évaluations d'une skill. Se trouve dans `evals/evals.json`, dans le répertoire de la skill.
 
 ```json
 {
@@ -14,31 +14,31 @@ Defines the evals for a skill. Located at `evals/evals.json` within the skill di
   "evals": [
     {
       "id": 1,
-      "prompt": "User's example prompt",
-      "expected_output": "Description of expected result",
+      "prompt": "Requête d'exemple de l'utilisateur",
+      "expected_output": "Description du résultat attendu",
       "files": ["evals/files/sample1.pdf"],
       "expectations": [
-        "The output includes X",
-        "The skill used script Y"
+        "La sortie contient X",
+        "La skill a utilisé le script Y"
       ]
     }
   ]
 }
 ```
 
-**Fields:**
-- `skill_name`: Name matching the skill's frontmatter
-- `evals[].id`: Unique integer identifier
-- `evals[].prompt`: The task to execute
-- `evals[].expected_output`: Human-readable description of success
-- `evals[].files`: Optional list of input file paths (relative to skill root)
-- `evals[].expectations`: List of verifiable statements
+**Champs :**
+- `skill_name` : nom correspondant à l'en-tête de la skill
+- `evals[].id` : identifiant entier unique
+- `evals[].prompt` : la tâche à exécuter
+- `evals[].expected_output` : description lisible de la réussite
+- `evals[].files` : liste facultative de chemins de fichiers d'entrée (relatifs à la racine de la skill)
+- `evals[].expectations` : liste d'énoncés vérifiables
 
 ---
 
 ## history.json
 
-Tracks version progression in Improve mode. Located at workspace root.
+Suit la progression des versions en mode amélioration. Se trouve à la racine de l'espace de travail.
 
 ```json
 {
@@ -71,34 +71,34 @@ Tracks version progression in Improve mode. Located at workspace root.
 }
 ```
 
-**Fields:**
-- `started_at`: ISO timestamp of when improvement started
-- `skill_name`: Name of the skill being improved
-- `current_best`: Version identifier of the best performer
-- `iterations[].version`: Version identifier (v0, v1, ...)
-- `iterations[].parent`: Parent version this was derived from
-- `iterations[].expectation_pass_rate`: Pass rate from grading
-- `iterations[].grading_result`: "baseline", "won", "lost", or "tie"
-- `iterations[].is_current_best`: Whether this is the current best version
+**Champs :**
+- `started_at` : horodatage ISO du début de l'amélioration
+- `skill_name` : nom de la skill améliorée
+- `current_best` : identifiant de la version la plus performante
+- `iterations[].version` : identifiant de version (v0, v1, ...)
+- `iterations[].parent` : version parente dont celle-ci est dérivée
+- `iterations[].expectation_pass_rate` : taux de réussite issu de la notation
+- `iterations[].grading_result` : "baseline" (référence), "won" (gagné), "lost" (perdu) ou "tie" (égalité)
+- `iterations[].is_current_best` : s'agit-il de la meilleure version actuelle
 
 ---
 
 ## grading.json
 
-Output from the grader agent. Located at `<run-dir>/grading.json`.
+Sortie de l'agent correcteur. Se trouve dans `<répertoire-d-exécution>/grading.json`.
 
 ```json
 {
   "expectations": [
     {
-      "text": "The output includes the name 'John Smith'",
+      "text": "La sortie contient le nom « John Smith »",
       "passed": true,
-      "evidence": "Found in transcript Step 3: 'Extracted names: John Smith, Sarah Johnson'"
+      "evidence": "Trouvé à l'étape 3 de la transcription : « Noms extraits : John Smith, Sarah Johnson »"
     },
     {
-      "text": "The spreadsheet has a SUM formula in cell B10",
+      "text": "La feuille de calcul contient une formule SOMME en cellule B10",
       "passed": false,
-      "evidence": "No spreadsheet was created. The output was a text file."
+      "evidence": "Aucune feuille de calcul n'a été créée. La sortie était un fichier texte."
     }
   ],
   "summary": {
@@ -126,43 +126,43 @@ Output from the grader agent. Located at `<run-dir>/grading.json`.
   },
   "claims": [
     {
-      "claim": "The form has 12 fillable fields",
+      "claim": "Le formulaire comporte 12 champs remplissables",
       "type": "factual",
       "verified": true,
-      "evidence": "Counted 12 fields in field_info.json"
+      "evidence": "12 champs comptés dans field_info.json"
     }
   ],
   "user_notes_summary": {
-    "uncertainties": ["Used 2023 data, may be stale"],
+    "uncertainties": ["Données 2023 utilisées, peut-être périmées"],
     "needs_review": [],
-    "workarounds": ["Fell back to text overlay for non-fillable fields"]
+    "workarounds": ["Repli sur une surimpression de texte pour les champs non remplissables"]
   },
   "eval_feedback": {
     "suggestions": [
       {
-        "assertion": "The output includes the name 'John Smith'",
-        "reason": "A hallucinated document that mentions the name would also pass"
+        "assertion": "La sortie contient le nom « John Smith »",
+        "reason": "Un document halluciné qui mentionne ce nom réussirait aussi"
       }
     ],
-    "overall": "Assertions check presence but not correctness."
+    "overall": "Les assertions vérifient la présence mais pas l'exactitude."
   }
 }
 ```
 
-**Fields:**
-- `expectations[]`: Graded expectations with evidence
-- `summary`: Aggregate pass/fail counts
-- `execution_metrics`: Tool usage and output size (from executor's metrics.json)
-- `timing`: Wall clock timing (from timing.json)
-- `claims`: Extracted and verified claims from the output
-- `user_notes_summary`: Issues flagged by the executor
-- `eval_feedback`: (optional) Improvement suggestions for the evals, only present when the grader identifies issues worth raising
+**Champs :**
+- `expectations[]` : attentes notées, avec preuves
+- `summary` : décomptes agrégés de réussites et d'échecs
+- `execution_metrics` : usage des outils et taille de la sortie (tirés du metrics.json de l'exécutant)
+- `timing` : durées réelles (tirées de timing.json)
+- `claims` : affirmations extraites de la sortie et vérifiées
+- `user_notes_summary` : problèmes signalés par l'exécutant
+- `eval_feedback` : (facultatif) suggestions d'amélioration des évaluations, présent seulement quand le correcteur relève des problèmes qui valent d'être signalés
 
 ---
 
 ## metrics.json
 
-Output from the executor agent. Located at `<run-dir>/outputs/metrics.json`.
+Sortie de l'agent exécutant. Se trouve dans `<répertoire-d-exécution>/outputs/metrics.json`.
 
 ```json
 {
@@ -183,22 +183,22 @@ Output from the executor agent. Located at `<run-dir>/outputs/metrics.json`.
 }
 ```
 
-**Fields:**
-- `tool_calls`: Count per tool type
-- `total_tool_calls`: Sum of all tool calls
-- `total_steps`: Number of major execution steps
-- `files_created`: List of output files created
-- `errors_encountered`: Number of errors during execution
-- `output_chars`: Total character count of output files
-- `transcript_chars`: Character count of transcript
+**Champs :**
+- `tool_calls` : nombre d'appels par type d'outil
+- `total_tool_calls` : somme de tous les appels d'outils
+- `total_steps` : nombre de grandes étapes d'exécution
+- `files_created` : liste des fichiers de sortie créés
+- `errors_encountered` : nombre d'erreurs pendant l'exécution
+- `output_chars` : nombre total de caractères des fichiers de sortie
+- `transcript_chars` : nombre de caractères de la transcription
 
 ---
 
 ## timing.json
 
-Wall clock timing for a run. Located at `<run-dir>/timing.json`.
+Durées réelles d'une exécution. Se trouve dans `<répertoire-d-exécution>/timing.json`.
 
-**How to capture:** When a subagent task completes, the task notification includes `total_tokens` and `duration_ms`. Save these immediately — they are not persisted anywhere else and cannot be recovered after the fact.
+**Comment les relever :** à la fin d'une tâche de sous-agent, la notification de tâche contient `total_tokens` et `duration_ms`. Les enregistrer immédiatement — elles ne sont conservées nulle part ailleurs et ne peuvent pas être récupérées après coup.
 
 ```json
 {
@@ -218,7 +218,7 @@ Wall clock timing for a run. Located at `<run-dir>/timing.json`.
 
 ## benchmark.json
 
-Output from Benchmark mode. Located at `benchmarks/<timestamp>/benchmark.json`.
+Sortie du mode benchmark. Se trouve dans `benchmarks/<horodatage>/benchmark.json`.
 
 ```json
 {
@@ -252,8 +252,8 @@ Output from Benchmark mode. Located at `benchmarks/<timestamp>/benchmark.json`.
         {"text": "...", "passed": true, "evidence": "..."}
       ],
       "notes": [
-        "Used 2023 data, may be stale",
-        "Fell back to text overlay for non-fillable fields"
+        "Données 2023 utilisées, peut-être périmées",
+        "Repli sur une surimpression de texte pour les champs non remplissables"
       ]
     }
   ],
@@ -277,43 +277,43 @@ Output from Benchmark mode. Located at `benchmarks/<timestamp>/benchmark.json`.
   },
 
   "notes": [
-    "Assertion 'Output is a PDF file' passes 100% in both configurations - may not differentiate skill value",
-    "Eval 3 shows high variance (50% ± 40%) - may be flaky or model-dependent",
-    "Without-skill runs consistently fail on table extraction expectations",
-    "Skill adds 13s average execution time but improves pass rate by 50%"
+    "L'assertion « La sortie est un fichier PDF » réussit à 100 % dans les deux configurations — elle ne fait peut-être pas ressortir la valeur de la skill",
+    "L'évaluation 3 montre une forte variance (50 % ± 40 %) — peut-être instable ou dépendante du modèle",
+    "Les exécutions sans skill échouent systématiquement aux attentes d'extraction de tableaux",
+    "La skill ajoute en moyenne 13 s d'exécution mais améliore le taux de réussite de 50 %"
   ]
 }
 ```
 
-**Fields:**
-- `metadata`: Information about the benchmark run
-  - `skill_name`: Name of the skill
-  - `timestamp`: When the benchmark was run
-  - `evals_run`: List of eval names or IDs
-  - `runs_per_configuration`: Number of runs per config (e.g. 3)
-- `runs[]`: Individual run results
-  - `eval_id`: Numeric eval identifier
-  - `eval_name`: Human-readable eval name (used as section header in the viewer)
-  - `configuration`: Must be `"with_skill"` or `"without_skill"` (the viewer uses this exact string for grouping and color coding)
-  - `run_number`: Integer run number (1, 2, 3...)
-  - `result`: Nested object with `pass_rate`, `passed`, `total`, `time_seconds`, `tokens`, `errors`
-- `run_summary`: Statistical aggregates per configuration
-  - `with_skill` / `without_skill`: Each contains `pass_rate`, `time_seconds`, `tokens` objects with `mean` and `stddev` fields
-  - `delta`: Difference strings like `"+0.50"`, `"+13.0"`, `"+1700"`
-- `notes`: Freeform observations from the analyzer
+**Champs :**
+- `metadata` : informations sur l'exécution du benchmark
+  - `skill_name` : nom de la skill
+  - `timestamp` : date et heure du benchmark
+  - `evals_run` : liste des noms ou identifiants d'évaluations
+  - `runs_per_configuration` : nombre d'exécutions par configuration (par ex. 3)
+- `runs[]` : résultats de chaque exécution
+  - `eval_id` : identifiant numérique de l'évaluation
+  - `eval_name` : nom lisible de l'évaluation (utilisé comme titre de section dans la visionneuse)
+  - `configuration` : doit valoir `"with_skill"` ou `"without_skill"` (la visionneuse utilise cette chaîne exacte pour regrouper et colorer)
+  - `run_number` : numéro entier de l'exécution (1, 2, 3...)
+  - `result` : objet imbriqué avec `pass_rate`, `passed`, `total`, `time_seconds`, `tokens`, `errors`
+- `run_summary` : agrégats statistiques par configuration
+  - `with_skill` / `without_skill` : chacun contient des objets `pass_rate`, `time_seconds`, `tokens` avec des champs `mean` (moyenne) et `stddev` (écart-type)
+  - `delta` : chaînes d'écart comme `"+0.50"`, `"+13.0"`, `"+1700"`
+- `notes` : observations libres de l'analyste
 
-**Important:** The viewer reads these field names exactly. Using `config` instead of `configuration`, or putting `pass_rate` at the top level of a run instead of nested under `result`, will cause the viewer to show empty/zero values. Always reference this schema when generating benchmark.json manually.
+**Important :** la visionneuse lit ces noms de champs exactement. Écrire `config` au lieu de `configuration`, ou placer `pass_rate` au premier niveau d'une exécution au lieu de l'imbriquer sous `result`, fera afficher des valeurs vides ou nulles. Toujours se référer à ce schéma pour générer benchmark.json à la main.
 
 ---
 
 ## comparison.json
 
-Output from blind comparator. Located at `<grading-dir>/comparison-N.json`.
+Sortie du comparateur à l'aveugle. Se trouve dans `<répertoire-de-notation>/comparison-N.json`.
 
 ```json
 {
   "winner": "A",
-  "reasoning": "Output A provides a complete solution with proper formatting and all required fields. Output B is missing the date field and has formatting inconsistencies.",
+  "reasoning": "La sortie A apporte une solution complète, correctement mise en forme, avec tous les champs requis. Il manque à la sortie B le champ de date, et sa mise en forme présente des incohérences.",
   "rubric": {
     "A": {
       "content": {
@@ -349,13 +349,13 @@ Output from blind comparator. Located at `<grading-dir>/comparison-N.json`.
   "output_quality": {
     "A": {
       "score": 9,
-      "strengths": ["Complete solution", "Well-formatted", "All fields present"],
-      "weaknesses": ["Minor style inconsistency in header"]
+      "strengths": ["Solution complète", "Bien mise en forme", "Tous les champs présents"],
+      "weaknesses": ["Légère incohérence de style dans l'en-tête"]
     },
     "B": {
       "score": 5,
-      "strengths": ["Readable output", "Correct basic structure"],
-      "weaknesses": ["Missing date field", "Formatting inconsistencies", "Partial data extraction"]
+      "strengths": ["Sortie lisible", "Structure de base correcte"],
+      "weaknesses": ["Champ de date manquant", "Incohérences de mise en forme", "Extraction des données partielle"]
     }
   },
   "expectation_results": {
@@ -364,7 +364,7 @@ Output from blind comparator. Located at `<grading-dir>/comparison-N.json`.
       "total": 5,
       "pass_rate": 0.80,
       "details": [
-        {"text": "Output includes name", "passed": true}
+        {"text": "La sortie contient le nom", "passed": true}
       ]
     },
     "B": {
@@ -372,7 +372,7 @@ Output from blind comparator. Located at `<grading-dir>/comparison-N.json`.
       "total": 5,
       "pass_rate": 0.60,
       "details": [
-        {"text": "Output includes name", "passed": true}
+        {"text": "La sortie contient le nom", "passed": true}
       ]
     }
   }
@@ -383,34 +383,34 @@ Output from blind comparator. Located at `<grading-dir>/comparison-N.json`.
 
 ## analysis.json
 
-Output from post-hoc analyzer. Located at `<grading-dir>/analysis.json`.
+Sortie de l'agent d'analyse a posteriori. Se trouve dans `<répertoire-de-notation>/analysis.json`.
 
 ```json
 {
   "comparison_summary": {
     "winner": "A",
-    "winner_skill": "path/to/winner/skill",
-    "loser_skill": "path/to/loser/skill",
-    "comparator_reasoning": "Brief summary of why comparator chose winner"
+    "winner_skill": "chemin/de/la/skill/gagnante",
+    "loser_skill": "chemin/de/la/skill/perdante",
+    "comparator_reasoning": "Bref résumé des raisons du choix du comparateur"
   },
   "winner_strengths": [
-    "Clear step-by-step instructions for handling multi-page documents",
-    "Included validation script that caught formatting errors"
+    "Instructions claires, étape par étape, pour traiter les documents de plusieurs pages",
+    "Script de validation inclus, qui a détecté des erreurs de mise en forme"
   ],
   "loser_weaknesses": [
-    "Vague instruction 'process the document appropriately' led to inconsistent behavior",
-    "No script for validation, agent had to improvise"
+    "L'instruction vague « traiter le document de façon appropriée » a mené à un comportement incohérent",
+    "Pas de script de validation : l'agent a dû improviser"
   ],
   "instruction_following": {
     "winner": {
       "score": 9,
-      "issues": ["Minor: skipped optional logging step"]
+      "issues": ["Mineur : étape facultative de journalisation sautée"]
     },
     "loser": {
       "score": 6,
       "issues": [
-        "Did not use the skill's formatting template",
-        "Invented own approach instead of following step 3"
+        "N'a pas utilisé le gabarit de mise en forme de la skill",
+        "A inventé sa propre approche au lieu de suivre l'étape 3"
       ]
     }
   },
@@ -418,13 +418,13 @@ Output from post-hoc analyzer. Located at `<grading-dir>/analysis.json`.
     {
       "priority": "high",
       "category": "instructions",
-      "suggestion": "Replace 'process the document appropriately' with explicit steps",
-      "expected_impact": "Would eliminate ambiguity that caused inconsistent behavior"
+      "suggestion": "Remplacer « traiter le document de façon appropriée » par des étapes explicites",
+      "expected_impact": "Supprimerait l'ambiguïté à l'origine du comportement incohérent"
     }
   ],
   "transcript_insights": {
-    "winner_execution_pattern": "Read skill -> Followed 5-step process -> Used validation script",
-    "loser_execution_pattern": "Read skill -> Unclear on approach -> Tried 3 different methods"
+    "winner_execution_pattern": "Lecture de la skill -> Démarche en 5 étapes suivie -> Script de validation utilisé",
+    "loser_execution_pattern": "Lecture de la skill -> Approche floue -> 3 méthodes différentes essayées"
   }
 }
 ```

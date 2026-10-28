@@ -1,19 +1,19 @@
 # Desert Rose
 
-A soft and sophisticated theme with dusty, muted tones perfect for elegant presentations.
+Un thème doux et raffiné aux tons poudrés et sourds, parfait pour des présentations élégantes.
 
-## Color Palette
+## Palette de couleurs
 
-- **Dusty Rose**: `#d4a5a5` - Soft primary color
-- **Clay**: `#b87d6d` - Earthy accent
-- **Sand**: `#e8d5c4` - Warm neutral backgrounds
-- **Deep Burgundy**: `#5d2e46` - Rich dark contrast
+- **Vieux rose** : `#d4a5a5` — couleur principale douce
+- **Argile** : `#b87d6d` — accent terreux
+- **Sable** : `#e8d5c4` — fonds neutres et chauds
+- **Bordeaux profond** : `#5d2e46` — contraste sombre et riche
 
-## Typography
+## Typographie
 
-- **Headers**: FreeSans Bold
-- **Body Text**: FreeSans
+- **Titres** : FreeSans Bold
+- **Texte courant** : FreeSans
 
-## Best Used For
+## Usages recommandés
 
-Fashion presentations, beauty brands, wedding planning, interior design, boutique businesses.
+Présentations de mode, marques de beauté, organisation de mariages, décoration intérieure, boutiques.

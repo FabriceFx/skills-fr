@@ -1,3 +1,3 @@
-# Agent Skills Spec
+# Spécification des Agent Skills
 
-The spec is now located at <https://agentskills.io/specification>
+La spécification se trouve désormais à l'adresse <https://agentskills.io/specification>

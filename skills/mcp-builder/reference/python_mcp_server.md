@@ -1,14 +1,14 @@
-# Python MCP Server Implementation Guide
+# Guide d'implémentation d'un serveur MCP en Python
 
-## Overview
+## Présentation
 
-This document provides Python-specific best practices and examples for implementing MCP servers using the MCP Python SDK. It covers server setup, tool registration patterns, input validation with Pydantic, error handling, and complete working examples.
+Ce document rassemble les bonnes pratiques et les exemples propres à Python pour implémenter des serveurs MCP avec le SDK MCP Python. Il couvre la mise en place du serveur, les motifs d'enregistrement des outils, la validation des entrées avec Pydantic, la gestion des erreurs et des exemples complets fonctionnels.
 
 ---
 
-## Quick Reference
+## Aide-mémoire
 
-### Key Imports
+### Importations clés
 ```python
 from mcp.server.fastmcp import FastMCP
 from pydantic import BaseModel, Field, field_validator, ConfigDict
@@ -17,114 +17,114 @@ from enum import Enum
 import httpx
 ```
 
-### Server Initialization
+### Initialisation du serveur
 ```python
 mcp = FastMCP("service_mcp")
 ```
 
-### Tool Registration Pattern
+### Motif d'enregistrement d'un outil
 ```python
 @mcp.tool(name="tool_name", annotations={...})
 async def tool_function(params: InputModel) -> str:
-    # Implementation
+    # Implémentation
     pass
 ```
 
 ---
 
-## MCP Python SDK and FastMCP
+## Le SDK MCP Python et FastMCP
 
-The official MCP Python SDK provides FastMCP, a high-level framework for building MCP servers. It provides:
-- Automatic description and inputSchema generation from function signatures and docstrings
-- Pydantic model integration for input validation
-- Decorator-based tool registration with `@mcp.tool`
+Le SDK MCP Python officiel fournit FastMCP, un framework de haut niveau pour construire des serveurs MCP. Il offre :
+- la génération automatique de la description et de l'`inputSchema` à partir des signatures de fonction et des docstrings
+- l'intégration des modèles Pydantic pour la validation des entrées
+- l'enregistrement des outils par décorateur avec `@mcp.tool`
 
-**For complete SDK documentation, use WebFetch to load:**
+**Pour la documentation complète du SDK, charger avec WebFetch :**
 `https://raw.githubusercontent.com/modelcontextprotocol/python-sdk/main/README.md`
 
-## Server Naming Convention
+## Convention de nommage du serveur
 
-Python MCP servers must follow this naming pattern:
-- **Format**: `{service}_mcp` (lowercase with underscores)
-- **Examples**: `github_mcp`, `jira_mcp`, `stripe_mcp`
+Les serveurs MCP Python doivent suivre ce modèle de nommage :
+- **Format** : `{service}_mcp` (minuscules avec tirets bas)
+- **Exemples** : `github_mcp`, `jira_mcp`, `stripe_mcp`
 
-The name should be:
-- General (not tied to specific features)
-- Descriptive of the service/API being integrated
-- Easy to infer from the task description
-- Without version numbers or dates
+Le nom doit être :
+- général (non lié à des fonctionnalités précises)
+- descriptif du service ou de l'API intégrés
+- facile à déduire de la description de la tâche
+- sans numéro de version ni date
 
-## Tool Implementation
+## Implémentation des outils
 
-### Tool Naming
+### Nommage des outils
 
-Use snake_case for tool names (e.g., "search_users", "create_project", "get_channel_info") with clear, action-oriented names.
+Utiliser le snake_case pour les noms d'outils (par exemple « search_users », « create_project », « get_channel_info »), avec des noms clairs et orientés action.
 
-**Avoid Naming Conflicts**: Include the service context to prevent overlaps:
-- Use "slack_send_message" instead of just "send_message"
-- Use "github_create_issue" instead of just "create_issue"
-- Use "asana_list_tasks" instead of just "list_tasks"
+**Éviter les conflits de noms** : inclure le contexte du service pour éviter les chevauchements :
+- utiliser « slack_send_message » plutôt que simplement « send_message »
+- utiliser « github_create_issue » plutôt que simplement « create_issue »
+- utiliser « asana_list_tasks » plutôt que simplement « list_tasks »
 
-### Tool Structure with FastMCP
+### Structure d'un outil avec FastMCP
 
-Tools are defined using the `@mcp.tool` decorator with Pydantic models for input validation:
+Les outils se définissent avec le décorateur `@mcp.tool` et des modèles Pydantic pour valider les entrées :
 
 ```python
 from pydantic import BaseModel, Field, ConfigDict
 from mcp.server.fastmcp import FastMCP
 
-# Initialize the MCP server
+# Initialiser le serveur MCP
 mcp = FastMCP("example_mcp")
 
-# Define Pydantic model for input validation
+# Définir le modèle Pydantic de validation des entrées
 class ServiceToolInput(BaseModel):
-    '''Input model for service tool operation.'''
+    '''Modèle d'entrée de l'opération de l'outil.'''
     model_config = ConfigDict(
-        str_strip_whitespace=True,  # Auto-strip whitespace from strings
-        validate_assignment=True,    # Validate on assignment
-        extra='forbid'              # Forbid extra fields
+        str_strip_whitespace=True,  # Retirer automatiquement les espaces des chaînes
+        validate_assignment=True,    # Valider à l'affectation
+        extra='forbid'              # Interdire les champs supplémentaires
     )
 
-    param1: str = Field(..., description="First parameter description (e.g., 'user123', 'project-abc')", min_length=1, max_length=100)
-    param2: Optional[int] = Field(default=None, description="Optional integer parameter with constraints", ge=0, le=1000)
-    tags: Optional[List[str]] = Field(default_factory=list, description="List of tags to apply", max_items=10)
+    param1: str = Field(..., description="Description du premier paramètre (par ex. 'user123', 'project-abc')", min_length=1, max_length=100)
+    param2: Optional[int] = Field(default=None, description="Paramètre entier facultatif avec contraintes", ge=0, le=1000)
+    tags: Optional[List[str]] = Field(default_factory=list, description="Liste des étiquettes à appliquer", max_items=10)
 
 @mcp.tool(
     name="service_tool_name",
     annotations={
-        "title": "Human-Readable Tool Title",
-        "readOnlyHint": True,     # Tool does not modify environment
-        "destructiveHint": False,  # Tool does not perform destructive operations
-        "idempotentHint": True,    # Repeated calls have no additional effect
-        "openWorldHint": False     # Tool does not interact with external entities
+        "title": "Titre lisible de l'outil",
+        "readOnlyHint": True,     # L'outil ne modifie pas l'environnement
+        "destructiveHint": False,  # L'outil ne fait pas d'opérations destructives
+        "idempotentHint": True,    # Des appels répétés n'ont pas d'effet supplémentaire
+        "openWorldHint": False     # L'outil n'interagit pas avec des entités externes
     }
 )
 async def service_tool_name(params: ServiceToolInput) -> str:
-    '''Tool description automatically becomes the 'description' field.
+    '''La docstring de l'outil devient automatiquement le champ 'description'.
 
-    This tool performs a specific operation on the service. It validates all inputs
-    using the ServiceToolInput Pydantic model before processing.
+    Cet outil effectue une opération précise sur le service. Il valide toutes
+    les entrées avec le modèle Pydantic ServiceToolInput avant le traitement.
 
     Args:
-        params (ServiceToolInput): Validated input parameters containing:
-            - param1 (str): First parameter description
-            - param2 (Optional[int]): Optional parameter with default
-            - tags (Optional[List[str]]): List of tags
+        params (ServiceToolInput): paramètres d'entrée validés, contenant :
+            - param1 (str) : description du premier paramètre
+            - param2 (Optional[int]) : paramètre facultatif avec valeur par défaut
+            - tags (Optional[List[str]]) : liste d'étiquettes
 
     Returns:
-        str: JSON-formatted response containing operation results
+        str: réponse au format JSON contenant les résultats de l'opération
     '''
-    # Implementation here
+    # Implémentation ici
     pass
 ```
 
-## Pydantic v2 Key Features
+## Points clés de Pydantic v2
 
-- Use `model_config` instead of nested `Config` class
-- Use `field_validator` instead of deprecated `validator`
-- Use `model_dump()` instead of deprecated `dict()`
-- Validators require `@classmethod` decorator
-- Type hints are required for validator methods
+- Utiliser `model_config` au lieu d'une classe `Config` imbriquée
+- Utiliser `field_validator` au lieu de `validator`, déprécié
+- Utiliser `model_dump()` au lieu de `dict()`, déprécié
+- Les validateurs exigent le décorateur `@classmethod`
+- Les annotations de type sont obligatoires sur les méthodes de validation
 
 ```python
 from pydantic import BaseModel, Field, field_validator, ConfigDict
@@ -135,64 +135,64 @@ class CreateUserInput(BaseModel):
         validate_assignment=True
     )
 
-    name: str = Field(..., description="User's full name", min_length=1, max_length=100)
-    email: str = Field(..., description="User's email address", pattern=r'^[\w\.-]+@[\w\.-]+\.\w+$')
-    age: int = Field(..., description="User's age", ge=0, le=150)
+    name: str = Field(..., description="Nom complet de l'utilisateur", min_length=1, max_length=100)
+    email: str = Field(..., description="Adresse électronique de l'utilisateur", pattern=r'^[\w\.-]+@[\w\.-]+\.\w+$')
+    age: int = Field(..., description="Âge de l'utilisateur", ge=0, le=150)
 
     @field_validator('email')
     @classmethod
     def validate_email(cls, v: str) -> str:
         if not v.strip():
-            raise ValueError("Email cannot be empty")
+            raise ValueError("L'adresse électronique ne peut pas être vide")
         return v.lower()
 ```
 
-## Response Format Options
+## Options de format de réponse
 
-Support multiple output formats for flexibility:
+Prendre en charge plusieurs formats de sortie, pour la souplesse :
 
 ```python
 from enum import Enum
 
 class ResponseFormat(str, Enum):
-    '''Output format for tool responses.'''
+    '''Format de sortie des réponses des outils.'''
     MARKDOWN = "markdown"
     JSON = "json"
 
 class UserSearchInput(BaseModel):
-    query: str = Field(..., description="Search query")
+    query: str = Field(..., description="Requête de recherche")
     response_format: ResponseFormat = Field(
         default=ResponseFormat.MARKDOWN,
-        description="Output format: 'markdown' for human-readable or 'json' for machine-readable"
+        description="Format de sortie : 'markdown' lisible par un humain, ou 'json' lisible par une machine"
     )
 ```
 
-**Markdown format**:
-- Use headers, lists, and formatting for clarity
-- Convert timestamps to human-readable format (e.g., "2024-01-15 10:30:00 UTC" instead of epoch)
-- Show display names with IDs in parentheses (e.g., "@john.doe (U123456)")
-- Omit verbose metadata (e.g., show only one profile image URL, not all sizes)
-- Group related information logically
+**Format Markdown** :
+- utiliser titres, listes et mise en forme pour la clarté
+- convertir les horodatages en format lisible (par exemple « 2024-01-15 10:30:00 UTC » plutôt qu'un temps Unix)
+- afficher les noms avec les identifiants entre parenthèses (par exemple « @john.doe (U123456) »)
+- omettre les métadonnées verbeuses (par exemple n'afficher qu'une URL d'image de profil, pas toutes les tailles)
+- regrouper logiquement les informations liées
 
-**JSON format**:
-- Return complete, structured data suitable for programmatic processing
-- Include all available fields and metadata
-- Use consistent field names and types
+**Format JSON** :
+- renvoyer des données complètes et structurées, adaptées au traitement par programme
+- inclure tous les champs et métadonnées disponibles
+- utiliser des noms et types de champs cohérents
 
-## Pagination Implementation
+## Implémentation de la pagination
 
-For tools that list resources:
+Pour les outils qui listent des ressources :
 
 ```python
 class ListInput(BaseModel):
-    limit: Optional[int] = Field(default=20, description="Maximum results to return", ge=1, le=100)
-    offset: Optional[int] = Field(default=0, description="Number of results to skip for pagination", ge=0)
+    limit: Optional[int] = Field(default=20, description="Nombre maximal de résultats à renvoyer", ge=1, le=100)
+    offset: Optional[int] = Field(default=0, description="Nombre de résultats à sauter pour la pagination", ge=0)
 
 async def list_items(params: ListInput) -> str:
-    # Make API request with pagination
+    # Faire la requête d'API avec pagination
     data = await api_request(limit=params.limit, offset=params.offset)
 
-    # Return pagination info
+    # Renvoyer les informations de pagination
     response = {
         "total": data["total"],
         "count": len(data["items"]),
@@ -204,34 +204,34 @@ async def list_items(params: ListInput) -> str:
     return json.dumps(response, indent=2)
 ```
 
-## Error Handling
+## Gestion des erreurs
 
-Provide clear, actionable error messages:
+Fournir des messages d'erreur clairs et exploitables :
 
 ```python
 def _handle_api_error(e: Exception) -> str:
-    '''Consistent error formatting across all tools.'''
+    '''Mise en forme cohérente des erreurs pour tous les outils.'''
     if isinstance(e, httpx.HTTPStatusError):
         if e.response.status_code == 404:
-            return "Error: Resource not found. Please check the ID is correct."
+            return "Erreur : ressource introuvable. Vérifiez que l'identifiant est correct."
         elif e.response.status_code == 403:
-            return "Error: Permission denied. You don't have access to this resource."
+            return "Erreur : accès refusé. Vous n'avez pas accès à cette ressource."
         elif e.response.status_code == 429:
-            return "Error: Rate limit exceeded. Please wait before making more requests."
-        return f"Error: API request failed with status {e.response.status_code}"
+            return "Erreur : limite de débit dépassée. Patientez avant de refaire des requêtes."
+        return f"Erreur : la requête d'API a échoué avec le statut {e.response.status_code}"
     elif isinstance(e, httpx.TimeoutException):
-        return "Error: Request timed out. Please try again."
-    return f"Error: Unexpected error occurred: {type(e).__name__}"
+        return "Erreur : la requête a expiré. Réessayez."
+    return f"Erreur : une erreur inattendue s'est produite : {type(e).__name__}"
 ```
 
-## Shared Utilities
+## Utilitaires partagés
 
-Extract common functionality into reusable functions:
+Extraire les fonctionnalités communes dans des fonctions réutilisables :
 
 ```python
-# Shared API request function
+# Fonction partagée de requête d'API
 async def _make_api_request(endpoint: str, method: str = "GET", **kwargs) -> dict:
-    '''Reusable function for all API calls.'''
+    '''Fonction réutilisable pour tous les appels d'API.'''
     async with httpx.AsyncClient() as client:
         response = await client.request(
             method,
@@ -243,27 +243,27 @@ async def _make_api_request(endpoint: str, method: str = "GET", **kwargs) -> dic
         return response.json()
 ```
 
-## Async/Await Best Practices
+## Bonnes pratiques async/await
 
-Always use async/await for network requests and I/O operations:
+Toujours utiliser async/await pour les requêtes réseau et les entrées-sorties :
 
 ```python
-# Good: Async network request
+# Bien : requête réseau asynchrone
 async def fetch_data(resource_id: str) -> dict:
     async with httpx.AsyncClient() as client:
         response = await client.get(f"{API_URL}/resource/{resource_id}")
         response.raise_for_status()
         return response.json()
 
-# Bad: Synchronous request
+# Mal : requête synchrone
 def fetch_data(resource_id: str) -> dict:
-    response = requests.get(f"{API_URL}/resource/{resource_id}")  # Blocks
+    response = requests.get(f"{API_URL}/resource/{resource_id}")  # Bloquant
     return response.json()
 ```
 
-## Type Hints
+## Annotations de type
 
-Use type hints throughout:
+Utiliser des annotations de type partout :
 
 ```python
 from typing import Optional, List, Dict, Any
@@ -273,71 +273,71 @@ async def get_user(user_id: str) -> Dict[str, Any]:
     return {"id": data["id"], "name": data["name"]}
 ```
 
-## Tool Docstrings
+## Docstrings des outils
 
-Every tool must have comprehensive docstrings with explicit type information:
+Chaque outil doit avoir une docstring complète, avec des informations de type explicites :
 
 ```python
 async def search_users(params: UserSearchInput) -> str:
     '''
-    Search for users in the Example system by name, email, or team.
+    Rechercher des utilisateurs dans le système Example par nom, adresse ou équipe.
 
-    This tool searches across all user profiles in the Example platform,
-    supporting partial matches and various search filters. It does NOT
-    create or modify users, only searches existing ones.
+    Cet outil cherche dans tous les profils d'utilisateurs de la plateforme Example,
+    avec prise en charge des correspondances partielles et de divers filtres. Il NE
+    crée NI ne modifie d'utilisateurs : il cherche seulement parmi ceux qui existent.
 
     Args:
-        params (UserSearchInput): Validated input parameters containing:
-            - query (str): Search string to match against names/emails (e.g., "john", "@example.com", "team:marketing")
-            - limit (Optional[int]): Maximum results to return, between 1-100 (default: 20)
-            - offset (Optional[int]): Number of results to skip for pagination (default: 0)
+        params (UserSearchInput): paramètres d'entrée validés, contenant :
+            - query (str) : chaîne à rechercher dans les noms et adresses (par ex. "john", "@example.com", "team:marketing")
+            - limit (Optional[int]) : nombre maximal de résultats, entre 1 et 100 (défaut : 20)
+            - offset (Optional[int]) : nombre de résultats à sauter pour la pagination (défaut : 0)
 
     Returns:
-        str: JSON-formatted string containing search results with the following schema:
+        str: chaîne au format JSON contenant les résultats, selon le schéma suivant :
 
-        Success response:
+        Réponse en cas de succès :
         {
-            "total": int,           # Total number of matches found
-            "count": int,           # Number of results in this response
-            "offset": int,          # Current pagination offset
+            "total": int,           # Nombre total de correspondances trouvées
+            "count": int,           # Nombre de résultats dans cette réponse
+            "offset": int,          # Décalage de pagination courant
             "users": [
                 {
-                    "id": str,      # User ID (e.g., "U123456789")
-                    "name": str,    # Full name (e.g., "John Doe")
-                    "email": str,   # Email address (e.g., "john@example.com")
-                    "team": str     # Team name (e.g., "Marketing") - optional
+                    "id": str,      # Identifiant de l'utilisateur (par ex. "U123456789")
+                    "name": str,    # Nom complet (par ex. "John Doe")
+                    "email": str,   # Adresse électronique (par ex. "john@example.com")
+                    "team": str     # Nom de l'équipe (par ex. "Marketing") — facultatif
                 }
             ]
         }
 
-        Error response:
-        "Error: <error message>" or "No users found matching '<query>'"
+        Réponse en cas d'erreur :
+        "Erreur : <message d'erreur>" ou "Aucun utilisateur ne correspond à '<requête>'"
 
-    Examples:
-        - Use when: "Find all marketing team members" -> params with query="team:marketing"
-        - Use when: "Search for John's account" -> params with query="john"
-        - Don't use when: You need to create a user (use example_create_user instead)
-        - Don't use when: You have a user ID and need full details (use example_get_user instead)
+    Exemples :
+        - À utiliser pour : « Trouver tous les membres de l'équipe marketing » -> params avec query="team:marketing"
+        - À utiliser pour : « Chercher le compte de John » -> params avec query="john"
+        - À ne pas utiliser pour : créer un utilisateur (utiliser example_create_user)
+        - À ne pas utiliser pour : obtenir tous les détails d'un utilisateur dont on a l'identifiant (utiliser example_get_user)
 
-    Error Handling:
-        - Input validation errors are handled by Pydantic model
-        - Returns "Error: Rate limit exceeded" if too many requests (429 status)
-        - Returns "Error: Invalid API authentication" if API key is invalid (401 status)
-        - Returns formatted list of results or "No users found matching 'query'"
+    Gestion des erreurs :
+        - Les erreurs de validation des entrées sont gérées par le modèle Pydantic
+        - Renvoie "Erreur : limite de débit dépassée" en cas de requêtes trop nombreuses (statut 429)
+        - Renvoie "Erreur : authentification d'API invalide" si la clé d'API est invalide (statut 401)
+        - Renvoie la liste mise en forme des résultats, ou "Aucun utilisateur ne correspond à 'requête'"
     '''
 ```
 
-## Complete Example
+## Exemple complet
 
-See below for a complete Python MCP server example:
+Voici un exemple complet de serveur MCP en Python :
 
 ```python
 #!/usr/bin/env python3
 '''
-MCP Server for Example Service.
+Serveur MCP pour le service Example.
 
-This server provides tools to interact with Example API, including user search,
-project management, and data export capabilities.
+Ce serveur fournit des outils pour interagir avec l'API Example : recherche
+d'utilisateurs, gestion de projets et export de données.
 '''
 
 from typing import Optional, List, Dict, Any
@@ -346,41 +346,41 @@ import httpx
 from pydantic import BaseModel, Field, field_validator, ConfigDict
 from mcp.server.fastmcp import FastMCP
 
-# Initialize the MCP server
+# Initialiser le serveur MCP
 mcp = FastMCP("example_mcp")
 
-# Constants
+# Constantes
 API_BASE_URL = "https://api.example.com/v1"
 
-# Enums
+# Énumérations
 class ResponseFormat(str, Enum):
-    '''Output format for tool responses.'''
+    '''Format de sortie des réponses des outils.'''
     MARKDOWN = "markdown"
     JSON = "json"
 
-# Pydantic Models for Input Validation
+# Modèles Pydantic de validation des entrées
 class UserSearchInput(BaseModel):
-    '''Input model for user search operations.'''
+    '''Modèle d'entrée des opérations de recherche d'utilisateurs.'''
     model_config = ConfigDict(
         str_strip_whitespace=True,
         validate_assignment=True
     )
 
-    query: str = Field(..., description="Search string to match against names/emails", min_length=2, max_length=200)
-    limit: Optional[int] = Field(default=20, description="Maximum results to return", ge=1, le=100)
-    offset: Optional[int] = Field(default=0, description="Number of results to skip for pagination", ge=0)
-    response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Output format")
+    query: str = Field(..., description="Chaîne à rechercher dans les noms et adresses", min_length=2, max_length=200)
+    limit: Optional[int] = Field(default=20, description="Nombre maximal de résultats à renvoyer", ge=1, le=100)
+    offset: Optional[int] = Field(default=0, description="Nombre de résultats à sauter pour la pagination", ge=0)
+    response_format: ResponseFormat = Field(default=ResponseFormat.MARKDOWN, description="Format de sortie")
 
     @field_validator('query')
     @classmethod
     def validate_query(cls, v: str) -> str:
         if not v.strip():
-            raise ValueError("Query cannot be empty or whitespace only")
+            raise ValueError("La requête ne peut pas être vide ni faite seulement d'espaces")
         return v.strip()
 
-# Shared utility functions
+# Fonctions utilitaires partagées
 async def _make_api_request(endpoint: str, method: str = "GET", **kwargs) -> dict:
-    '''Reusable function for all API calls.'''
+    '''Fonction réutilisable pour tous les appels d'API.'''
     async with httpx.AsyncClient() as client:
         response = await client.request(
             method,
@@ -392,24 +392,24 @@ async def _make_api_request(endpoint: str, method: str = "GET", **kwargs) -> dic
         return response.json()
 
 def _handle_api_error(e: Exception) -> str:
-    '''Consistent error formatting across all tools.'''
+    '''Mise en forme cohérente des erreurs pour tous les outils.'''
     if isinstance(e, httpx.HTTPStatusError):
         if e.response.status_code == 404:
-            return "Error: Resource not found. Please check the ID is correct."
+            return "Erreur : ressource introuvable. Vérifiez que l'identifiant est correct."
         elif e.response.status_code == 403:
-            return "Error: Permission denied. You don't have access to this resource."
+            return "Erreur : accès refusé. Vous n'avez pas accès à cette ressource."
         elif e.response.status_code == 429:
-            return "Error: Rate limit exceeded. Please wait before making more requests."
-        return f"Error: API request failed with status {e.response.status_code}"
+            return "Erreur : limite de débit dépassée. Patientez avant de refaire des requêtes."
+        return f"Erreur : la requête d'API a échoué avec le statut {e.response.status_code}"
     elif isinstance(e, httpx.TimeoutException):
-        return "Error: Request timed out. Please try again."
-    return f"Error: Unexpected error occurred: {type(e).__name__}"
+        return "Erreur : la requête a expiré. Réessayez."
+    return f"Erreur : une erreur inattendue s'est produite : {type(e).__name__}"
 
-# Tool definitions
+# Définition des outils
 @mcp.tool(
     name="example_search_users",
     annotations={
-        "title": "Search Example Users",
+        "title": "Rechercher des utilisateurs Example",
         "readOnlyHint": True,
         "destructiveHint": False,
         "idempotentHint": True,
@@ -417,12 +417,12 @@ def _handle_api_error(e: Exception) -> str:
     }
 )
 async def example_search_users(params: UserSearchInput) -> str:
-    '''Search for users in the Example system by name, email, or team.
+    '''Rechercher des utilisateurs dans le système Example par nom, adresse ou équipe.
 
-    [Full docstring as shown above]
+    [Docstring complète comme ci-dessus]
     '''
     try:
-        # Make API request using validated parameters
+        # Faire la requête d'API avec les paramètres validés
         data = await _make_api_request(
             "users/search",
             params={
@@ -436,25 +436,25 @@ async def example_search_users(params: UserSearchInput) -> str:
         total = data.get("total", 0)
 
         if not users:
-            return f"No users found matching '{params.query}'"
+            return f"Aucun utilisateur ne correspond à '{params.query}'"
 
-        # Format response based on requested format
+        # Mettre en forme la réponse selon le format demandé
         if params.response_format == ResponseFormat.MARKDOWN:
-            lines = [f"# User Search Results: '{params.query}'", ""]
-            lines.append(f"Found {total} users (showing {len(users)})")
+            lines = [f"# Résultats de la recherche d'utilisateurs : '{params.query}'", ""]
+            lines.append(f"{total} utilisateurs trouvés ({len(users)} affichés)")
             lines.append("")
 
             for user in users:
                 lines.append(f"## {user['name']} ({user['id']})")
-                lines.append(f"- **Email**: {user['email']}")
+                lines.append(f"- **Adresse** : {user['email']}")
                 if user.get('team'):
-                    lines.append(f"- **Team**: {user['team']}")
+                    lines.append(f"- **Équipe** : {user['team']}")
                 lines.append("")
 
             return "\n".join(lines)
 
         else:
-            # Machine-readable JSON format
+            # Format JSON lisible par une machine
             import json
             response = {
                 "total": total,
@@ -473,11 +473,11 @@ if __name__ == "__main__":
 
 ---
 
-## Advanced FastMCP Features
+## Fonctionnalités avancées de FastMCP
 
-### Context Parameter Injection
+### Injection du paramètre Context
 
-FastMCP can automatically inject a `Context` parameter into tools for advanced capabilities like logging, progress reporting, resource reading, and user interaction:
+FastMCP peut injecter automatiquement un paramètre `Context` dans les outils, pour des capacités avancées comme la journalisation, le suivi de progression, la lecture de ressources et l'interaction avec l'utilisateur :
 
 ```python
 from mcp.server.fastmcp import FastMCP, Context
@@ -486,55 +486,56 @@ mcp = FastMCP("example_mcp")
 
 @mcp.tool()
 async def advanced_search(query: str, ctx: Context) -> str:
-    '''Advanced tool with context access for logging and progress.'''
+    '''Outil avancé avec accès au contexte pour la journalisation et la progression.'''
 
-    # Report progress for long operations
-    await ctx.report_progress(0.25, "Starting search...")
+    # Signaler la progression des opérations longues
+    await ctx.report_progress(0.25, "Début de la recherche...")
 
-    # Log information for debugging
-    await ctx.log_info("Processing query", {"query": query, "timestamp": datetime.now()})
+    # Journaliser des informations pour le débogage
+    await ctx.log_info("Traitement de la requête", {"query": query, "timestamp": datetime.now()})
 
-    # Perform search
+    # Effectuer la recherche
     results = await search_api(query)
-    await ctx.report_progress(0.75, "Formatting results...")
+    await ctx.report_progress(0.75, "Mise en forme des résultats...")
 
-    # Access server configuration
+    # Accéder à la configuration du serveur
     server_name = ctx.fastmcp.name
 
     return format_results(results)
 
 @mcp.tool()
 async def interactive_tool(resource_id: str, ctx: Context) -> str:
-    '''Tool that can request additional input from users.'''
+    '''Outil qui peut demander des informations supplémentaires à l'utilisateur.'''
 
-    # Request sensitive information when needed
+    # Demander une information sensible au besoin
     api_key = await ctx.elicit(
-        prompt="Please provide your API key:",
+        prompt="Veuillez fournir votre clé d'API :",
         input_type="password"
     )
 
-    # Use the provided key
+    # Utiliser la clé fournie
     return await api_call(resource_id, api_key)
 ```
 
-**Context capabilities:**
-- `ctx.report_progress(progress, message)` - Report progress for long operations
-- `ctx.log_info(message, data)` / `ctx.log_error()` / `ctx.log_debug()` - Logging
-- `ctx.elicit(prompt, input_type)` - Request input from users
-- `ctx.fastmcp.name` - Access server configuration
-- `ctx.read_resource(uri)` - Read MCP resources
+**Capacités du contexte :**
+- `ctx.report_progress(progress, message)` — signaler la progression des opérations longues
+- `ctx.log_info(message, data)` / `ctx.log_error()` / `ctx.log_debug()` — journalisation
+- `ctx.elicit(prompt, input_type)` — demander une saisie à l'utilisateur
+- `ctx.fastmcp.name` — accéder à la configuration du serveur
+- `ctx.read_resource(uri)` — lire des ressources MCP
 
-### Resource Registration
+### Enregistrement de ressources
 
-Expose data as resources for efficient, template-based access:
+Exposer des données comme ressources, pour un accès efficace par gabarit d'URI :
 
 ```python
 @mcp.resource("file://documents/{name}")
 async def get_document(name: str) -> str:
-    '''Expose documents as MCP resources.
+    '''Exposer des documents comme ressources MCP.
 
-    Resources are useful for static or semi-static data that doesn't
-    require complex parameters. They use URI templates for flexible access.
+    Les ressources conviennent aux données statiques ou semi-statiques qui ne
+    demandent pas de paramètres complexes. Elles utilisent des gabarits d'URI
+    pour un accès souple.
     '''
     document_path = f"./docs/{name}"
     with open(document_path, "r") as f:
@@ -542,25 +543,25 @@ async def get_document(name: str) -> str:
 
 @mcp.resource("config://settings/{key}")
 async def get_setting(key: str, ctx: Context) -> str:
-    '''Expose configuration as resources with context.'''
+    '''Exposer la configuration comme ressources, avec contexte.'''
     settings = await load_settings()
     return json.dumps(settings.get(key, {}))
 ```
 
-**When to use Resources vs Tools:**
-- **Resources**: For data access with simple parameters (URI templates)
-- **Tools**: For complex operations with validation and business logic
+**Ressources ou outils :**
+- **Ressources** : pour l'accès à des données avec des paramètres simples (gabarits d'URI)
+- **Outils** : pour les opérations complexes avec validation et logique métier
 
-### Structured Output Types
+### Types de sortie structurés
 
-FastMCP supports multiple return types beyond strings:
+FastMCP prend en charge d'autres types de retour que les chaînes :
 
 ```python
 from typing import TypedDict
 from dataclasses import dataclass
 from pydantic import BaseModel
 
-# TypedDict for structured returns
+# TypedDict pour des retours structurés
 class UserData(TypedDict):
     id: str
     name: str
@@ -568,10 +569,10 @@ class UserData(TypedDict):
 
 @mcp.tool()
 async def get_user_typed(user_id: str) -> UserData:
-    '''Returns structured data - FastMCP handles serialization.'''
+    '''Renvoie des données structurées — FastMCP gère la sérialisation.'''
     return {"id": user_id, "name": "John Doe", "email": "john@example.com"}
 
-# Pydantic models for complex validation
+# Modèles Pydantic pour une validation complexe
 class DetailedUser(BaseModel):
     id: str
     name: str
@@ -581,139 +582,139 @@ class DetailedUser(BaseModel):
 
 @mcp.tool()
 async def get_user_detailed(user_id: str) -> DetailedUser:
-    '''Returns Pydantic model - automatically generates schema.'''
+    '''Renvoie un modèle Pydantic — le schéma est généré automatiquement.'''
     user = await fetch_user(user_id)
     return DetailedUser(**user)
 ```
 
-### Lifespan Management
+### Gestion du cycle de vie
 
-Initialize resources that persist across requests:
+Initialiser des ressources qui persistent d'une requête à l'autre :
 
 ```python
 from contextlib import asynccontextmanager
 
 @asynccontextmanager
 async def app_lifespan():
-    '''Manage resources that live for the server's lifetime.'''
-    # Initialize connections, load config, etc.
+    '''Gérer les ressources qui vivent aussi longtemps que le serveur.'''
+    # Initialiser les connexions, charger la configuration, etc.
     db = await connect_to_database()
     config = load_configuration()
 
-    # Make available to all tools
+    # Les rendre disponibles à tous les outils
     yield {"db": db, "config": config}
 
-    # Cleanup on shutdown
+    # Nettoyage à l'arrêt
     await db.close()
 
 mcp = FastMCP("example_mcp", lifespan=app_lifespan)
 
 @mcp.tool()
 async def query_data(query: str, ctx: Context) -> str:
-    '''Access lifespan resources through context.'''
+    '''Accéder aux ressources du cycle de vie par le contexte.'''
     db = ctx.request_context.lifespan_state["db"]
     results = await db.query(query)
     return format_results(results)
 ```
 
-### Transport Options
+### Options de transport
 
-FastMCP supports two main transport mechanisms:
+FastMCP prend en charge deux grands mécanismes de transport :
 
 ```python
-# stdio transport (for local tools) - default
+# Transport stdio (outils locaux) — par défaut
 if __name__ == "__main__":
     mcp.run()
 
-# Streamable HTTP transport (for remote servers)
+# Transport HTTP en flux (serveurs distants)
 if __name__ == "__main__":
     mcp.run(transport="streamable_http", port=8000)
 ```
 
-**Transport selection:**
-- **stdio**: Command-line tools, local integrations, subprocess execution
-- **Streamable HTTP**: Web services, remote access, multiple clients
+**Choix du transport :**
+- **stdio** : outils en ligne de commande, intégrations locales, exécution en sous-processus
+- **HTTP en flux** : services web, accès distant, plusieurs clients
 
 ---
 
-## Code Best Practices
+## Bonnes pratiques de code
 
-### Code Composability and Reusability
+### Composabilité et réutilisation du code
 
-Your implementation MUST prioritize composability and code reuse:
+L'implémentation DOIT privilégier la composabilité et la réutilisation du code :
 
-1. **Extract Common Functionality**:
-   - Create reusable helper functions for operations used across multiple tools
-   - Build shared API clients for HTTP requests instead of duplicating code
-   - Centralize error handling logic in utility functions
-   - Extract business logic into dedicated functions that can be composed
-   - Extract shared markdown or JSON field selection & formatting functionality
+1. **Extraire les fonctionnalités communes** :
+   - créer des fonctions d'aide réutilisables pour les opérations utilisées par plusieurs outils
+   - construire des clients d'API partagés pour les requêtes HTTP au lieu de dupliquer le code
+   - centraliser la logique de gestion des erreurs dans des fonctions utilitaires
+   - extraire la logique métier dans des fonctions dédiées, composables
+   - extraire la sélection de champs et la mise en forme Markdown ou JSON partagées
 
-2. **Avoid Duplication**:
-   - NEVER copy-paste similar code between tools
-   - If you find yourself writing similar logic twice, extract it into a function
-   - Common operations like pagination, filtering, field selection, and formatting should be shared
-   - Authentication/authorization logic should be centralized
+2. **Éviter la duplication** :
+   - ne JAMAIS copier-coller du code semblable d'un outil à l'autre
+   - si l'on écrit deux fois une logique semblable, l'extraire dans une fonction
+   - les opérations courantes comme la pagination, le filtrage, la sélection de champs et la mise en forme doivent être partagées
+   - la logique d'authentification et d'autorisation doit être centralisée
 
-### Python-Specific Best Practices
+### Bonnes pratiques propres à Python
 
-1. **Use Type Hints**: Always include type annotations for function parameters and return values
-2. **Pydantic Models**: Define clear Pydantic models for all input validation
-3. **Avoid Manual Validation**: Let Pydantic handle input validation with constraints
-4. **Proper Imports**: Group imports (standard library, third-party, local)
-5. **Error Handling**: Use specific exception types (httpx.HTTPStatusError, not generic Exception)
-6. **Async Context Managers**: Use `async with` for resources that need cleanup
-7. **Constants**: Define module-level constants in UPPER_CASE
+1. **Annotations de type** : toujours annoter les paramètres et les valeurs de retour des fonctions
+2. **Modèles Pydantic** : définir des modèles Pydantic clairs pour toute validation d'entrée
+3. **Pas de validation manuelle** : laisser Pydantic valider les entrées par des contraintes
+4. **Importations correctes** : regrouper les importations (bibliothèque standard, tierces, locales)
+5. **Gestion des erreurs** : utiliser des types d'exception précis (`httpx.HTTPStatusError`, pas `Exception` générique)
+6. **Gestionnaires de contexte asynchrones** : utiliser `async with` pour les ressources à libérer
+7. **Constantes** : définir les constantes de module en MAJUSCULES
 
-## Quality Checklist
+## Liste de contrôle qualité
 
-Before finalizing your Python MCP server implementation, ensure:
+Avant de finaliser l'implémentation d'un serveur MCP Python, vérifier :
 
-### Strategic Design
-- [ ] Tools enable complete workflows, not just API endpoint wrappers
-- [ ] Tool names reflect natural task subdivisions
-- [ ] Response formats optimize for agent context efficiency
-- [ ] Human-readable identifiers used where appropriate
-- [ ] Error messages guide agents toward correct usage
+### Conception stratégique
+- [ ] Les outils permettent des démarches complètes, pas seulement des enveloppes de points d'accès
+- [ ] Les noms d'outils reflètent un découpage naturel des tâches
+- [ ] Les formats de réponse optimisent l'usage du contexte de l'agent
+- [ ] Des identifiants lisibles sont utilisés quand c'est approprié
+- [ ] Les messages d'erreur orientent les agents vers un usage correct
 
-### Implementation Quality
-- [ ] FOCUSED IMPLEMENTATION: Most important and valuable tools implemented
-- [ ] All tools have descriptive names and documentation
-- [ ] Return types are consistent across similar operations
-- [ ] Error handling is implemented for all external calls
-- [ ] Server name follows format: `{service}_mcp`
-- [ ] All network operations use async/await
-- [ ] Common functionality is extracted into reusable functions
-- [ ] Error messages are clear, actionable, and educational
-- [ ] Outputs are properly validated and formatted
+### Qualité de l'implémentation
+- [ ] IMPLÉMENTATION CIBLÉE : les outils les plus importants et les plus utiles sont implémentés
+- [ ] Tous les outils ont des noms parlants et une documentation
+- [ ] Les types de retour sont cohérents entre opérations semblables
+- [ ] La gestion des erreurs est implémentée pour tous les appels externes
+- [ ] Le nom du serveur suit le format `{service}_mcp`
+- [ ] Toutes les opérations réseau utilisent async/await
+- [ ] Les fonctionnalités communes sont extraites dans des fonctions réutilisables
+- [ ] Les messages d'erreur sont clairs, exploitables et pédagogiques
+- [ ] Les sorties sont correctement validées et mises en forme
 
-### Tool Configuration
-- [ ] All tools implement 'name' and 'annotations' in the decorator
-- [ ] Annotations correctly set (readOnlyHint, destructiveHint, idempotentHint, openWorldHint)
-- [ ] All tools use Pydantic BaseModel for input validation with Field() definitions
-- [ ] All Pydantic Fields have explicit types and descriptions with constraints
-- [ ] All tools have comprehensive docstrings with explicit input/output types
-- [ ] Docstrings include complete schema structure for dict/JSON returns
-- [ ] Pydantic models handle input validation (no manual validation needed)
+### Configuration des outils
+- [ ] Tous les outils déclarent 'name' et 'annotations' dans le décorateur
+- [ ] Les annotations sont correctement définies (readOnlyHint, destructiveHint, idempotentHint, openWorldHint)
+- [ ] Tous les outils utilisent un `BaseModel` Pydantic pour valider les entrées, avec des définitions `Field()`
+- [ ] Tous les `Field` Pydantic ont des types explicites et des descriptions avec contraintes
+- [ ] Tous les outils ont des docstrings complètes avec des types d'entrée et de sortie explicites
+- [ ] Les docstrings incluent la structure complète du schéma pour les retours dict / JSON
+- [ ] Les modèles Pydantic gèrent la validation des entrées (aucune validation manuelle nécessaire)
 
-### Advanced Features (where applicable)
-- [ ] Context injection used for logging, progress, or elicitation
-- [ ] Resources registered for appropriate data endpoints
-- [ ] Lifespan management implemented for persistent connections
-- [ ] Structured output types used (TypedDict, Pydantic models)
-- [ ] Appropriate transport configured (stdio or streamable HTTP)
+### Fonctionnalités avancées (le cas échéant)
+- [ ] Injection du contexte utilisée pour la journalisation, la progression ou la demande de saisie
+- [ ] Ressources enregistrées pour les points d'accès aux données appropriés
+- [ ] Gestion du cycle de vie implémentée pour les connexions persistantes
+- [ ] Types de sortie structurés utilisés (TypedDict, modèles Pydantic)
+- [ ] Transport approprié configuré (stdio ou HTTP en flux)
 
-### Code Quality
-- [ ] File includes proper imports including Pydantic imports
-- [ ] Pagination is properly implemented where applicable
-- [ ] Filtering options are provided for potentially large result sets
-- [ ] All async functions are properly defined with `async def`
-- [ ] HTTP client usage follows async patterns with proper context managers
-- [ ] Type hints are used throughout the code
-- [ ] Constants are defined at module level in UPPER_CASE
+### Qualité du code
+- [ ] Le fichier comporte les importations nécessaires, dont celles de Pydantic
+- [ ] La pagination est correctement implémentée là où elle s'applique
+- [ ] Des options de filtrage sont proposées pour les résultats potentiellement volumineux
+- [ ] Toutes les fonctions asynchrones sont correctement définies avec `async def`
+- [ ] L'usage du client HTTP suit les motifs asynchrones avec des gestionnaires de contexte appropriés
+- [ ] Les annotations de type sont utilisées dans tout le code
+- [ ] Les constantes sont définies au niveau du module, en MAJUSCULES
 
-### Testing
-- [ ] Server runs successfully: `python your_server.py --help`
-- [ ] All imports resolve correctly
-- [ ] Sample tool calls work as expected
-- [ ] Error scenarios handled gracefully
+### Tests
+- [ ] Le serveur se lance correctement : `python your_server.py --help`
+- [ ] Toutes les importations se résolvent
+- [ ] Des appels d'outils d'exemple fonctionnent comme prévu
+- [ ] Les scénarios d'erreur sont gérés proprement

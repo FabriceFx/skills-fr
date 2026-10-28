@@ -1,431 +1,431 @@
-# MCP Server Evaluation Guide
+# Guide d'évaluation des serveurs MCP
 
-## Overview
+## Présentation
 
-This document provides guidance on creating comprehensive evaluations for MCP servers. Evaluations test whether LLMs can effectively use your MCP server to answer realistic, complex questions using only the tools provided.
+Ce document explique comment créer des évaluations complètes pour des serveurs MCP. Les évaluations testent si des LLM savent utiliser efficacement le serveur MCP pour répondre à des questions réalistes et complexes, avec les seuls outils fournis.
 
 ---
 
-## Quick Reference
+## Aide-mémoire
 
-### Evaluation Requirements
-- Create 10 human-readable questions
-- Questions must be READ-ONLY, INDEPENDENT, NON-DESTRUCTIVE
-- Each question requires multiple tool calls (potentially dozens)
-- Answers must be single, verifiable values
-- Answers must be STABLE (won't change over time)
+### Exigences de l'évaluation
+- Créer 10 questions lisibles par un humain
+- Les questions doivent être EN LECTURE SEULE, INDÉPENDANTES, NON DESTRUCTIVES
+- Chaque question demande plusieurs appels d'outils (potentiellement des dizaines)
+- Les réponses doivent être des valeurs uniques et vérifiables
+- Les réponses doivent être STABLES (ne pas changer avec le temps)
 
-### Output Format
+### Format de sortie
 ```xml
 <evaluation>
    <qa_pair>
-      <question>Your question here</question>
-      <answer>Single verifiable answer</answer>
+      <question>La question ici</question>
+      <answer>Réponse unique et vérifiable</answer>
    </qa_pair>
 </evaluation>
 ```
 
 ---
 
-## Purpose of Evaluations
+## But des évaluations
 
-The measure of quality of an MCP server is NOT how well or comprehensively the server implements tools, but how well these implementations (input/output schemas, docstrings/descriptions, functionality) enable LLMs with no other context and access ONLY to the MCP servers to answer realistic and difficult questions.
+La qualité d'un serveur MCP ne se mesure PAS à la qualité ou à l'exhaustivité avec laquelle il implémente ses outils, mais à la façon dont ces implémentations (schémas d'entrée et de sortie, docstrings et descriptions, fonctionnalités) permettent à des LLM sans autre contexte, et n'ayant accès QU'AUX serveurs MCP, de répondre à des questions réalistes et difficiles.
 
-## Evaluation Overview
+## Vue d'ensemble de l'évaluation
 
-Create 10 human-readable questions requiring ONLY READ-ONLY, INDEPENDENT, NON-DESTRUCTIVE, and IDEMPOTENT operations to answer. Each question should be:
-- Realistic
-- Clear and concise
-- Unambiguous
-- Complex, requiring potentially dozens of tool calls or steps
-- Answerable with a single, verifiable value that you identify in advance
+Créer 10 questions lisibles par un humain, auxquelles on répond UNIQUEMENT par des opérations EN LECTURE SEULE, INDÉPENDANTES, NON DESTRUCTIVES et IDEMPOTENTES. Chaque question doit être :
+- réaliste
+- claire et concise
+- sans ambiguïté
+- complexe, demandant potentiellement des dizaines d'appels d'outils ou d'étapes
+- résoluble par une valeur unique et vérifiable, identifiée à l'avance
 
-## Question Guidelines
+## Consignes pour les questions
 
-### Core Requirements
+### Exigences fondamentales
 
-1. **Questions MUST be independent**
-   - Each question should NOT depend on the answer to any other question
-   - Should not assume prior write operations from processing another question
+1. **Les questions DOIVENT être indépendantes**
+   - Aucune question ne doit dépendre de la réponse à une autre
+   - Elles ne doivent pas supposer d'écritures préalables faites en traitant une autre question
 
-2. **Questions MUST require ONLY NON-DESTRUCTIVE AND IDEMPOTENT tool use**
-   - Should not instruct or require modifying state to arrive at the correct answer
+2. **Les questions DOIVENT n'exiger QUE des usages d'outils NON DESTRUCTIFS ET IDEMPOTENTS**
+   - Elles ne doivent pas demander ni nécessiter de modifier un état pour arriver à la bonne réponse
 
-3. **Questions must be REALISTIC, CLEAR, CONCISE, and COMPLEX**
-   - Must require another LLM to use multiple (potentially dozens of) tools or steps to answer
+3. **Les questions doivent être RÉALISTES, CLAIRES, CONCISES et COMPLEXES**
+   - Elles doivent obliger un autre LLM à utiliser plusieurs outils ou étapes (potentiellement des dizaines) pour répondre
 
-### Complexity and Depth
+### Complexité et profondeur
 
-4. **Questions must require deep exploration**
-   - Consider multi-hop questions requiring multiple sub-questions and sequential tool calls
-   - Each step should benefit from information found in previous questions
+4. **Les questions doivent exiger une exploration approfondie**
+   - Envisager des questions en plusieurs sauts, demandant plusieurs sous-questions et des appels d'outils successifs
+   - Chaque étape doit s'appuyer sur l'information trouvée aux étapes précédentes
 
-5. **Questions may require extensive paging**
-   - May need paging through multiple pages of results
-   - May require querying old data (1-2 years out-of-date) to find niche information
-   - The questions must be DIFFICULT
+5. **Les questions peuvent exiger une pagination étendue**
+   - Il peut falloir parcourir plusieurs pages de résultats
+   - Il peut falloir interroger des données anciennes (1 à 2 ans) pour trouver une information pointue
+   - Les questions doivent être DIFFICILES
 
-6. **Questions must require deep understanding**
-   - Rather than surface-level knowledge
-   - May pose complex ideas as True/False questions requiring evidence
-   - May use multiple-choice format where LLM must search different hypotheses
+6. **Les questions doivent exiger une compréhension profonde**
+   - Plutôt qu'une connaissance superficielle
+   - On peut poser des idées complexes sous forme de questions Vrai / Faux exigeant des preuves
+   - On peut utiliser un format à choix multiples où le LLM doit explorer différentes hypothèses
 
-7. **Questions must not be solvable with straightforward keyword search**
-   - Do not include specific keywords from the target content
-   - Use synonyms, related concepts, or paraphrases
-   - Require multiple searches, analyzing multiple related items, extracting context, then deriving the answer
+7. **Les questions ne doivent pas être résolubles par une simple recherche de mots-clés**
+   - Ne pas inclure de mots-clés précis du contenu visé
+   - Utiliser des synonymes, des notions voisines ou des paraphrases
+   - Exiger plusieurs recherches, l'analyse de plusieurs éléments liés, l'extraction du contexte, puis la déduction de la réponse
 
-### Tool Testing
+### Test des outils
 
-8. **Questions should stress-test tool return values**
-   - May elicit tools returning large JSON objects or lists, overwhelming the LLM
-   - Should require understanding multiple modalities of data:
-     - IDs and names
-     - Timestamps and datetimes (months, days, years, seconds)
-     - File IDs, names, extensions, and mimetypes
-     - URLs, GIDs, etc.
-   - Should probe the tool's ability to return all useful forms of data
+8. **Les questions doivent mettre à l'épreuve les valeurs de retour des outils**
+   - Elles peuvent amener les outils à renvoyer de gros objets ou de longues listes JSON, qui submergent le LLM
+   - Elles doivent exiger la compréhension de plusieurs modalités de données :
+     - identifiants et noms
+     - horodatages et dates-heures (mois, jours, années, secondes)
+     - identifiants, noms, extensions et types MIME de fichiers
+     - URL, GID, etc.
+   - Elles doivent sonder la capacité de l'outil à renvoyer toutes les formes de données utiles
 
-9. **Questions should MOSTLY reflect real human use cases**
-   - The kinds of information retrieval tasks that HUMANS assisted by an LLM would care about
+9. **Les questions doivent refléter SURTOUT des cas d'usage humains réels**
+   - Le genre de recherches d'information qui intéresseraient des HUMAINS assistés d'un LLM
 
-10. **Questions may require dozens of tool calls**
-    - This challenges LLMs with limited context
-    - Encourages MCP server tools to reduce information returned
+10. **Les questions peuvent exiger des dizaines d'appels d'outils**
+    - Cela met à l'épreuve les LLM au contexte limité
+    - Cela incite les outils du serveur MCP à réduire l'information renvoyée
 
-11. **Include ambiguous questions**
-    - May be ambiguous OR require difficult decisions on which tools to call
-    - Force the LLM to potentially make mistakes or misinterpret
-    - Ensure that despite AMBIGUITY, there is STILL A SINGLE VERIFIABLE ANSWER
+11. **Inclure des questions ambiguës**
+    - Elles peuvent être ambiguës OU exiger des décisions difficiles sur les outils à appeler
+    - Pousser le LLM à se tromper ou à mal interpréter
+    - Veiller à ce que, malgré l'AMBIGUÏTÉ, il y ait TOUJOURS UNE RÉPONSE UNIQUE ET VÉRIFIABLE
 
-### Stability
+### Stabilité
 
-12. **Questions must be designed so the answer DOES NOT CHANGE**
-    - Do not ask questions that rely on "current state" which is dynamic
-    - For example, do not count:
-      - Number of reactions to a post
-      - Number of replies to a thread
-      - Number of members in a channel
+12. **Les questions doivent être conçues pour que la réponse NE CHANGE PAS**
+    - Ne pas poser de questions qui dépendent d'un « état actuel » dynamique
+    - Par exemple, ne pas compter :
+      - le nombre de réactions à un message
+      - le nombre de réponses dans un fil
+      - le nombre de membres d'un canal
 
-13. **DO NOT let the MCP server RESTRICT the kinds of questions you create**
-    - Create challenging and complex questions
-    - Some may not be solvable with the available MCP server tools
-    - Questions may require specific output formats (datetime vs. epoch time, JSON vs. MARKDOWN)
-    - Questions may require dozens of tool calls to complete
+13. **NE PAS laisser le serveur MCP RESTREINDRE le genre de questions créées**
+    - Créer des questions difficiles et complexes
+    - Certaines pourraient ne pas être résolubles avec les outils disponibles du serveur MCP
+    - Les questions peuvent exiger des formats de sortie précis (date-heure ou temps Unix, JSON ou MARKDOWN)
+    - Les questions peuvent exiger des dizaines d'appels d'outils
 
-## Answer Guidelines
+## Consignes pour les réponses
 
-### Verification
+### Vérification
 
-1. **Answers must be VERIFIABLE via direct string comparison**
-   - If the answer can be re-written in many formats, clearly specify the output format in the QUESTION
-   - Examples: "Use YYYY/MM/DD.", "Respond True or False.", "Answer A, B, C, or D and nothing else."
-   - Answer should be a single VERIFIABLE value such as:
-     - User ID, user name, display name, first name, last name
-     - Channel ID, channel name
-     - Message ID, string
-     - URL, title
-     - Numerical quantity
-     - Timestamp, datetime
-     - Boolean (for True/False questions)
-     - Email address, phone number
-     - File ID, file name, file extension
-     - Multiple choice answer
-   - Answers must not require special formatting or complex, structured output
-   - Answer will be verified using DIRECT STRING COMPARISON
+1. **Les réponses doivent être VÉRIFIABLES par comparaison directe de chaînes**
+   - Si la réponse peut s'écrire de plusieurs façons, préciser clairement le format attendu dans la QUESTION
+   - Exemples : « Utilisez AAAA/MM/JJ. », « Répondez Vrai ou Faux. », « Répondez A, B, C ou D et rien d'autre. »
+   - La réponse doit être une valeur unique VÉRIFIABLE, par exemple :
+     - identifiant d'utilisateur, nom d'utilisateur, nom affiché, prénom, nom
+     - identifiant ou nom de canal
+     - identifiant de message, chaîne
+     - URL, titre
+     - quantité numérique
+     - horodatage, date-heure
+     - booléen (pour les questions Vrai / Faux)
+     - adresse électronique, numéro de téléphone
+     - identifiant, nom ou extension de fichier
+     - réponse à choix multiples
+   - Les réponses ne doivent pas exiger de mise en forme particulière ni de sortie structurée complexe
+   - La réponse sera vérifiée par COMPARAISON DIRECTE DE CHAÎNES
 
-### Readability
+### Lisibilité
 
-2. **Answers should generally prefer HUMAN-READABLE formats**
-   - Examples: names, first name, last name, datetime, file name, message string, URL, yes/no, true/false, a/b/c/d
-   - Rather than opaque IDs (though IDs are acceptable)
-   - The VAST MAJORITY of answers should be human-readable
+2. **Les réponses doivent en général privilégier des formats LISIBLES PAR UN HUMAIN**
+   - Exemples : noms, prénom, nom de famille, date-heure, nom de fichier, texte de message, URL, oui/non, vrai/faux, a/b/c/d
+   - Plutôt que des identifiants opaques (même si les identifiants sont acceptables)
+   - La GRANDE MAJORITÉ des réponses doivent être lisibles par un humain
 
-### Stability
+### Stabilité
 
-3. **Answers must be STABLE/STATIONARY**
-   - Look at old content (e.g., conversations that have ended, projects that have launched, questions answered)
-   - Create QUESTIONS based on "closed" concepts that will always return the same answer
-   - Questions may ask to consider a fixed time window to insulate from non-stationary answers
-   - Rely on context UNLIKELY to change
-   - Example: if finding a paper name, be SPECIFIC enough so answer is not confused with papers published later
+3. **Les réponses doivent être STABLES**
+   - Examiner du contenu ancien (par exemple des conversations terminées, des projets lancés, des questions résolues)
+   - Créer des QUESTIONS sur des notions « closes » qui renverront toujours la même réponse
+   - Les questions peuvent demander de considérer une fenêtre de temps fixe pour se prémunir contre les réponses non stationnaires
+   - S'appuyer sur un contexte PEU SUSCEPTIBLE de changer
+   - Exemple : pour trouver le titre d'un article, être assez PRÉCIS pour qu'il ne soit pas confondu avec des articles publiés plus tard
 
-4. **Answers must be CLEAR and UNAMBIGUOUS**
-   - Questions must be designed so there is a single, clear answer
-   - Answer can be derived from using the MCP server tools
+4. **Les réponses doivent être CLAIRES et SANS AMBIGUÏTÉ**
+   - Les questions doivent être conçues pour n'avoir qu'une réponse claire
+   - La réponse doit pouvoir être obtenue avec les outils du serveur MCP
 
-### Diversity
+### Diversité
 
-5. **Answers must be DIVERSE**
-   - Answer should be a single VERIFIABLE value in diverse modalities and formats
-   - User concept: user ID, user name, display name, first name, last name, email address, phone number
-   - Channel concept: channel ID, channel name, channel topic
-   - Message concept: message ID, message string, timestamp, month, day, year
+5. **Les réponses doivent être VARIÉES**
+   - La réponse doit être une valeur unique VÉRIFIABLE, de modalités et de formats variés
+   - Notion d'utilisateur : identifiant, nom d'utilisateur, nom affiché, prénom, nom, adresse électronique, téléphone
+   - Notion de canal : identifiant, nom, sujet du canal
+   - Notion de message : identifiant, texte, horodatage, mois, jour, année
 
-6. **Answers must NOT be complex structures**
-   - Not a list of values
-   - Not a complex object
-   - Not a list of IDs or strings
-   - Not natural language text
-   - UNLESS the answer can be straightforwardly verified using DIRECT STRING COMPARISON
-   - And can be realistically reproduced
-   - It should be unlikely that an LLM would return the same list in any other order or format
+6. **Les réponses ne doivent PAS être des structures complexes**
+   - pas une liste de valeurs
+   - pas un objet complexe
+   - pas une liste d'identifiants ou de chaînes
+   - pas un texte en langage naturel
+   - SAUF si la réponse peut être vérifiée simplement par COMPARAISON DIRECTE DE CHAÎNES
+   - et peut être reproduite de façon réaliste
+   - Il doit être peu probable qu'un LLM renvoie la même liste dans un autre ordre ou un autre format
 
-## Evaluation Process
+## Processus d'évaluation
 
-### Step 1: Documentation Inspection
+### Étape 1 : examen de la documentation
 
-Read the documentation of the target API to understand:
-- Available endpoints and functionality
-- If ambiguity exists, fetch additional information from the web
-- Parallelize this step AS MUCH AS POSSIBLE
-- Ensure each subagent is ONLY examining documentation from the file system or on the web
+Lire la documentation de l'API visée pour comprendre :
+- les points d'accès et fonctionnalités disponibles
+- en cas d'ambiguïté, récupérer des informations complémentaires sur le web
+- paralléliser cette étape AUTANT QUE POSSIBLE
+- veiller à ce que chaque sous-agent n'examine QUE de la documentation, sur le système de fichiers ou sur le web
 
-### Step 2: Tool Inspection
+### Étape 2 : examen des outils
 
-List the tools available in the MCP server:
-- Inspect the MCP server directly
-- Understand input/output schemas, docstrings, and descriptions
-- WITHOUT calling the tools themselves at this stage
+Lister les outils disponibles dans le serveur MCP :
+- examiner directement le serveur MCP
+- comprendre les schémas d'entrée et de sortie, les docstrings et les descriptions
+- SANS appeler les outils eux-mêmes à ce stade
 
-### Step 3: Developing Understanding
+### Étape 3 : approfondir la compréhension
 
-Repeat steps 1 & 2 until you have a good understanding:
-- Iterate multiple times
-- Think about the kinds of tasks you want to create
-- Refine your understanding
-- At NO stage should you READ the code of the MCP server implementation itself
-- Use your intuition and understanding to create reasonable, realistic, but VERY challenging tasks
+Répéter les étapes 1 et 2 jusqu'à bien comprendre :
+- itérer plusieurs fois
+- réfléchir au genre de tâches à créer
+- affiner sa compréhension
+- à AUCUN moment ne LIRE le code de l'implémentation du serveur MCP lui-même
+- s'appuyer sur son intuition et sa compréhension pour créer des tâches raisonnables, réalistes, mais TRÈS difficiles
 
-### Step 4: Read-Only Content Inspection
+### Étape 4 : examen du contenu en lecture seule
 
-After understanding the API and tools, USE the MCP server tools:
-- Inspect content using READ-ONLY and NON-DESTRUCTIVE operations ONLY
-- Goal: identify specific content (e.g., users, channels, messages, projects, tasks) for creating realistic questions
-- Should NOT call any tools that modify state
-- Will NOT read the code of the MCP server implementation itself
-- Parallelize this step with individual sub-agents pursuing independent explorations
-- Ensure each subagent is only performing READ-ONLY, NON-DESTRUCTIVE, and IDEMPOTENT operations
-- BE CAREFUL: SOME TOOLS may return LOTS OF DATA which would cause you to run out of CONTEXT
-- Make INCREMENTAL, SMALL, AND TARGETED tool calls for exploration
-- In all tool call requests, use the `limit` parameter to limit results (<10)
-- Use pagination
+Une fois l'API et les outils compris, UTILISER les outils du serveur MCP :
+- examiner le contenu UNIQUEMENT par des opérations EN LECTURE SEULE et NON DESTRUCTIVES
+- but : repérer du contenu précis (utilisateurs, canaux, messages, projets, tâches, etc.) pour créer des questions réalistes
+- n'appeler AUCUN outil qui modifie un état
+- ne PAS lire le code de l'implémentation du serveur MCP lui-même
+- paralléliser cette étape avec des sous-agents menant des explorations indépendantes
+- veiller à ce que chaque sous-agent ne fasse que des opérations EN LECTURE SEULE, NON DESTRUCTIVES et IDEMPOTENTES
+- ATTENTION : CERTAINS OUTILS peuvent renvoyer BEAUCOUP DE DONNÉES, au point d'épuiser le CONTEXTE
+- faire des appels d'outils PROGRESSIFS, PETITS ET CIBLÉS pour explorer
+- dans tous les appels d'outils, utiliser le paramètre `limit` pour limiter les résultats (< 10)
+- utiliser la pagination
 
-### Step 5: Task Generation
+### Étape 5 : génération des tâches
 
-After inspecting the content, create 10 human-readable questions:
-- An LLM should be able to answer these with the MCP server
-- Follow all question and answer guidelines above
+Après avoir examiné le contenu, créer 10 questions lisibles par un humain :
+- un LLM doit pouvoir y répondre avec le serveur MCP
+- suivre toutes les consignes ci-dessus sur les questions et les réponses
 
-## Output Format
+## Format de sortie
 
-Each QA pair consists of a question and an answer. The output should be an XML file with this structure:
+Chaque paire QR se compose d'une question et d'une réponse. La sortie doit être un fichier XML de cette structure :
 
 ```xml
 <evaluation>
    <qa_pair>
-      <question>Find the project created in Q2 2024 with the highest number of completed tasks. What is the project name?</question>
-      <answer>Website Redesign</answer>
+      <question>Trouvez le projet créé au 2e trimestre 2024 qui compte le plus de tâches terminées. Quel est le nom du projet ?</question>
+      <answer>Refonte du site web</answer>
    </qa_pair>
    <qa_pair>
-      <question>Search for issues labeled as "bug" that were closed in March 2024. Which user closed the most issues? Provide their username.</question>
+      <question>Cherchez les tickets étiquetés « bug » fermés en mars 2024. Quel utilisateur en a fermé le plus ? Donnez son nom d'utilisateur.</question>
       <answer>sarah_dev</answer>
    </qa_pair>
    <qa_pair>
-      <question>Look for pull requests that modified files in the /api directory and were merged between January 1 and January 31, 2024. How many different contributors worked on these PRs?</question>
+      <question>Cherchez les demandes de fusion qui ont modifié des fichiers du répertoire /api et ont été fusionnées entre le 1er et le 31 janvier 2024. Combien de contributeurs différents y ont travaillé ?</question>
       <answer>7</answer>
    </qa_pair>
    <qa_pair>
-      <question>Find the repository with the most stars that was created before 2023. What is the repository name?</question>
+      <question>Trouvez le dépôt créé avant 2023 qui a le plus d'étoiles. Quel est le nom du dépôt ?</question>
       <answer>data-pipeline</answer>
    </qa_pair>
 </evaluation>
 ```
 
-## Evaluation Examples
+## Exemples d'évaluation
 
-### Good Questions
+### Bonnes questions
 
-**Example 1: Multi-hop question requiring deep exploration (GitHub MCP)**
+**Exemple 1 : question en plusieurs sauts exigeant une exploration approfondie (MCP GitHub)**
 ```xml
 <qa_pair>
-   <question>Find the repository that was archived in Q3 2023 and had previously been the most forked project in the organization. What was the primary programming language used in that repository?</question>
+   <question>Trouvez le dépôt archivé au 3e trimestre 2023 qui avait auparavant été le projet le plus forké de l'organisation. Quel était le principal langage de programmation de ce dépôt ?</question>
    <answer>Python</answer>
 </qa_pair>
 ```
 
-This question is good because:
-- Requires multiple searches to find archived repositories
-- Needs to identify which had the most forks before archival
-- Requires examining repository details for the language
-- Answer is a simple, verifiable value
-- Based on historical (closed) data that won't change
+Cette question est bonne parce que :
+- elle exige plusieurs recherches pour trouver les dépôts archivés
+- il faut identifier celui qui avait le plus de forks avant l'archivage
+- il faut examiner les détails du dépôt pour le langage
+- la réponse est une valeur simple et vérifiable
+- elle repose sur des données historiques (closes) qui ne changeront pas
 
-**Example 2: Requires understanding context without keyword matching (Project Management MCP)**
+**Exemple 2 : exige de comprendre le contexte sans correspondance de mots-clés (MCP de gestion de projet)**
 ```xml
 <qa_pair>
-   <question>Locate the initiative focused on improving customer onboarding that was completed in late 2023. The project lead created a retrospective document after completion. What was the lead's role title at that time?</question>
-   <answer>Product Manager</answer>
+   <question>Trouvez l'initiative visant à améliorer l'accueil des clients, achevée fin 2023. Le responsable du projet a rédigé un bilan après son achèvement. Quel était l'intitulé de son poste à l'époque ?</question>
+   <answer>Chef de produit</answer>
 </qa_pair>
 ```
 
-This question is good because:
-- Doesn't use specific project name ("initiative focused on improving customer onboarding")
-- Requires finding completed projects from specific timeframe
-- Needs to identify the project lead and their role
-- Requires understanding context from retrospective documents
-- Answer is human-readable and stable
-- Based on completed work (won't change)
+Cette question est bonne parce que :
+- elle n'utilise pas le nom précis du projet (« initiative visant à améliorer l'accueil des clients »)
+- elle exige de trouver les projets achevés dans une période précise
+- il faut identifier le responsable du projet et son poste
+- il faut comprendre le contexte à partir des documents de bilan
+- la réponse est lisible par un humain et stable
+- elle repose sur un travail achevé (qui ne changera pas)
 
-**Example 3: Complex aggregation requiring multiple steps (Issue Tracker MCP)**
+**Exemple 3 : agrégation complexe en plusieurs étapes (MCP de suivi de tickets)**
 ```xml
 <qa_pair>
-   <question>Among all bugs reported in January 2024 that were marked as critical priority, which assignee resolved the highest percentage of their assigned bugs within 48 hours? Provide the assignee's username.</question>
+   <question>Parmi tous les bogues signalés en janvier 2024 et marqués de priorité critique, quel assigné a résolu le plus fort pourcentage de ses bogues en moins de 48 heures ? Donnez son nom d'utilisateur.</question>
    <answer>alex_eng</answer>
 </qa_pair>
 ```
 
-This question is good because:
-- Requires filtering bugs by date, priority, and status
-- Needs to group by assignee and calculate resolution rates
-- Requires understanding timestamps to determine 48-hour windows
-- Tests pagination (potentially many bugs to process)
-- Answer is a single username
-- Based on historical data from specific time period
+Cette question est bonne parce que :
+- elle exige de filtrer les bogues par date, priorité et statut
+- il faut regrouper par assigné et calculer des taux de résolution
+- il faut comprendre les horodatages pour déterminer les fenêtres de 48 heures
+- elle teste la pagination (potentiellement beaucoup de bogues à traiter)
+- la réponse est un seul nom d'utilisateur
+- elle repose sur des données historiques d'une période précise
 
-**Example 4: Requires synthesis across multiple data types (CRM MCP)**
+**Exemple 4 : exige une synthèse entre plusieurs types de données (MCP de CRM)**
 ```xml
 <qa_pair>
-   <question>Find the account that upgraded from the Starter to Enterprise plan in Q4 2023 and had the highest annual contract value. What industry does this account operate in?</question>
-   <answer>Healthcare</answer>
+   <question>Trouvez le compte passé de l'offre Starter à l'offre Enterprise au 4e trimestre 2023 avec la plus forte valeur de contrat annuelle. Dans quel secteur ce compte exerce-t-il ?</question>
+   <answer>Santé</answer>
 </qa_pair>
 ```
 
-This question is good because:
-- Requires understanding subscription tier changes
-- Needs to identify upgrade events in specific timeframe
-- Requires comparing contract values
-- Must access account industry information
-- Answer is simple and verifiable
-- Based on completed historical transactions
+Cette question est bonne parce que :
+- elle exige de comprendre les changements de niveau d'abonnement
+- il faut repérer les montées en gamme dans une période précise
+- il faut comparer des valeurs de contrat
+- il faut accéder au secteur du compte
+- la réponse est simple et vérifiable
+- elle repose sur des transactions historiques terminées
 
-### Poor Questions
+### Mauvaises questions
 
-**Example 1: Answer changes over time**
+**Exemple 1 : la réponse change avec le temps**
 ```xml
 <qa_pair>
-   <question>How many open issues are currently assigned to the engineering team?</question>
+   <question>Combien de tickets ouverts sont actuellement assignés à l'équipe d'ingénierie ?</question>
    <answer>47</answer>
 </qa_pair>
 ```
 
-This question is poor because:
-- The answer will change as issues are created, closed, or reassigned
-- Not based on stable/stationary data
-- Relies on "current state" which is dynamic
+Cette question est mauvaise parce que :
+- la réponse changera à mesure que des tickets seront créés, fermés ou réassignés
+- elle ne repose pas sur des données stables
+- elle dépend d'un « état actuel » dynamique
 
-**Example 2: Too easy with keyword search**
+**Exemple 2 : trop facile par recherche de mots-clés**
 ```xml
 <qa_pair>
-   <question>Find the pull request with title "Add authentication feature" and tell me who created it.</question>
+   <question>Trouvez la demande de fusion intitulée « Add authentication feature » et dites-moi qui l'a créée.</question>
    <answer>developer123</answer>
 </qa_pair>
 ```
 
-This question is poor because:
-- Can be solved with a straightforward keyword search for exact title
-- Doesn't require deep exploration or understanding
-- No synthesis or analysis needed
+Cette question est mauvaise parce que :
+- elle se résout par une simple recherche du titre exact
+- elle n'exige ni exploration ni compréhension approfondies
+- aucune synthèse ni analyse n'est nécessaire
 
-**Example 3: Ambiguous answer format**
+**Exemple 3 : format de réponse ambigu**
 ```xml
 <qa_pair>
-   <question>List all the repositories that have Python as their primary language.</question>
+   <question>Listez tous les dépôts dont Python est le langage principal.</question>
    <answer>repo1, repo2, repo3, data-pipeline, ml-tools</answer>
 </qa_pair>
 ```
 
-This question is poor because:
-- Answer is a list that could be returned in any order
-- Difficult to verify with direct string comparison
-- LLM might format differently (JSON array, comma-separated, newline-separated)
-- Better to ask for a specific aggregate (count) or superlative (most stars)
+Cette question est mauvaise parce que :
+- la réponse est une liste qui peut être renvoyée dans n'importe quel ordre
+- elle est difficile à vérifier par comparaison directe de chaînes
+- le LLM pourrait la mettre en forme autrement (tableau JSON, séparée par des virgules, par des retours à la ligne)
+- mieux vaut demander un agrégat précis (un nombre) ou un superlatif (le plus d'étoiles)
 
-## Verification Process
+## Processus de vérification
 
-After creating evaluations:
+Après avoir créé les évaluations :
 
-1. **Examine the XML file** to understand the schema
-2. **Load each task instruction** and in parallel using the MCP server and tools, identify the correct answer by attempting to solve the task YOURSELF
-3. **Flag any operations** that require WRITE or DESTRUCTIVE operations
-4. **Accumulate all CORRECT answers** and replace any incorrect answers in the document
-5. **Remove any `<qa_pair>`** that require WRITE or DESTRUCTIVE operations
+1. **Examiner le fichier XML** pour en comprendre le schéma
+2. **Charger chaque consigne de tâche** et, en parallèle, avec le serveur MCP et ses outils, trouver la bonne réponse en essayant de résoudre la tâche SOI-MÊME
+3. **Signaler toute opération** qui exige une ÉCRITURE ou une opération DESTRUCTIVE
+4. **Rassembler toutes les réponses CORRECTES** et remplacer les réponses fausses dans le document
+5. **Supprimer toute `<qa_pair>`** qui exige une ÉCRITURE ou une opération DESTRUCTIVE
 
-Remember to parallelize solving tasks to avoid running out of context, then accumulate all answers and make changes to the file at the end.
+Penser à paralléliser la résolution des tâches pour ne pas épuiser le contexte, puis rassembler toutes les réponses et modifier le fichier à la fin.
 
-## Tips for Creating Quality Evaluations
+## Conseils pour des évaluations de qualité
 
-1. **Think Hard and Plan Ahead** before generating tasks
-2. **Parallelize Where Opportunity Arises** to speed up the process and manage context
-3. **Focus on Realistic Use Cases** that humans would actually want to accomplish
-4. **Create Challenging Questions** that test the limits of the MCP server's capabilities
-5. **Ensure Stability** by using historical data and closed concepts
-6. **Verify Answers** by solving the questions yourself using the MCP server tools
-7. **Iterate and Refine** based on what you learn during the process
+1. **Bien réfléchir et planifier** avant de générer les tâches
+2. **Paralléliser dès que possible** pour accélérer le processus et gérer le contexte
+3. **Se concentrer sur des cas d'usage réalistes** que des humains voudraient vraiment accomplir
+4. **Créer des questions difficiles** qui testent les limites des capacités du serveur MCP
+5. **Garantir la stabilité** en utilisant des données historiques et des notions closes
+6. **Vérifier les réponses** en résolvant soi-même les questions avec les outils du serveur MCP
+7. **Itérer et affiner** selon ce qu'on apprend en chemin
 
 ---
 
-# Running Evaluations
+# Lancer les évaluations
 
-After creating your evaluation file, you can use the provided evaluation harness to test your MCP server.
+Une fois le fichier d'évaluation créé, on peut utiliser le banc d'évaluation fourni pour tester le serveur MCP.
 
-## Setup
+## Installation
 
-1. **Install Dependencies**
+1. **Installer les dépendances**
 
    ```bash
    pip install -r scripts/requirements.txt
    ```
 
-   Or install manually:
+   Ou manuellement :
    ```bash
    pip install anthropic mcp
    ```
 
-2. **Set API Key**
+2. **Définir la clé d'API**
 
    ```bash
-   export ANTHROPIC_API_KEY=your_api_key_here
+   export ANTHROPIC_API_KEY=votre_cle_api
    ```
 
-## Evaluation File Format
+## Format du fichier d'évaluation
 
-Evaluation files use XML format with `<qa_pair>` elements:
+Les fichiers d'évaluation sont au format XML, avec des éléments `<qa_pair>` :
 
 ```xml
 <evaluation>
    <qa_pair>
-      <question>Find the project created in Q2 2024 with the highest number of completed tasks. What is the project name?</question>
-      <answer>Website Redesign</answer>
+      <question>Trouvez le projet créé au 2e trimestre 2024 qui compte le plus de tâches terminées. Quel est le nom du projet ?</question>
+      <answer>Refonte du site web</answer>
    </qa_pair>
    <qa_pair>
-      <question>Search for issues labeled as "bug" that were closed in March 2024. Which user closed the most issues? Provide their username.</question>
+      <question>Cherchez les tickets étiquetés « bug » fermés en mars 2024. Quel utilisateur en a fermé le plus ? Donnez son nom d'utilisateur.</question>
       <answer>sarah_dev</answer>
    </qa_pair>
 </evaluation>
 ```
 
-## Running Evaluations
+## Lancer les évaluations
 
-The evaluation script (`scripts/evaluation.py`) supports three transport types:
+Le script d'évaluation (`scripts/evaluation.py`) prend en charge trois types de transport :
 
-**Important:**
-- **stdio transport**: The evaluation script automatically launches and manages the MCP server process for you. Do not run the server manually.
-- **sse/http transports**: You must start the MCP server separately before running the evaluation. The script connects to the already-running server at the specified URL.
+**Important :**
+- **transport stdio** : le script d'évaluation lance et gère automatiquement le processus du serveur MCP. Ne pas lancer le serveur à la main.
+- **transports sse / http** : il faut démarrer le serveur MCP séparément avant de lancer l'évaluation. Le script se connecte au serveur déjà lancé, à l'URL indiquée.
 
-### 1. Local STDIO Server
+### 1. Serveur STDIO local
 
-For locally-run MCP servers (script launches the server automatically):
+Pour les serveurs MCP exécutés en local (le script lance le serveur automatiquement) :
 
 ```bash
 python scripts/evaluation.py \
@@ -435,7 +435,7 @@ python scripts/evaluation.py \
   evaluation.xml
 ```
 
-With environment variables:
+Avec des variables d'environnement :
 ```bash
 python scripts/evaluation.py \
   -t stdio \
@@ -448,7 +448,7 @@ python scripts/evaluation.py \
 
 ### 2. Server-Sent Events (SSE)
 
-For SSE-based MCP servers (you must start the server first):
+Pour les serveurs MCP en SSE (il faut d'abord démarrer le serveur) :
 
 ```bash
 python scripts/evaluation.py \
@@ -459,9 +459,9 @@ python scripts/evaluation.py \
   evaluation.xml
 ```
 
-### 3. HTTP (Streamable HTTP)
+### 3. HTTP (HTTP en flux)
 
-For HTTP-based MCP servers (you must start the server first):
+Pour les serveurs MCP en HTTP (il faut d'abord démarrer le serveur) :
 
 ```bash
 python scripts/evaluation.py \
@@ -471,7 +471,7 @@ python scripts/evaluation.py \
   evaluation.xml
 ```
 
-## Command-Line Options
+## Options de la ligne de commande
 
 ```
 usage: evaluation.py [-h] [-t {stdio,sse,http}] [-m MODEL] [-c COMMAND]
@@ -479,44 +479,44 @@ usage: evaluation.py [-h] [-t {stdio,sse,http}] [-m MODEL] [-c COMMAND]
                      [-H HEADERS [HEADERS ...]] [-o OUTPUT]
                      eval_file
 
-positional arguments:
-  eval_file             Path to evaluation XML file
+arguments positionnels :
+  eval_file             Chemin du fichier XML d'évaluation
 
-optional arguments:
-  -h, --help            Show help message
-  -t, --transport       Transport type: stdio, sse, or http (default: stdio)
-  -m, --model           Claude model to use (default: claude-3-7-sonnet-20250219)
-  -o, --output          Output file for report (default: print to stdout)
+arguments facultatifs :
+  -h, --help            Afficher l'aide
+  -t, --transport       Type de transport : stdio, sse ou http (défaut : stdio)
+  -m, --model           Modèle Claude à utiliser (défaut : claude-3-7-sonnet-20250219)
+  -o, --output          Fichier de sortie du rapport (défaut : affichage sur stdout)
 
-stdio options:
-  -c, --command         Command to run MCP server (e.g., python, node)
-  -a, --args            Arguments for the command (e.g., server.py)
-  -e, --env             Environment variables in KEY=VALUE format
+options stdio :
+  -c, --command         Commande qui lance le serveur MCP (par ex. python, node)
+  -a, --args            Arguments de la commande (par ex. server.py)
+  -e, --env             Variables d'environnement au format CLE=VALEUR
 
-sse/http options:
-  -u, --url             MCP server URL
-  -H, --header          HTTP headers in 'Key: Value' format
+options sse / http :
+  -u, --url             URL du serveur MCP
+  -H, --header          En-têtes HTTP au format 'Cle: Valeur'
 ```
 
-## Output
+## Sortie
 
-The evaluation script generates a detailed report including:
+Le script d'évaluation produit un rapport détaillé comprenant :
 
-- **Summary Statistics**:
-  - Accuracy (correct/total)
-  - Average task duration
-  - Average tool calls per task
-  - Total tool calls
+- **Statistiques de synthèse** :
+  - exactitude (correctes / total)
+  - durée moyenne par tâche
+  - nombre moyen d'appels d'outils par tâche
+  - nombre total d'appels d'outils
 
-- **Per-Task Results**:
-  - Prompt and expected response
-  - Actual response from the agent
-  - Whether the answer was correct (✅/❌)
-  - Duration and tool call details
-  - Agent's summary of its approach
-  - Agent's feedback on the tools
+- **Résultats par tâche** :
+  - question et réponse attendue
+  - réponse effective de l'agent
+  - réponse correcte ou non (✅/❌)
+  - durée et détail des appels d'outils
+  - résumé par l'agent de sa démarche
+  - retour de l'agent sur les outils
 
-### Save Report to File
+### Enregistrer le rapport dans un fichier
 
 ```bash
 python scripts/evaluation.py \
@@ -527,37 +527,37 @@ python scripts/evaluation.py \
   evaluation.xml
 ```
 
-## Complete Example Workflow
+## Exemple complet de bout en bout
 
-Here's a complete example of creating and running an evaluation:
+Voici un exemple complet de création et de lancement d'une évaluation :
 
-1. **Create your evaluation file** (`my_evaluation.xml`):
+1. **Créer le fichier d'évaluation** (`my_evaluation.xml`) :
 
 ```xml
 <evaluation>
    <qa_pair>
-      <question>Find the user who created the most issues in January 2024. What is their username?</question>
+      <question>Trouvez l'utilisateur qui a créé le plus de tickets en janvier 2024. Quel est son nom d'utilisateur ?</question>
       <answer>alice_developer</answer>
    </qa_pair>
    <qa_pair>
-      <question>Among all pull requests merged in Q1 2024, which repository had the highest number? Provide the repository name.</question>
+      <question>Parmi toutes les demandes de fusion fusionnées au 1er trimestre 2024, quel dépôt en compte le plus ? Donnez le nom du dépôt.</question>
       <answer>backend-api</answer>
    </qa_pair>
    <qa_pair>
-      <question>Find the project that was completed in December 2023 and had the longest duration from start to finish. How many days did it take?</question>
+      <question>Trouvez le projet achevé en décembre 2023 qui a duré le plus longtemps du début à la fin. Combien de jours a-t-il duré ?</question>
       <answer>127</answer>
    </qa_pair>
 </evaluation>
 ```
 
-2. **Install dependencies**:
+2. **Installer les dépendances** :
 
 ```bash
 pip install -r scripts/requirements.txt
-export ANTHROPIC_API_KEY=your_api_key
+export ANTHROPIC_API_KEY=votre_cle_api
 ```
 
-3. **Run evaluation**:
+3. **Lancer l'évaluation** :
 
 ```bash
 python scripts/evaluation.py \
@@ -569,34 +569,34 @@ python scripts/evaluation.py \
   my_evaluation.xml
 ```
 
-4. **Review the report** in `github_eval_report.md` to:
-   - See which questions passed/failed
-   - Read the agent's feedback on your tools
-   - Identify areas for improvement
-   - Iterate on your MCP server design
+4. **Étudier le rapport** dans `github_eval_report.md` pour :
+   - voir quelles questions ont réussi ou échoué
+   - lire le retour de l'agent sur les outils
+   - repérer les axes d'amélioration
+   - faire évoluer la conception du serveur MCP
 
-## Troubleshooting
+## Dépannage
 
-### Connection Errors
+### Erreurs de connexion
 
-If you get connection errors:
-- **STDIO**: Verify the command and arguments are correct
-- **SSE/HTTP**: Check the URL is accessible and headers are correct
-- Ensure any required API keys are set in environment variables or headers
+En cas d'erreurs de connexion :
+- **STDIO** : vérifier que la commande et les arguments sont corrects
+- **SSE / HTTP** : vérifier que l'URL est accessible et que les en-têtes sont corrects
+- s'assurer que les clés d'API nécessaires sont définies dans les variables d'environnement ou les en-têtes
 
-### Low Accuracy
+### Exactitude faible
 
-If many evaluations fail:
-- Review the agent's feedback for each task
-- Check if tool descriptions are clear and comprehensive
-- Verify input parameters are well-documented
-- Consider whether tools return too much or too little data
-- Ensure error messages are actionable
+Si beaucoup d'évaluations échouent :
+- étudier le retour de l'agent pour chaque tâche
+- vérifier que les descriptions d'outils sont claires et complètes
+- vérifier que les paramètres d'entrée sont bien documentés
+- se demander si les outils renvoient trop ou trop peu de données
+- s'assurer que les messages d'erreur sont exploitables
 
-### Timeout Issues
+### Délais dépassés
 
-If tasks are timing out:
-- Use a more capable model (e.g., `claude-3-7-sonnet-20250219`)
-- Check if tools are returning too much data
-- Verify pagination is working correctly
-- Consider simplifying complex questions
+Si des tâches dépassent le délai :
+- utiliser un modèle plus performant (par exemple `claude-3-7-sonnet-20250219`)
+- vérifier si les outils renvoient trop de données
+- vérifier que la pagination fonctionne correctement
+- envisager de simplifier les questions complexes

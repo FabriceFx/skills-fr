@@ -1,32 +1,32 @@
 ---
 name: internal-comms
-description: A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updates, company newsletters, FAQs, incident reports, project updates, etc.).
-license: Complete terms in LICENSE.txt
+description: Ensemble de ressources pour rédiger toutes sortes de communications internes, dans les formats qu'apprécie mon entreprise. Claude doit utiliser cette skill dès qu'on lui demande une communication interne (point d'avancement, note à la direction, mise à jour 3P, lettre d'information de l'entreprise, FAQ, rapport d'incident, point projet, etc.).
+license: Conditions complètes dans LICENSE.txt
 ---
 
-## When to use this skill
-To write internal communications, use this skill for:
-- 3P updates (Progress, Plans, Problems)
-- Company newsletters
-- FAQ responses
-- Status reports
-- Leadership updates
-- Project updates
-- Incident reports
+## Quand utiliser cette skill
+Pour rédiger des communications internes, utiliser cette skill pour :
+- les mises à jour 3P (Progrès, Plans, Problèmes)
+- les lettres d'information de l'entreprise
+- les réponses de FAQ
+- les points d'avancement
+- les notes à la direction
+- les points projet
+- les rapports d'incident
 
-## How to use this skill
+## Comment utiliser cette skill
 
-To write any internal communication:
+Pour rédiger une communication interne :
 
-1. **Identify the communication type** from the request
-2. **Load the appropriate guideline file** from the `examples/` directory:
-    - `examples/3p-updates.md` - For Progress/Plans/Problems team updates
-    - `examples/company-newsletter.md` - For company-wide newsletters
-    - `examples/faq-answers.md` - For answering frequently asked questions
-    - `examples/general-comms.md` - For anything else that doesn't explicitly match one of the above
-3. **Follow the specific instructions** in that file for formatting, tone, and content gathering
+1. **Identifier le type de communication** d'après la demande
+2. **Charger le fichier de consignes correspondant** dans le dossier `examples/` :
+    - `examples/3p-updates.md` — pour les points d'équipe Progrès / Plans / Problèmes
+    - `examples/company-newsletter.md` — pour les lettres d'information à toute l'entreprise
+    - `examples/faq-answers.md` — pour répondre aux questions fréquentes
+    - `examples/general-comms.md` — pour tout ce qui ne correspond explicitement à aucun des cas ci-dessus
+3. **Suivre les consignes propres** à ce fichier pour la mise en forme, le ton et la collecte du contenu
 
-If the communication type doesn't match any existing guideline, ask for clarification or more context about the desired format.
+Si le type de communication ne correspond à aucune consigne existante, demander des précisions ou davantage de contexte sur le format souhaité.
 
-## Keywords
-3P updates, company newsletter, company comms, weekly update, faqs, common questions, updates, internal comms
+## Mots-clés
+mise à jour 3P, lettre d'information, communication d'entreprise, point hebdomadaire, FAQ, questions fréquentes, mises à jour, communication interne

@@ -1,16 +1,16 @@
-  ## Instructions
-  You are being asked to write internal company communication that doesn't fit into the standard formats (3P
-  updates, newsletters, or FAQs).
+  ## Consignes
+  On te demande de rédiger une communication interne qui n'entre dans aucun des formats habituels (mises à jour 3P,
+  lettres d'information ou FAQ).
 
-  Before proceeding:
-  1. Ask the user about their target audience
-  2. Understand the communication's purpose
-  3. Clarify the desired tone (formal, casual, urgent, informational)
-  4. Confirm any specific formatting requirements
+  Avant de commencer :
+  1. Demander à l'utilisateur quel est le public visé
+  2. Comprendre l'objectif de la communication
+  3. Préciser le ton souhaité (formel, décontracté, urgent, informatif)
+  4. Confirmer les éventuelles exigences de mise en forme
 
-  Use these general principles:
-  - Be clear and concise
-  - Use active voice
-  - Put the most important information first
-  - Include relevant links and references
-  - Match the company's communication style
+  Appliquer ces principes généraux :
+  - Être clair et concis
+  - Privilégier la voix active
+  - Mettre l'information la plus importante en premier
+  - Inclure les liens et références utiles
+  - Respecter le style de communication de l'entreprise

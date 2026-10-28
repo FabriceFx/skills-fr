@@ -1,59 +1,59 @@
 ---
 name: theme-factory
-description: Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the-fly.
-license: Complete terms in LICENSE.txt
+description: Boîte à outils pour habiller un artefact d'un thème. Ces artefacts peuvent être des diapositives, des documents, des rapports, des pages d'accueil HTML, etc. Dix thèmes prédéfinis (couleurs et polices) s'appliquent à tout artefact déjà créé, et un nouveau thème peut être généré à la volée.
+license: Conditions complètes dans LICENSE.txt
 ---
 
 
-# Theme Factory Skill
+# Fabrique de thèmes
 
-This skill provides a curated collection of professional font and color themes themes, each with carefully selected color palettes and font pairings. Once a theme is chosen, it can be applied to any artifact.
+Cette skill propose une collection choisie de thèmes professionnels de polices et de couleurs, chacun avec une palette et des associations de polices soigneusement sélectionnées. Une fois un thème choisi, il peut être appliqué à n'importe quel artefact.
 
-## Purpose
+## Objectif
 
-To apply consistent, professional styling to presentation slide decks, use this skill. Each theme includes:
-- A cohesive color palette with hex codes
-- Complementary font pairings for headers and body text
-- A distinct visual identity suitable for different contexts and audiences
+Utiliser cette skill pour donner un style cohérent et professionnel à des présentations. Chaque thème comprend :
+- une palette de couleurs cohérente avec codes hexadécimaux
+- des associations de polices complémentaires pour les titres et le texte courant
+- une identité visuelle distincte, adaptée à différents contextes et publics
 
-## Usage Instructions
+## Mode d'emploi
 
-To apply styling to a slide deck or other artifact:
+Pour habiller une présentation ou un autre artefact :
 
-1. **Show the theme showcase**: Display the `theme-showcase.pdf` file to allow users to see all available themes visually. Do not make any modifications to it; simply show the file for viewing.
-2. **Ask for their choice**: Ask which theme to apply to the deck
-3. **Wait for selection**: Get explicit confirmation about the chosen theme
-4. **Apply the theme**: Once a theme has been chosen, apply the selected theme's colors and fonts to the deck/artifact
+1. **Montrer le catalogue des thèmes** : afficher le fichier `theme-showcase.pdf` pour que l'utilisateur voie tous les thèmes disponibles. Ne pas le modifier ; simplement l'afficher.
+2. **Demander son choix** : demander quel thème appliquer à la présentation
+3. **Attendre la sélection** : obtenir une confirmation explicite du thème choisi
+4. **Appliquer le thème** : une fois le thème choisi, appliquer ses couleurs et ses polices à la présentation ou à l'artefact
 
-## Themes Available
+## Thèmes disponibles
 
-The following 10 themes are available, each showcased in `theme-showcase.pdf`:
+Les 10 thèmes suivants sont disponibles, tous présentés dans `theme-showcase.pdf` :
 
-1. **Ocean Depths** - Professional and calming maritime theme
-2. **Sunset Boulevard** - Warm and vibrant sunset colors
-3. **Forest Canopy** - Natural and grounded earth tones
-4. **Modern Minimalist** - Clean and contemporary grayscale
-5. **Golden Hour** - Rich and warm autumnal palette
-6. **Arctic Frost** - Cool and crisp winter-inspired theme
-7. **Desert Rose** - Soft and sophisticated dusty tones
-8. **Tech Innovation** - Bold and modern tech aesthetic
-9. **Botanical Garden** - Fresh and organic garden colors
-10. **Midnight Galaxy** - Dramatic and cosmic deep tones
+1. **Ocean Depths** (Profondeurs océanes) — thème maritime, professionnel et apaisant
+2. **Sunset Boulevard** — couleurs chaudes et vibrantes de coucher de soleil
+3. **Forest Canopy** (Canopée) — tons de terre, naturels et ancrés
+4. **Modern Minimalist** (Minimaliste moderne) — niveaux de gris épurés et contemporains
+5. **Golden Hour** (Heure dorée) — palette automnale riche et chaude
+6. **Arctic Frost** (Givre arctique) — thème frais et net inspiré de l'hiver
+7. **Desert Rose** (Rose des sables) — tons poudrés, doux et raffinés
+8. **Tech Innovation** — esthétique technologique audacieuse et moderne
+9. **Botanical Garden** (Jardin botanique) — couleurs fraîches et organiques
+10. **Midnight Galaxy** (Galaxie de minuit) — tons profonds, cosmiques et spectaculaires
 
-## Theme Details
+## Détail des thèmes
 
-Each theme is defined in the `themes/` directory with complete specifications including:
-- Cohesive color palette with hex codes
-- Complementary font pairings for headers and body text
-- Distinct visual identity suitable for different contexts and audiences
+Chaque thème est défini dans le dossier `themes/` avec une spécification complète :
+- palette de couleurs cohérente avec codes hexadécimaux
+- associations de polices complémentaires pour les titres et le texte courant
+- identité visuelle distincte, adaptée à différents contextes et publics
 
-## Application Process
+## Application
 
-After a preferred theme is selected:
-1. Read the corresponding theme file from the `themes/` directory
-2. Apply the specified colors and fonts consistently throughout the deck
-3. Ensure proper contrast and readability
-4. Maintain the theme's visual identity across all slides
+Une fois le thème choisi :
+1. Lire le fichier du thème correspondant dans le dossier `themes/`
+2. Appliquer ses couleurs et ses polices de façon cohérente dans toute la présentation
+3. Veiller au contraste et à la lisibilité
+4. Préserver l'identité visuelle du thème sur toutes les diapositives
 
-## Create your Own Theme
-To handle cases where none of the existing themes work for an artifact, create a custom theme. Based on provided inputs, generate a new theme similar to the ones above. Give the theme a similar name describing what the font/color combinations represent. Use any basic description provided to choose appropriate colors/fonts. After generating the theme, show it for review and verification. Following that, apply the theme as described above.
+## Créer son propre thème
+Si aucun thème existant ne convient à un artefact, créer un thème sur mesure. À partir des éléments fournis, générer un nouveau thème du même genre que ceux ci-dessus. Lui donner un nom du même style, qui évoque ce que représentent ses associations de polices et de couleurs. S'appuyer sur toute description fournie pour choisir les couleurs et les polices. Après l'avoir généré, le montrer pour relecture et validation, puis l'appliquer comme décrit ci-dessus.
